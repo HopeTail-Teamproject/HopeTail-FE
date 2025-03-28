@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  padding: 30px 70px;
+  background-color: #d9d9d9;
+  justify-content: space-between;
+}
+
+.footer .footer-left {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+.footer .footer-right {
+  margin-right: 20px;
+}
+
+.footer .footer-right select {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+}
