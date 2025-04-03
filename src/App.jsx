@@ -1,22 +1,22 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/common/navbar/Navbar";
-import Footer from "./components/common/footer/Footer";
-import MainPage from "./routes/mainPage/mainPage";
+import MainPage from "./routes/mainPage/MainPage";
+import BasicLayout from "./layouts/BasicLayout";
+import AuthLayout from "./layouts/AuthLayout";
+import LoginPage from "./routes/authPage/LoginPage";
+import SingupPage from "./routes/authPage/SingupPage";
 
 const router = createBrowserRouter([
   {
-    path: "",
-    element: (
-      <div className="layout">
-        <Navbar />
-        <div className="content">
-          <Outlet />
-        </div>
-        <Footer />
-      </div>
-    ),
+    element: <BasicLayout />,
     children: [{ index: true, element: <MainPage /> }],
+  },
+  {
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <LoginPage /> },
+      { path: "signup", element: <SingupPage /> },
+    ],
   },
 ]);
 

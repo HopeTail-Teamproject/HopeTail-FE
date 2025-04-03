@@ -1,11 +1,9 @@
 .authbar {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  margin-right: 150px;
   gap: 25px;
   align-items: center;
-  margin-top: 10px;
+  margin-left: 20px;
 }
 
 .authbar a {
