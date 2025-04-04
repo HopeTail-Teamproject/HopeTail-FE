@@ -1,0 +1,51 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about .top {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.about .top h1 {
+  position: relative;
+  padding-bottom: 20px;
+  font-size: 60px;
+}
+
+.about .top h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+}
+
+.about .mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.about .mid img {
+  margin-bottom: 20px;
+  width: 40%;
+}
+
+.about span {
+  font-size: 30px;
+}
+
+.about .bot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}

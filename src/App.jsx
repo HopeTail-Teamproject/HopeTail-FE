@@ -5,11 +5,15 @@ import BasicLayout from "./layouts/BasicLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import LoginPage from "./routes/authPage/LoginPage";
 import SingupPage from "./routes/authPage/SingupPage";
+import AboutPage from "./routes/aboutPage/AboutPage";
 
 const router = createBrowserRouter([
   {
     element: <BasicLayout />,
-    children: [{ index: true, element: <MainPage /> }],
+    children: [
+      { index: true, element: <MainPage /> },
+      { path: "about", element: <AboutPage /> },
+    ],
   },
   {
     element: <AuthLayout />,

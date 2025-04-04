@@ -16,7 +16,7 @@ function Navbar() {
         <Link to="/rehome">Rehome</Link>
         <Link to="/community">Community</Link>
         <Link to="/care-guide">Care Guide</Link>
-        <Link to="/about-us">About Us</Link>
+        <Link to="/about">About Us</Link>
       </div>
       <div className="nav-right">
         <Authbar />
