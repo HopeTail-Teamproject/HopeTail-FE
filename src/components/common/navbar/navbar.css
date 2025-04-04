@@ -29,7 +29,7 @@ nav .nav-main a {
   transition: color 0.3s ease-in-out;
 }
 
-nav a::after {
+nav .nav-main a::after {
   content: "";
   position: absolute;
   left: 0;
