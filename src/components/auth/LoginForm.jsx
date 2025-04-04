@@ -1,7 +1,8 @@
 import { Form, Link } from "react-router-dom";
 import "./loginForm.css";
 import { useState } from "react";
-import AuthPhoto from "/images/auth.jpg";
+import AuthPhoto from "/images/auth.png";
+import Logo from "/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,6 +13,7 @@ function LoginForm() {
     <section className="login-page">
       <div className="login-left">
         <img src={AuthPhoto} alt="auth-image" />
+        <img src={Logo} alt="logo" />
       </div>
       <div className="login-right">
         <div className="login-top">
