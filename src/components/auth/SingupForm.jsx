@@ -1,8 +1,8 @@
 import { Form, Link } from "react-router-dom";
 import "./signupForm.css";
 import { useState } from "react";
-import PasswordIcon from "/icons/password.svg";
-import AuthPhoto from "/images/auth.jpg";
+import AuthPhoto from "/images/auth.png";
+import Logo from "/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,6 +13,7 @@ function SingupForm() {
     <section className="signup-page">
       <div className="signup-left">
         <img src={AuthPhoto} alt="auth-image" />
+        <img src={Logo} alt="logo" />
       </div>
       <div className="signup-right">
         <div className="signup-top">

@@ -4,15 +4,25 @@
   height: 100vh;
 }
 
-.signup-page .signup-left {
+.signup-left {
+  position: relative;
   width: 50%;
 }
 
-.signup-page .signup-left img {
+.signup-left img:first-child {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.signup-left img:last-child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: auto;
 }
 
 .signup-page .signup-right {

@@ -1,11 +1,11 @@
-import Authbar from "../../components/common/navbar/authbar/Authbar";
 import "./mainPage.css";
+import Logo from "/images/logo.png";
 
 function MainPage() {
   return (
     <>
       <section className="mainPage">
-        <h1>HopeTail</h1>
+        <img src={Logo} alt="logo" />
         <div className="box"></div>
       </section>
     </>

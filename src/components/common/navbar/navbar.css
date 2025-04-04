@@ -4,10 +4,17 @@ nav {
   margin: 50px 0;
   align-items: center;
   justify-content: center;
-  gap: 100px;
+  gap: 90px;
 }
 
-nav .nav-left {
+nav .nav-left img {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 250px;
+}
+
+nav .nav-main {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -15,7 +22,7 @@ nav .nav-left {
   font-size: 30px;
 }
 
-nav .nav-left a {
+nav .nav-main a {
   color: #000;
   position: relative;
   padding-bottom: 10px;
