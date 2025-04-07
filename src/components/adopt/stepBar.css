@@ -35,11 +35,11 @@
 }
 
 .step-circle.active {
-  background-color: #007bff;
+  background-color: #7b61ff;
 }
 
 .step-circle.completed {
-  background-color: #28a745;
+  background-color: #7b61ff;
 }
 
 .step-label {
@@ -54,6 +54,11 @@
   margin-right: 10px;
 }
 
+.step-label.active {
+  color: #000;
+  font-weight: 700;
+}
+
 .step-line-div {
   width: 300px;
   height: 4px;
@@ -62,5 +67,5 @@
 }
 
 .step-line-div.line-completed {
-  background-color: #28a745;
+  background-color: #7b61ff;
 }

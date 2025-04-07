@@ -1,0 +1,9 @@
+.form-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 600;
+  margin: 120px auto;
+}
