@@ -1,0 +1,26 @@
+.adopt {
+  display: flex;
+  flex-direction: column;
+}
+
+.adopt .adopt-title {
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.adopt .adopt-title span {
+  font-size: 40px;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.adopt .adopt-title span::after {
+  content: "";
+  position: absolute;
+  left: -40%;
+  bottom: 0;
+  width: 180%;
+  height: 2px;
+  background-color: #000;
+}
