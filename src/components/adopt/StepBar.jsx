@@ -20,7 +20,9 @@ function StepBar({ currentStep }) {
               >
                 {isCompleted ? "✓" : index + 1}
               </div>
-              <div className="step-label">{label}</div>
+              <div className={`step-label ${isCompleted || isActive ? "active" : ""} `}>
+                {label}
+              </div>
             </div>
             {index < steps.length - 1 && (
               <div

@@ -6,7 +6,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import LoginPage from "./routes/authPage/LoginPage";
 import SingupPage from "./routes/authPage/SingupPage";
 import AboutPage from "./routes/aboutPage/AboutPage";
-import AdoptionPage from "./routes/adoptionPage/adoptionPage";
+import AdoptionPage, { action as adoptAction } from "./routes/adoptionPage/adoptionPage";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <MainPage /> },
       { path: "about", element: <AboutPage /> },
-      { path: "adopt", element: <AdoptionPage /> },
+      { path: "adopt", element: <AdoptionPage />, action: adoptAction },
     ],
   },
   {

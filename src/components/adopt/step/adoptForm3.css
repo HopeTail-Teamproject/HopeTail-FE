@@ -1,0 +1,10 @@
+.adopt-form3 {
+  display: flex;
+  margin-left: 100px;
+}
+
+.adopt-form3 .form3-main {
+  display: flex;
+  flex-direction: column;
+  padding-right: 200px;
+}

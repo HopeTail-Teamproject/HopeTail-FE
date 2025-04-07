@@ -1,0 +1,9 @@
+.adopt-form2 {
+  display: flex;
+  margin-left: 100px;
+}
+
+.adopt-form2 .form2-main {
+  display: flex;
+  flex-direction: column;
+}
