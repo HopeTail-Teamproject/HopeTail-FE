@@ -1,0 +1,31 @@
+.care-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+.care-guide .title {
+  position: relative;
+  padding-bottom: 20px;
+  font-size: 60px;
+}
+
+.care-guide .title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+}
+
+.care-guide .steps {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+  margin-bottom: 200px;
+  gap: 60px;
+}
