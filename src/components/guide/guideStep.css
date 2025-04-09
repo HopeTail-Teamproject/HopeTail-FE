@@ -1,0 +1,46 @@
+.guide {
+  display: flex;
+  flex-direction: row;
+}
+
+.guide .stepNum {
+  position: relative;
+  margin-right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guide .stepNum img {
+  width: 150px;
+  height: 150px;
+}
+
+.guide .stepNum .number {
+  position: absolute;
+  top: 65%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+}
+
+.guide .stepEx {
+  display: flex;
+  flex-direction: column;
+}
+
+.guide .stepEx .guide-title {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.guide .stepEx .stepBox {
+  font-size: 23px;
+  background: #e8e6fd;
+  width: 1200px;
+  padding: 20px 30px;
+  border-radius: 15px;
+}
