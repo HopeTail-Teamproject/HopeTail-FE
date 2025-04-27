@@ -1,0 +1,13 @@
+.chatPage {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  height: 70vh;
+}
+
+.chatPage .left,
+.right {
+  flex: 1;
+  overflow: hidden;
+  margin: 0 30px;
+}

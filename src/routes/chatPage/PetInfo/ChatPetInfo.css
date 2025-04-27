@@ -1,0 +1,20 @@
+.chatPetInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chatPetInfo .main {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatPetInfo .main .name {
+  font-size: 30px;
+  margin-bottom: 15px;
+}
+
+.chatPetInfo .main span {
+  font-size: 20px;
+  margin-top: 10px;
+}
