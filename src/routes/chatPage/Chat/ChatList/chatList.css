@@ -1,0 +1,54 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border: #7b61ff solid 2px;
+  border-radius: 5px;
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chat-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+  padding: 10px 10px;
+}
+
+.chat-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.chat-item .chat-name {
+  width: 80%;
+  font-size: 20px;
+  background-color: #ffc5c5;
+  padding: 10px 10px;
+  border-radius: 30px;
+  margin-right: 20px;
+}
+
+.chat-item .file-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+  border: black solid 1px;
+  padding: 10px 10px;
+}
