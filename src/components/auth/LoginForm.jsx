@@ -5,9 +5,14 @@ import AuthPhoto from "/images/auth.png";
 import Logo from "/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { loginPage } from "../../lib/auth";
+import { useLanguage } from "../../context/language/LanguageContext";
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const { language } = useLanguage();
+
+  const t = loginPage[language];
 
   return (
     <section className="login-page">
@@ -17,22 +22,22 @@ function LoginForm() {
       </div>
       <div className="login-right">
         <div className="login-top">
-          <span className="page-name">Account</span>
-          <span className="title">Log in</span>
-          <span className="subtitle">To access your account</span>
+          <span className="page-name">{t.pageName}</span>
+          <span className="title">{t.title}</span>
+          <span className="subtitle">{t.subtitle}</span>
         </div>
         <div className="login-mid">
           <Form className="login-form">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper">
-              <input type="email" name="email" placeholder="Email" required />
+              <input type="email" name="email" placeholder={t.emailLabel} required />
             </div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t.passwordLabel}</label>
             <div className="input-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Password"
+                placeholder={t.passwordLabel}
                 required
               />
               <button
@@ -45,15 +50,15 @@ function LoginForm() {
             </div>
             <div className="remember">
               <input type="checkbox" name="remember" />
-              <label htmlFor="remember">Remember me</label>
+              <label htmlFor="remember">{t.rememberMe}</label>
             </div>
-            <button type="submit">Sign in</button>
+            <button type="submit">{t.submit}</button>
           </Form>
         </div>
         <div className="login-btm">
-          <span>Don't have an account?</span>
+          <span>{t.noAccount}</span>
           <Link to="/signup">
-            <button>Create an account</button>
+            <button>{t.create}</button>
           </Link>
         </div>
       </div>

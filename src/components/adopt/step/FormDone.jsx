@@ -1,11 +1,16 @@
 import "./formDone.css";
+import { useLanguage } from "../../../context/language/LanguageContext";
+import { adoptForm4Text } from "../../../lib/adopt";
 
 function FormDone() {
+  const { language } = useLanguage();
+  const t = adoptForm4Text[language];
+
   return (
     <div className="form-done">
-      <span>Thank you.</span>
+      <span>{t.first}</span>
       <span>
-        Your adoption application has been sent to us and the protection organization{" "}
+        {t.second}
       </span>
     </div>
   );

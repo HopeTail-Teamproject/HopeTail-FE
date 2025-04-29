@@ -6,8 +6,15 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { useLanguage } from "../../../context/language/LanguageContext";
 
 function Footer() {
+  const { language, toggleLanguage } = useLanguage();
+
+  const handleLanguageChange = (e) => {
+    toggleLanguage(e.target.value);
+  };
+
   return (
     <section className="footer">
       <div className="footer-left">
@@ -30,12 +37,14 @@ function Footer() {
         </span>
       </div>
       <div className="footer-right">
-        <select name="language" id="language">
-          <option value="" disabled selected>
-            Selct Language
-          </option>
-          <option value="korean">Korean</option>
-          <option value="english">English (United States)</option>
+        <select
+          name="language"
+          id="language"
+          value={language}
+          onChange={handleLanguageChange}
+        >
+          <option value="kr">한국어</option>
+          <option value="en">English (United States)</option>
         </select>
       </div>
     </section>

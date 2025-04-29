@@ -7,8 +7,11 @@ import AdoptForm2 from "./step/AdoptForm2";
 import AdoptForm22 from "./step/AdoptForm22";
 import AdoptForm3 from "./step/AdoptForm3";
 import FormDone from "./step/FormDone";
+import { useLanguage } from "../../context/language/LanguageContext";
 
 function MainAdoptPage() {
+  const { language } = useLanguage();
+
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 5;
 
@@ -36,7 +39,7 @@ function MainAdoptPage() {
   return (
     <section className="adopt">
       <div className="adopt-title">
-        <span>Adopt</span>
+        <span>{language === "kr" ? "입양하기" : "Adopt"}</span>
       </div>
       <StepBar currentStep={getCurrentStep()} />
       <div className="adopt-main">
@@ -72,15 +75,15 @@ function MainAdoptPage() {
               onClick={handleBack}
               disabled={currentStep === 0}
             >
-              Back
+              {language === "kr" ? "이전" : "Back"}
             </button>
             {currentStep === totalSteps - 1 ? (
               <button type="submit" className="continue">
-                Submit
+                {language === "kr" ? "제출하기" : "Submit"}
               </button>
             ) : (
               <button type="button" className="continue" onClick={handleNext}>
-                Continue
+                {language === "kr" ? "다음" : "Continue"}
               </button>
             )}
           </div>

@@ -1,12 +1,15 @@
 import React from "react";
 import "./stepBar.css";
-
-const steps = ["Images of Home", "Questions", "Other Animals", "Confirm"];
+import { useLanguage } from "../../context/language/LanguageContext";
+import { adoptStep } from "../../lib/adopt";
 
 function StepBar({ currentStep }) {
+  const { language } = useLanguage();
+  const t = adoptStep[language];
+
   return (
     <div className="step-bar">
-      {steps.map((label, index) => {
+      {t.map((label, index) => {
         const isCompleted = index < currentStep;
         const isActive = index === currentStep;
 
@@ -24,7 +27,7 @@ function StepBar({ currentStep }) {
                 {label}
               </div>
             </div>
-            {index < steps.length - 1 && (
+            {index < t.length - 1 && (
               <div
                 className={`step-line-div ${index < currentStep ? "line-completed" : ""}`}
               />

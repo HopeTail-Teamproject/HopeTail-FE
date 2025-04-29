@@ -1,33 +1,38 @@
 import "./adoptForm2.css";
+import { useLanguage } from "../../../context/language/LanguageContext";
+import { adoptForm2Text } from "../../../lib/adopt";
 
 function AdoptForm2() {
+  const { language } = useLanguage();
+  const t = adoptForm2Text[language];
+
   return (
     <div className="adopt-form2">
       <div className="form2-main">
         <div className="question-form">
-          <span>What is the reason you want to adopt a dog?</span>
+          <span>{t.question1}</span>
           <textarea id="reason" name="reason" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            Do you have other family members (e.g., other pets, children) living with you?
+            {t.question2}
           </span>
           <textarea id="family" name="family" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            Where will the dog live? (House, apartment, house with a yard, etc.)
+            {t.question3}
           </span>
           <textarea id="live" name="live" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            How often will the dog be able to go outside? (Walking time and frequency)
+            {t.question4}
           </span>
           <textarea id="outside" name="outside" placeholder="text" required />
         </div>
         <div className="question-form">
-          <span>How do you plan to bathe the dog?</span>
+          <span>{t.question5}</span>
           <textarea id="bath" name="bath" placeholder="text" required />
         </div>
       </div>
