@@ -8,10 +8,10 @@ function Authbar() {
   return (
     <section className="authbar">
       <Link to="/login" className="login-btn">
-        {language === "korean" ? "로그인" : "Log in"}
+        {language === "kr" ? "로그인" : "Log in"}
       </Link>
       <Link to="/signup" className="signup-btn">
-        {language === "korean" ? "회원가입" : "Sign up"}
+        {language === "kr" ? "회원가입" : "Sign up"}
       </Link>
     </section>
   );

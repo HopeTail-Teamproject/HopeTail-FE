@@ -1,36 +1,30 @@
 import Logo from "/images/logo.png";
 import "./aboutPage.css";
+import { useLanguage } from "../../context/language/LanguageContext";
+import { aboutPage } from "../../lib/about";
 
 function AboutPage() {
+  const { language } = useLanguage();
+  const t = aboutPage[language];
+
   return (
     <section className="about">
       <div className="top">
-        <h1>About Us</h1>
+        <h1>{t.title}</h1>
       </div>
       <div className="mid">
         <img src={Logo} alt="logo" />
-        <span>Hello, we are Hopetail.</span>
-        <span>
-          We are working in collaboration with stray dog protection organizations to
-          instill hope for a
-        </span>
-        <span>new family in stray dogs.</span>
-        <span>
-          Our goal is to provide a fresh start for these dogs and support them in living a
-          loving life in
-        </span>
-        <span>a warm home.</span>
-        <span>
-          Your donations are used for the rescue and treat ment costs of these dogs.
-        </span>
-        <span>
-          “All the funds” you contribute go directly towards rescuing and helping these
-          dogs.
-        </span>
+        <span>{t.first}</span>
+        <span>{t.second}</span>
+        <span>{t.third}</span>
+        <span>{t.fourth}</span>
+        <span>{t.fifth}</span>
+        <span>{t.sixth}</span>
+        <span>{t.seventh}</span>
       </div>
       <div className="bot">
-        <span>Suppport Account: KB 123456-12-123456</span>
-        <span>Thank you !!</span>
+        <span>{t.supportAccount}</span>
+        <span>{t.thanks}</span>
       </div>
     </section>
   );

@@ -5,9 +5,14 @@ import AuthPhoto from "/images/auth.png";
 import Logo from "/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useLanguage } from "../../context/language/LanguageContext";
+import { signupPage } from "../../lib/auth";
 
 function SingupForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const { language } = useLanguage();
+
+  const t = signupPage[language];
 
   return (
     <section className="signup-page">
@@ -17,41 +22,46 @@ function SingupForm() {
       </div>
       <div className="signup-right">
         <div className="signup-top">
-          <span className="page-name">Account</span>
-          <span className="title">Sign up</span>
+          <span className="page-name">{t.pageName}</span>
+          <span className="title">{t.title}</span>
         </div>
         <div className="signup-mid">
           <Form className="signup-form">
             <div className="name">
               <div className="first-name">
-                <label htmlFor="first-name">First Name</label>
+                <label htmlFor="first-name">{t.firstNameLabel}</label>
                 <div className="input-wrapper">
                   <input
                     type="text"
                     name="first-name"
-                    placeholder="First Name"
+                    placeholder={t.firstNameLabel}
                     required
                   />
                 </div>
               </div>
               <div className="last-name">
-                <label htmlFor="last-name">Last Name</label>
+                <label htmlFor="last-name">{t.lastNameLabel}</label>
                 <div className="input-wrapper">
-                  <input type="text" name="last-name" placeholder="Last Name" required />
+                  <input
+                    type="text"
+                    name="last-name"
+                    placeholder={t.lastNameLabel}
+                    required
+                  />
                 </div>
               </div>
             </div>
             <div className="email"></div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper email">
-              <input type="email" name="email" placeholder="Email" required />
+              <input type="email" name="email" placeholder={t.emailLabel} required />
             </div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t.passwordLabel}</label>
             <div className="input-wrapper password">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Password"
+                placeholder={t.passwordLabel}
                 required
               />
               <button
@@ -62,26 +72,26 @@ function SingupForm() {
                 <FontAwesomeIcon icon={faEyeSlash} />
               </button>
             </div>
-            <label htmlFor="phone">Phone Number</label>
+            <label htmlFor="phone">{t.phoneLabel}</label>
             <div className="input-wrapper">
-              <input type="tel" name="phone" placeholder="Phone Number" required />
+              <input type="tel" name="phone" placeholder={t.phoneLabel} required />
             </div>
-            <label htmlFor="address">Address</label>
+            <label htmlFor="address">{t.addressLabel}</label>
             <div className="input-wrapper">
-              <input type="text" name="address" placeholder="Address" required />
+              <input type="text" name="address" placeholder={t.addressLabel} required />
             </div>
             <span className="policy">
-              By creating an account, you agree to the <u>Terms of use</u> and{" "}
-              <u>Privacy Policy</u>.
+              {t.policyTextStart} <u>{t.termsOfUse}</u> {t.policyTextMiddle}
+              <u>{t.privacyPolicy}</u> {t.policyTextLast}
             </span>
-            <button type="submit">Sign up</button>
+            <button type="submit">{t.submit}</button>
           </Form>
         </div>
         <div className="signup-btm">
           <span>
-            Already have an account?{" "}
+            {t.alreadyHaveAccount}
             <Link to="/login">
-              <u>Log in</u>
+              <u>{t.login}</u>
             </Link>
           </span>
         </div>

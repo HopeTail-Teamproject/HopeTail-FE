@@ -43,8 +43,8 @@ function Footer() {
           value={language}
           onChange={handleLanguageChange}
         >
-          <option value="korean">한국어</option>
-          <option value="english">English (United States)</option>
+          <option value="kr">한국어</option>
+          <option value="en">English (United States)</option>
         </select>
       </div>
     </section>
