@@ -1,51 +1,53 @@
 import "./adoptForm22.css";
+import { useLanguage } from "../../../context/language/LanguageContext";
+import { adoptForm22Text } from "../../../lib/adopt";
 
 function AdoptForm22() {
+  const { language } = useLanguage();
+  const t = adoptForm22Text[language];
+
   return (
     <div className="adopt-form22">
       <div className="form22-main">
         <div className="question-form">
-          <span>How much exercise do you think the dog will need?</span>
+          <span>{t.question1}</span>
           <textarea id="exercise" name="exercise" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            How do you plan to manage the dog’s meals? (Food, treats, feeding times)
+            {t.question2}
           </span>
           <textarea id="meals" name="meals" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            Do you have the financial resources to care for the dog? (e.g., healthcare
-            costs, food, toys, training, etc.)
+            {t.question3}
           </span>
           <textarea id="financial" name="financial" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            If any behavioral or living issues arise after adoption, how do you plan to
-            address them?
+            {t.question4}
           </span>
           <textarea id="issues" name="issues" placeholder="text" required />
         </div>
         <div className="question-form">
           <span>
-            How will you take care of the dog during vacations or business trips?
+            {t.question5}
           </span>
           <textarea id="vacations" name="vacations" placeholder="text" required />
         </div>
         <div className="radio-form">
           <span>
-            Are you prepared to take responsibility for the dog for over 10 years after
-            adoption?
+            {t.question6}
           </span>
           <div className="radio-box">
             <label htmlFor="yes">
-              Yes
+              {language === 'kr' ? '예' : 'Yes'}
               <input type="radio" name="responsibility" value="yes" required />
             </label>
             <label htmlFor="no">
-              No
+              {language === 'kr' ? '아니오' : 'No'}
               <input type="radio" name="responsibility" value="no" required />
             </label>
           </div>

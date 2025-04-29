@@ -46,3 +46,64 @@ export const adoptForm2Text = {
         question5: "강아지를 어떻게 목욕시킬 계획인가요?",
     },
 };
+
+export const adoptForm22Text = {
+    en: {
+        question1: "How much exercise do you think the dog will need?",
+        question2:
+            "How do you plan to manage the dog’s meals? (Food, treats, feeding times)",
+        question3:
+            "Do you have the financial resources to care for the dog? (e.g., healthcare costs, food, toys, training, etc.)",
+        question4:
+            "If any behavioral or living issues arise after adoption, how do you plan to address them?",
+        question5:
+            "How will you take care of the dog during vacations or business trips?",
+        question6:
+            "Are you prepared to take responsibility for the dog for over 10 years after adoption?",
+    },
+    kr: {
+        question1: "강아지가 얼마나 많은 운동이 필요하다고 생각하시나요?",
+        question2:
+            "강아지의 식사는 어떻게 관리하실 계획인가요? (사료, 간식, 급여 시간 등)",
+        question3:
+            "강아지를 돌보는 데 필요한 재정적 여유가 있으신가요? (예: 의료비, 사료, 장난감, 훈련 등)",
+        question4:
+            "입양 후 행동 문제나 생활상의 문제가 생긴다면 어떻게 해결하실 계획인가요?",
+        question5: "휴가나 출장 시 강아지를 어떻게 돌보실 계획인가요?",
+        question6: "입양 후 10년 이상 강아지에 대한 책임을 질 준비가 되셨나요?",
+    },
+};
+
+export const adoptForm3Text = {
+    en: {
+        question1: "Are there any other animals at your home?",
+        question2: "If yes, please state their species, age and gender",
+        question3: "If yes, are they neutered?",
+        question4: "If yes, have they been vaccinated in the last 12 month?",
+        question5:
+            "Please describe your experience of any previous pet ownership and tell us about the type of home you plan to offer your new pet.",
+        yes: "Yes",
+        no: "No",
+    },
+    kr: {
+        question1: "현재 함께 살고 있는 다른 반려동물이 있나요?",
+        quesiton2: "있다면, 그 동물들의 종, 나이, 성별을 적어주세요.",
+        question3: "있다면, 중성화 수술이 되어 있나요?",
+        question4: "있다면, 지난 12개월 이내에 예방접종을 받았나요?",
+        question5:
+            "이전에 반려동물을 키운 경험이 있다면 설명해주시고, 새 반려동물에게 제공할 계획인 생활 환경에 대해 알려주세요.",
+        yes: "예",
+        no: "아니오",
+    },
+};
+
+export const adoptForm4Text = {
+    en: {
+        first: "Thank you.",
+        second: "Your adoption application has been sent to us and the protection organization",
+    },
+    kr: {
+        first: "감사합니다.",
+        second: "입양 신청서가 저희와 보호 단체에 전달되었습니다.",
+    },
+};

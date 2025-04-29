@@ -1,24 +1,29 @@
 import "./adoptForm3.css";
+import { useLanguage } from "../../../context/language/LanguageContext";
+import { adoptForm3Text } from "../../../lib/adopt";
 
 function AdoptForm3() {
+  const { language } = useLanguage();
+  const t = adoptForm3Text[language];
+
   return (
     <div className="adopt-form3">
       <div className="form3-main">
         <div className="radio-form">
-          <span>Are there any other animals at your home?</span>
+          <span>{t.question1}</span>
           <div className="radio-box">
             <label htmlFor="yes">
-              Yes
+              {t.yes}
               <input type="radio" name="otherAnimal" value="yes" required />
             </label>
             <label htmlFor="no">
-              No
+              {t.no}
               <input type="radio" name="otherAnimal" value="no" required />
             </label>
           </div>
         </div>
         <div className="question-form">
-          <span>If yes, please state their species, age and gender</span>
+          <span>{t.question2}</span>
           <textarea
             id="otherAnimalState"
             name="otherAnimalState"
@@ -27,35 +32,34 @@ function AdoptForm3() {
           />
         </div>
         <div className="radio-form">
-          <span>If yes, are they neutered?</span>
+          <span>{t.question3}</span>
           <div className="radio-box">
             <label htmlFor="yes">
-              Yes
+              {t.yes}
               <input type="radio" name="neutered" value="yes" required />
             </label>
             <label htmlFor="no">
-              No
+              {t.no}
               <input type="radio" name="neutered" value="no" required />
             </label>
           </div>
         </div>
         <div className="radio-form">
-          <span>If yes, have they been vaccinated in the last 12 month?</span>
+          <span>{t.question4}</span>
           <div className="radio-box">
             <label htmlFor="yes">
-              Yes
+              {t.yes}
               <input type="radio" name="vaccinated" value="yes" required />
             </label>
             <label htmlFor="no">
-              No
+              {t.no}
               <input type="radio" name="vaccinated" value="no" required />
             </label>
           </div>
         </div>
         <div className="question-form">
           <span>
-            Please describe your experience of any previous pet ownership and tell us
-            about the type of home you plan to offer your new pet.
+            {t.question5}
           </span>
           <textarea id="prevPet" name="prevPet" placeholder="text" required />
         </div>
