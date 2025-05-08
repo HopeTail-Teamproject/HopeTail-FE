@@ -1,63 +1,50 @@
-<<<<<<< HEAD
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
-import MainPage from "./routes/mainPage/MainPage";
-import BasicLayout from "./layouts/BasicLayout";
-import AuthLayout from "./layouts/AuthLayout";
-import LoginPage from "./routes/authPage/LoginPage";
-import SingupPage from "./routes/authPage/SingupPage";
-import AboutPage from "./routes/aboutPage/AboutPage";
-import AdoptionPage, { action as adoptAction } from "./routes/adoptionPage/AdoptionPage";
-import CareGuidePage from "./routes/careGuidePage/CareGuidePage";
-import ChatPage from "./routes/chatPage/ChatPage";
-import { LanguageProvider } from "./context/language/LanguageContext";
+// src/App.jsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { LanguageProvider } from "./language/LanguageContext";
 
-const router = createBrowserRouter([
-  {
-    element: <BasicLayout />,
-    children: [
-      { index: true, element: <MainPage /> },
-      { path: "about", element: <AboutPage /> },
-      { path: "adopt", element: <AdoptionPage />, action: adoptAction },
-      { path: "care-guide", element: <CareGuidePage /> },
-      { path: "chat", element: <ChatPage /> },
-    ],
-  },
-  {
-    element: <AuthLayout />,
-    children: [
-      { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SingupPage /> },
-    ],
-  },
-]);
+import AdoptSelect from "./pages/AdoptSelect";
+import AdoptPage from "./pages/AdoptPage";
+import AdoptionPage from "./pages/AdoptionPage";
+
+import CommunityPage from "./pages/CommunityPage";
+import CommunityGuideline from "./pages/CommunityGuideline";
+import CommunityNewpost from "./pages/CommunityNewpost";
+import CommunityPost from "./pages/CommunityPost";
+
+import UserPage from "./pages/UserPage";
+import BookmarkPage from "./pages/BookmarkPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import FilesPage from "./pages/FilesPage";
+
+import RehomePage from "./pages/RehomePage";
+import RehomePage2 from "./pages/RehomePage2";
+
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
-    <>
-      <LanguageProvider>
-        <RouterProvider router={router} />
-      </LanguageProvider>
-    </>
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/adopt" element={<AdoptSelect />} />
+          <Route path="/adopt/:id" element={<AdoptPage />} />
+          <Route path="/adoption_Page" element={<AdoptionPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/community/guideline" element={<CommunityGuideline />} />
+          <Route path="/community/newpost" element={<CommunityNewpost />} />
+          <Route path="/community/post" element={<CommunityPost />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/bookmark" element={<BookmarkPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/files" element={<FilesPage />} />
+          <Route path="/rehome" element={<RehomePage />} />
+          <Route path="/rehome2" element={<RehomePage2 />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 
 export default App;
-=======
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ErrorPage from './pages/ErrorPage';
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* 없는 모든 경로는 에러 페이지로 */}
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;
->>>>>>> eb385db (style: Finalize layout and central alignment)

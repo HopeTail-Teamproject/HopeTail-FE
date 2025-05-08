@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 
-import logo from '../assets/HT_logo.png';
+import logo from '../assets/logo.png';
 import dogImg from '../assets/dog_pic.png';
 
 const ErrorPage = () => {
