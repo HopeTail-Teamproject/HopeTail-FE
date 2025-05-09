@@ -1,9 +1,8 @@
-// File: src/pages/CommunityGuideline.jsx
 import React from 'react';
 import '../pages/CommunityGuideline.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { useLanguage } from '../language/LanguageContext';
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
+import { useLanguage } from "../context/language/LanguageContext";
 import dogPic from '../assets/dog_pic.png';
 
 const CommunityGuideline = () => {

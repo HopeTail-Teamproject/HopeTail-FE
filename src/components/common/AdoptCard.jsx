@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
 import "./AdoptCard.css";
-import { FaHeart, FaMars } from "react-icons/fa";
 
-const AdoptCard = ({ pet, onFavorite }) => {
+const AdoptCard = ({ pet, onFavorite, isFavorited }) => {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
@@ -12,20 +12,27 @@ const AdoptCard = ({ pet, onFavorite }) => {
 
   return (
     <div className="adopt-card">
-      <FaHeart className="heart-icon" onClick={() => onFavorite(pet)} />
-
-      <div className="card-top-row">
+      <div className="top-section">
         <img src={pet.image || "/default.png"} alt="pet" className="pet-img" />
-        <button className="more-button" onClick={handleMoreClick}>
-          more
-        </button>
+        <div className="side-buttons">
+          <FaHeart
+            className="heart-icon"
+            style={{ color: isFavorited ? "red" : "gray" }}
+            onClick={() => onFavorite(pet)}
+          />
+          <button className="more-button" onClick={handleMoreClick}>
+            more
+          </button>
+        </div>
       </div>
 
-      <div className="info-section">
+      <div className="info-grid">
         <div className="row">
           <button className="info-button">{pet.name}</button>
           <button className="info-button">{pet.age}</button>
-          <FaMars className="sex-icon" />
+          <button className="gender-button">
+            {pet.gender === "male" ? "♂" : "♀"}
+          </button>
         </div>
         <div className="row">
           <button className="info-button">{pet.species}</button>

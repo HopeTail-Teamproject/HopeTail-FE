@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import AdoptCard from "../components/AdoptCard";
-import { useLanguage } from "../language/LanguageContext";
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
+import AdoptCard from "../components/common/AdoptCard";
+import { useLanguage } from "../context/language/LanguageContext";
 import "./FavoritesPage.css";
 
 const FavoritesPage = () => {

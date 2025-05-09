@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '../pages/CommunityPost.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
 import LeftSidebar from '../components/LeftSidebar';
-import { useLanguage } from '../language/LanguageContext';
+import { useLanguage } from "../context/language/LanguageContext";
 import adImage from '../assets/AD.png';
 import image from '../assets/image.png';
 import userImage from '../assets/user.png';

@@ -1,3 +1,5 @@
+/* AdoptSelect.css */
+
 .adopt-select-wrapper {
   display: flex;
   flex-direction: column;
@@ -7,17 +9,28 @@
 .adopt-select-body {
   display: flex;
   flex: 1;
-  min-height: 100%;
+  align-items: stretch;
 }
 
+/* ✅ 사이드바: Footer까지 이어지고, 카드 첫줄과 정렬 */
+.left-sidebar {
+  width: 228px;
+  background-color: #d9d9d9;
+  min-height: 100vh;         /* Footer까지 채우기 */
+  margin-top: 88px;          /* Navbar 높이 고려하여 카드와 맞춤 */
+  box-sizing: border-box;
+}
+
+/* ✅ 메인 콘텐츠 */
 .adopt-select-container {
   flex: 1;
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
-  align-items: center;        /* ✅ 카드 박스를 가운데 정렬 */
+  align-items: center;
 }
 
+/* 타이틀 */
 .adopt-title {
   font-size: 2rem;
   font-weight: bold;
@@ -32,6 +45,7 @@
   margin: 0 auto 2rem auto;
 }
 
+/* 카드 영역 */
 .adopt-card-box {
   width: 100%;
   max-width: 1120px;
@@ -48,6 +62,7 @@
   justify-items: center;
 }
 
+/* 페이지네이션 */
 .pagination {
   margin-top: 2rem;
   display: flex;

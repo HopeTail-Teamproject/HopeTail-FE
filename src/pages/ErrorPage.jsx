@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../ErrorPage.css';
+import './ErrorPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMobileScreenButton,
@@ -75,4 +75,3 @@ const ErrorPage = () => {
 };
 
 export default ErrorPage;
-// 최종 푸시용 더미 주석

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import AdoptCard from "../components/AdoptCard";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React, { useState, useEffect } from "react";
+import AdoptCard from "../components/common/AdoptCard";
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
 import LeftSidebar from "../components/LeftSidebar";
 import "./AdoptSelect.css";
 
@@ -19,6 +19,12 @@ const AdoptSelect = () => {
   const itemsPerPage = 16;
   const totalPages = Math.ceil(pets.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(stored);
+  }, []);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -30,10 +36,17 @@ const AdoptSelect = () => {
   );
 
   const handleFavorite = (pet) => {
-    const existing = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (!existing.some((p) => p.id === pet.id)) {
-      localStorage.setItem("favorites", JSON.stringify([...existing, pet]));
+    const exists = favorites.some((p) => p.id === pet.id);
+    let updated;
+
+    if (exists) {
+      updated = favorites.filter((p) => p.id !== pet.id);
+    } else {
+      updated = [...favorites, pet];
     }
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    setFavorites(updated);
   };
 
   return (
@@ -48,7 +61,12 @@ const AdoptSelect = () => {
           <div className="adopt-card-box">
             <div className="adopt-card-grid">
               {paginatedPets.map((pet) => (
-                <AdoptCard key={pet.id} pet={pet} onFavorite={handleFavorite} />
+                <AdoptCard
+                  key={pet.id}
+                  pet={pet}
+                  onFavorite={handleFavorite}
+                  isFavorited={favorites.some((f) => f.id === pet.id)}
+                />
               ))}
             </div>
           </div>

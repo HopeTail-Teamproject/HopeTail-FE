@@ -38,23 +38,26 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/adopt" element={<AdoptSelect />} />
-          <Route path="/adopt/:id" element={<AdoptPage />} />
-          <Route path="/adoption_Page" element={<AdoptionPage />} />
-          <Route path="/care-guide" element={<CareGuidePage />} />
-          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/community/post" element={<CommunityPost />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/guideline" element={<CommunityGuideline />} />
-          <Route path="/community/newpost" element={<CommunityNewpost />} />
-          <Route path="/community/post" element={<CommunityPost />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="/bookmark" element={<BookmarkPage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/files" element={<FilesPage />} />
-          <Route path="/rehome" element={<RehomePage />} />
-          <Route path="/rehome2" element={<RehomePage2 />} />
-          <Route path="*" element={<ErrorPage />} />
+          <Route path="/care-guide" element={<CareGuidePage />} />
+          <Route path="/chat" element={<ChatPage />} />
+
+          <Route element={<BasicLayout />}>
+            <Route path="/adopt/:id" element={<AdoptPage />} />
+            <Route path="/adoption_Page" element={<AdoptionPage />} />
+            <Route path="/community/guideline" element={<CommunityGuideline />} />
+            <Route path="/community/newpost" element={<CommunityNewpost />} />
+            <Route path="/user" element={<UserPage />} />
+            <Route path="/bookmark" element={<BookmarkPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/files" element={<FilesPage />} />
+            <Route path="/rehome" element={<RehomePage />} />
+            <Route path="/rehome2" element={<RehomePage2 />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
         </Routes>
       </Router>
     </LanguageProvider>
