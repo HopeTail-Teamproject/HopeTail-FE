@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import CommunityCard from "../components/CommunityCard";
-import { useLanguage } from "../language/LanguageContext";
+import { useLanguage } from "../context/language/LanguageContext";
 import "./BookmarkPage.css";
 
 const BookmarkPage = () => {
   const { language } = useLanguage();
 
-  // 가상 북마크 데이터
   const allPosts = [
     { id: 1, title: "A", isBookmarked: true },
     { id: 2, title: "B", isBookmarked: false },
@@ -33,7 +30,6 @@ const BookmarkPage = () => {
 
   return (
     <div className="bookmark-page">
-      <Navbar />
       <div className="bookmark-content">
         <h2 className="bookmark-title">Bookmark</h2>
 
@@ -68,7 +64,6 @@ const BookmarkPage = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

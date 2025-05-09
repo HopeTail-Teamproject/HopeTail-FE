@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './CommunityNewpost.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { useLanguage } from '../language/LanguageContext';
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
+import { useLanguage } from "../context/language/LanguageContext";
 import adImage from '../assets/AD.png';
 import defaultImage from '../assets/image.png';
 

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import './CommunityPage.css';
 import CommunityCard from '../components/CommunityCard';
 import LeftSidebar from '../components/LeftSidebar';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from "../components/common/navbar/Navbar";
+import Footer from "../components/common/footer/Footer";
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../language/LanguageContext';
+import { useLanguage } from "../context/language/LanguageContext";
 
 const CommunityPage = () => {
   const navigate = useNavigate();

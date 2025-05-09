@@ -1,8 +1,8 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { LanguageProvider } from "./language/LanguageContext";
+import { LanguageProvider } from "./context/language/LanguageContext";
 
+// 페이지 import
 import AdoptSelect from "./pages/AdoptSelect";
 import AdoptPage from "./pages/AdoptPage";
 import AdoptionPage from "./pages/AdoptionPage";
@@ -22,25 +22,38 @@ import RehomePage2 from "./pages/RehomePage2";
 
 import ErrorPage from "./pages/ErrorPage";
 
+// 레이아웃 import
+import BasicLayout from "./layouts/BasicLayout";
+
 function App() {
   return (
     <LanguageProvider>
       <Router>
         <Routes>
+
+          {/* ❌ BasicLayout 없이 직접 렌더링 */}
           <Route path="/adopt" element={<AdoptSelect />} />
-          <Route path="/adopt/:id" element={<AdoptPage />} />
-          <Route path="/adoption_Page" element={<AdoptionPage />} />
           <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/guideline" element={<CommunityGuideline />} />
-          <Route path="/community/newpost" element={<CommunityNewpost />} />
           <Route path="/community/post" element={<CommunityPost />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="/bookmark" element={<BookmarkPage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/files" element={<FilesPage />} />
-          <Route path="/rehome" element={<RehomePage />} />
-          <Route path="/rehome2" element={<RehomePage2 />} />
-          <Route path="*" element={<ErrorPage />} />
+
+          {/* ✅ BasicLayout 적용 라우트 */}
+          <Route element={<BasicLayout />}>
+            <Route path="/adopt/:id" element={<AdoptPage />} />
+            <Route path="/adoption_Page" element={<AdoptionPage />} />
+
+            <Route path="/community/guideline" element={<CommunityGuideline />} />
+            <Route path="/community/newpost" element={<CommunityNewpost />} />
+
+            <Route path="/user" element={<UserPage />} />
+            <Route path="/bookmark" element={<BookmarkPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/files" element={<FilesPage />} />
+
+            <Route path="/rehome" element={<RehomePage />} />
+            <Route path="/rehome2" element={<RehomePage2 />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
+          
         </Routes>
       </Router>
     </LanguageProvider>
