@@ -1,0 +1,74 @@
+.guideline-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.guideline-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ 세로 가운데 정렬 */
+  padding: 0 20px;
+  background-color: white;
+}
+
+.main-layout-wrapper {
+  max-width: 1280px;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.guideline-title-wrapper {
+  text-align: center;
+}
+
+.guideline-title {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.guideline-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #000000;
+  margin-top: 2px;
+}
+
+.guideline-box {
+  border: 2px solid #a855f7;
+  border-radius: 10px;
+  padding: 40px;
+  position: relative;
+  line-height: 1.6;
+  font-size: 16px; /* ✅ 30px → 16px 로 적절한 본문 크기로 조정 */
+  background-color: white;
+  margin-top: 30px; /* 제목과 간격 */
+}
+
+.guideline-box h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.guideline-box ol {
+  padding-left: 20px;
+}
+
+.guideline-box ul {
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
+.guideline-dog-pic {
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
+  width: 160px;
+}
