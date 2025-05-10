@@ -12,23 +12,23 @@ import AdoptionPage from "./routes/adoptionPage/AdoptionPage";
 import CareGuidePage from "./routes/careGuidePage/CareGuidePage";
 import ChatPage from "./routes/chatPage/ChatPage";
 
-import AdoptSelect from "./pages/AdoptSelect";
-import AdoptPage from "./pages/AdoptPage";
+import AdoptSelect from "./routes/adoptPage/AdoptSelect";
+import AdoptPage from "./routes/adoptPage/AdoptPage";
 
-import CommunityPage from "./pages/CommunityPage";
-import CommunityGuideline from "./pages/CommunityGuideline";
-import CommunityNewpost from "./pages/CommunityNewpost";
-import CommunityPost from "./pages/CommunityPost";
+import CommunityPage from "./routes/communityPage/CommunityPage";
+import CommunityGuideline from "./routes/communityPage/CommunityGuideline";
+import CommunityNewpost from "./routes/communityPage/CommunityNewpost";
+import CommunityPost from "./routes/communityPage/CommunityPost";
 
-import UserPage from "./pages/UserPage";
-import BookmarkPage from "./pages/BookmarkPage";
-import FavoritesPage from "./pages/FavoritesPage";
-import FilesPage from "./pages/FilesPage";
+import UserPage from "./routes/userPage/UserPage";  
+import BookmarkPage from "./routes/bookmarkPage/BookmarkPage";
+import FavoritesPage from "./routes/favoritesPage/FavoritesPage";
+import FilesPage from "./routes/filesPage/FilesPage";
 
-import RehomePage from "./pages/RehomePage";
-import RehomePage2 from "./pages/RehomePage2";
+import RehomePage from "./routes/rehomePage/RehomePage";
+import RehomePage2 from "./routes/rehomePage/RehomePage2";
 
-import ErrorPage from "./pages/ErrorPage";
+import ErrorPage from "./routes/errorPage/ErrorPage";
 
 function App() {
   return (
