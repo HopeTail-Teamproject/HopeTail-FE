@@ -1,0 +1,181 @@
+.adopt-page-content {
+  flex-grow: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  font-family: "Pretendard", sans-serif;
+}
+
+.adopt-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -40px;
+}
+
+.adopt-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.underline {
+  width: 80px;
+  height: 3px;
+  background-color: #000;
+  margin-bottom: 40px;
+}
+
+.adopt-body-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 100px;
+  width: 100%;
+  max-width: 1400px;
+  padding-left: 80px;
+}
+
+.left-group {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+  margin-left: -215px;
+}
+
+.thumbnail-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.thumbnail-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #ccc;
+}
+
+.image-info-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.main-img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: #666;
+  margin-bottom: 12px;
+}
+
+.text-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 위-아래로 나눔 */
+  align-items: flex-start;
+  height: 380px;  /* 더 키움 → Chat이 아래로 내려가게 */
+  text-align: left;
+  font-size: 20px;
+  margin-left: 180px;
+}
+
+.row-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.heart-button {
+  background: none;
+  border: 1px solid #999;
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin-left: 10px;  /* ✅ 간격 추가 */
+  transform: scale(1.4); /* ✅ 버튼 크기 키우기 */
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.chat-gradient-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #ff0080, #7928ca);
+}
+
+.chat-icon {
+  font-size: 48px;
+}
+
+.chat-text {
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.description-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* ✅ 모든 내부 요소 오른쪽 정렬 */
+  width: 100%;
+  max-width: 420px;
+  margin-right: 40px; /* ✅ 사진/글씨와의 간격 조정 */
+}
+
+.description-column h3 {
+  color: #2c2cce;
+  font-size: 20px;
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.description-column textarea {
+  width: 100%; /* ✅ 부모 기준 100%로 유지 */
+  height: 400px;
+  font-size: 16px;
+  border: 2px solid #814ffb;
+  border-radius: 6px;
+  padding: 12px;
+  font-family: inherit;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.choose-button {
+  align-self: flex-end;
+  background-color: #814ffb;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 120px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+body, html, #root {
+  height: 100%;
+}
+
+footer {
+  margin-top: auto;
+}

@@ -1,0 +1,160 @@
+.files-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.files-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px 60px;
+}
+
+.ad-side {
+  width: 160px;
+  height: 700px;
+  object-fit: contain;
+}
+
+.files-content {
+  flex: 1;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.files-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #c6c6c6;
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  margin-bottom: 60px;
+}
+
+.files-card {
+  width: 330px;
+  height: 220px;
+  border: 2px solid #a084e8;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(160, 132, 232, 0.2);
+}
+
+.card-image {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ← 기존 align-items: flex-end 에서 center로 변경 */
+  justify-content: center;
+  height: 100%;
+}
+
+.info-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ← 여기서도 center로 */
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.info-btn {
+  padding: 8px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+  background-color: #f6f1ff;
+  border: 1.5px solid #a084e8;
+  box-shadow: 1px 1px 2px #ccc;
+  color: #333;
+  cursor: default;
+}
+
+.files-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.files-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.files-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 60px auto 100px auto;
+}
+
+.files-nav {
+  padding: 14px 50px;
+  font-size: 16px;
+  border: 2px solid #a084e8;
+  background: white;
+  color: #a084e8;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.files-nav:first-of-type {
+  justify-self: start;
+}
+
+.files-nav:last-of-type {
+  justify-self: end;
+}
+
+.files-nav:hover {
+  background-color: #f6f1ff;
+}
+
+.page-dots {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dot {
+  width: 16px;             /* 원래보다 큼 */
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dot.active {
+  background-color: #a084e8;
+  transform: scale(1.3);   /* 활성화된 점 더 커보이게 */
+}
+
+.footer-wrapper {
+  margin-top: auto;
+}
