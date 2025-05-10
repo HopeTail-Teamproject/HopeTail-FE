@@ -22,14 +22,14 @@ import RehomePage2 from "./pages/RehomePage2";
 
 import ErrorPage from "./pages/ErrorPage";
 
-// main 브랜치에서 쓰이던 페이지도 포함
+// main 브랜치에서 쓰이던 페이지
 import MainPage from "./routes/mainPage/MainPage";
 import AboutPage from "./routes/aboutPage/AboutPage";
 import ChatPage from "./routes/chatPage/ChatPage";
 import LoginPage from "./routes/authPage/LoginPage";
 import SignupPage from "./routes/authPage/SingupPage";
 
-// 레이아웃 import
+// 레이아웃
 import BasicLayout from "./layouts/BasicLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
@@ -38,7 +38,6 @@ function App() {
     <LanguageProvider>
       <Router>
         <Routes>
-          {/* BasicLayout 없이 직접 렌더링 */}
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/chat" element={<ChatPage />} />
@@ -46,7 +45,6 @@ function App() {
           <Route path="/community" element={<CommunityPage />} />
           <Route path="/community/post" element={<CommunityPost />} />
 
-          {/* BasicLayout 적용 라우트 */}
           <Route element={<BasicLayout />}>
             <Route path="/adopt/:id" element={<AdoptPage />} />
             <Route path="/adoption_Page" element={<AdoptionPage />} />
@@ -61,7 +59,6 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Route>
 
-          {/* AuthLayout 적용 라우트 */}
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
