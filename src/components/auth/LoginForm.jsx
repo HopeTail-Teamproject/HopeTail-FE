@@ -8,10 +8,9 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { loginPage } from "../../lib/auth";
 import { useLanguage } from "../../context/language/LanguageContext";
 
-function LoginForm() {
+function LoginForm({ actionData, isSubmitting }) {
   const [showPassword, setShowPassword] = useState(false);
   const { language } = useLanguage();
-
   const t = loginPage[language];
 
   return (
@@ -27,7 +26,8 @@ function LoginForm() {
           <span className="subtitle">{t.subtitle}</span>
         </div>
         <div className="login-mid">
-          <Form className="login-form">
+          <Form method="post" className="login-form">
+            {actionData?.error && <div className="error-message">{actionData.error}</div>}
             <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper">
               <input type="email" name="email" placeholder={t.emailLabel} required />
@@ -52,7 +52,9 @@ function LoginForm() {
               <input type="checkbox" name="remember" />
               <label htmlFor="remember">{t.rememberMe}</label>
             </div>
-            <button type="submit">{t.submit}</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? t.submitting : t.submit}
+            </button>
           </Form>
         </div>
         <div className="login-btm">

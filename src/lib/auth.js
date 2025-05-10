@@ -9,6 +9,7 @@ export const loginPage = {
     submit: "Sign in",
     noAccount: "Don't have an account?",
     create: "Create an account",
+    submitting: "Logging in...",
   },
   kr: {
     pageName: "계정",
@@ -20,6 +21,7 @@ export const loginPage = {
     submit: "로그인",
     noAccount: "계정이 없으신가요?",
     create: "계정 만들기",
+    submitting: "로그인 중...",
   },
 };
 
@@ -29,6 +31,7 @@ export const signupPage = {
     title: "Sign up",
     firstNameLabel: "First Name",
     lastNameLabel: "Last Name",
+    usernameLabel: "Username",
     emailLabel: "Email",
     passwordLabel: "Password",
     phoneLabel: "Phone Number",
@@ -41,12 +44,14 @@ export const signupPage = {
     submit: "Sign up",
     alreadyHaveAccount: "Already have an account? ",
     login: "Log in",
+    submitting: "Signing up...",
   },
   kr: {
     pageName: "계정",
     title: "회원가입",
     firstNameLabel: "이름",
     lastNameLabel: "성",
+    usernameLabel: "아이디",
     emailLabel: "이메일",
     passwordLabel: "비밀번호",
     phoneLabel: "전화번호",
@@ -59,5 +64,6 @@ export const signupPage = {
     submit: "회원가입",
     alreadyHaveAccount: "이미 계정이 있으신가요? ",
     login: "로그인",
+    submitting: "회원가입 중...",
   },
 };
