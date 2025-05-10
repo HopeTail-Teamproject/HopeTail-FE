@@ -1,7 +1,7 @@
 import Authbar from "./authbar/Authbar";
 import "./navbar.css";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/logo.png"; // 소문자!
+import Logo from "/images/logo.png";
 import { useLanguage } from "../../../context/language/LanguageContext";
 
 function Navbar() {
@@ -11,7 +11,7 @@ function Navbar() {
     <nav>
       <div className="nav-left">
         <Link to="/" className="logo">
-          <img src={logo} alt="logo" /> {/* 수정: Logo → logo */}
+          <img src={Logo} alt="logo" />
         </Link>
       </div>
       <div className="nav-main">
