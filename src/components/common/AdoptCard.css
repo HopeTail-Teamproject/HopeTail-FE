@@ -1,0 +1,101 @@
+.adopt-card {
+  width: 250px;
+  background: rgba(229, 203, 225, 0.44); /* E5CBE1 with 44% opacity */
+  border: 2px solid #000000; /* 검정 테두리 */
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 12px;
+  backdrop-filter: blur(6px);
+  font-family: 'Pretendard', sans-serif;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.pet-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #ccc;
+}
+
+.side-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 120px;
+}
+
+.heart-icon {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.more-button {
+  width: 60px;
+  flex-grow: 1;
+  background-color: #EDE9FE;
+  color: #5E29A6;
+  border: 2px solid #D7C9FF;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-button {
+  flex: 1;
+  padding: 6px 10px;
+  background-color: #EDE9FE;
+  color: #5E29A6;
+  border: 2px solid #D7C9FF;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+  cursor: default;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.gender-button {
+  padding: 6px 10px;
+  background-color: #EDE9FE;
+  color: #5E29A6;
+  border: 2px solid #D7C9FF;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Pretendard', sans-serif;
+  text-align: center;
+}

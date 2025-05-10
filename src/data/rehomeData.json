@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "name": "Buddy",
+    "gender": "Male",
+    "age": "2 years and 3 months",
+    "species": "Dog",
+    "location": "47, Hanyangdaehak 1-gil, Sangnok-gu, Ansan-si, Gyeonggi-do",
+    "vaccinated": "2023-06-15",
+    "houseTrained": "Yes",
+    "neutered": "Yes",
+    "information": "Introducing Buddy! Friendly and loves kids.",
+    "images": [
+      "/assets/dog1.jpg",
+      "/assets/dog2.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Luna",
+    "gender": "Female",
+    "age": "1 year",
+    "species": "Cat",
+    "location": "Seoul",
+    "vaccinated": "2023-01-10",
+    "houseTrained": "No",
+    "neutered": "No",
+    "information": "Very shy at first, but warms up quickly!",
+    "images": [
+      "/assets/cat1.jpg"
+    ]
+  }
+]
