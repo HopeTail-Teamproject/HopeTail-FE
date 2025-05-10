@@ -6,16 +6,20 @@
   margin-left: 20px;
 }
 
-.authbar a {
+.authbar a,
+.authbar button {
   font-size: 20px;
   padding: 10px 30px;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   border: 2px solid #000;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.authbar a.login-btn {
+.authbar a.login-btn,
+.authbar button.login-btn {
   color: #000;
   background-color: #fff;
   transition: all 0.3s ease-in-out;
@@ -27,7 +31,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-.authbar a.login-btn:hover {
+.authbar a.login-btn:hover,
+.authbar button.login-btn:hover {
   color: #fff;
   background-color: #000;
 }
