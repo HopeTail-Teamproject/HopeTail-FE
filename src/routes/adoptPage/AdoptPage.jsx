@@ -14,15 +14,31 @@ const AdoptPage = () => {
   const { id } = useParams();
   const [liked, setLiked] = useState(false);
   const [pet, setPet] = useState(null);
+  const [mainImage, setMainImage] = useState(image);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdopter = user?.role === "adopter";
+  const isRehomer = user?.role === "rehomer";
+  const profileImage = user?.profileImage || "/default-profile.png";
 
   useEffect(() => {
     const selectedPet = rehomeData.find((p) => p.id === parseInt(id));
     setPet(selectedPet);
+    if (selectedPet?.images?.[0]) {
+      setMainImage(selectedPet.images[0]);
+    }
   }, [id]);
 
   const handleHeartClick = () => setLiked(!liked);
   const handleChooseClick = () => navigate("/adoptPage1");
-  const handleChatClick = () => navigate("/chatPage");
+  const handleChatClick = () => {
+    if (isAdopter) navigate("/chatPage");
+    else if (isRehomer) navigate("/chatList");
+  };
+
+  const handleThumbnailClick = (src) => {
+    if (src) setMainImage(src);
+  };
 
   if (!pet) return <div>Loading...</div>;
 
@@ -30,50 +46,62 @@ const AdoptPage = () => {
     <div className="adopt-page-content">
       <div className="adopt-header">
         <h1 className="adopt-title">Adopt</h1>
-        <div className="underline" />
+        <div className="adopt-title-underline" />
       </div>
 
       <div className="adopt-body-wrapper">
-        <div className="left-group">
+        {/* 사진 (왼쪽) */}
+        <div className="image-group">
           <div className="thumbnail-column">
             {pet.images?.map((img, i) => (
-              <img key={i} src={img || image} alt="thumbnail" className="thumbnail-img" />
+              <img
+                key={i}
+                src={img || image}
+                alt="thumbnail"
+                className="thumbnail-img"
+                onClick={() => handleThumbnailClick(img)}
+              />
             ))}
           </div>
+          <img src={mainImage} alt="main" className="main-img" />
+        </div>
 
-          <div className="image-info-group">
-            <img src={pet.images?.[0] || image} alt="main" className="main-img" />
-
-            <div className="text-column">
-              <h2>{pet.name}</h2>
-              <p>Gender: {pet.gender}</p>
-              <p>Age: {pet.age}</p>
-              <p>Species: {pet.species}</p>
-              <p>Location: {pet.location}</p>
-              <p>Vaccinated: {pet.vaccinated}</p>
-              <div className="row-inline">
-                <p>House-Trained: {pet.houseTrained}</p>
-                <button onClick={handleHeartClick} className="heart-button">
-                  {liked ? <FaHeart color="red" /> : <FaRegHeart />}
-                </button>
-              </div>
-              <p>Neutered: {pet.neutered}</p>
-              <div className="chat-row">
-                <span className="chat-gradient-circle" />
-                <FaEnvelope className="chat-icon" />
-                <button className="chat-text" onClick={handleChatClick}>Chat</button>
-              </div>
-            </div>
+        {/* 글 (가운데) */}
+        <div className="text-column">
+          <h2>{pet.name}</h2>
+          <p>Gender: {pet.gender}</p>
+          <p>Age: {pet.age}</p>
+          <p>Species: {pet.species}</p>
+          <p>Location: {pet.location}</p>
+          <p>Vaccinated: {pet.vaccinated}</p>
+          <div className="row-inline">
+            <p>House-Trained: {pet.houseTrained}</p>
+            <button onClick={handleHeartClick} className="heart-button">
+              {liked ? <FaHeart color="red" /> : <FaRegHeart />}
+            </button>
+          </div>
+          <p>Neutered: {pet.neutered}</p>
+          <div className="chat-row">
+            <img src={profileImage} alt="profile" className="chat-profile-img" />
+            <FaEnvelope className="chat-icon" />
+            <button className="chat-text" onClick={handleChatClick}>
+              Chat
+            </button>
           </div>
         </div>
 
+        {/* 정보 (오른쪽) */}
         <div className="description-column">
           <h3>Information</h3>
           <textarea
             readOnly
             value={pet.information || "No additional information provided."}
           />
-          <button className="choose-button" onClick={handleChooseClick}>Choose</button>
+          {isAdopter && (
+            <button className="choose-button" onClick={handleChooseClick}>
+              Choose
+            </button>
+          )}
         </div>
       </div>
     </div>

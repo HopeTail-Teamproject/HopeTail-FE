@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import AdoptCard from "../../components/common/AdoptCard";
+import AdoptCard from "../../components/common/adoptCard/AdoptCard";        
 import Navbar from "../../components/common/navbar/Navbar";
 import Footer from "../../components/common/footer/Footer";
-import LeftSidebar from "../../components/LeftSidebar";
+import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar"; 
 import "./AdoptSelect.css";
 
 const AdoptSelect = () => {

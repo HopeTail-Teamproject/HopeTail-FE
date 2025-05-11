@@ -1,10 +1,8 @@
 import React from "react";
-import Navbar from "../components/common/navbar/Navbar";
-import Footer from "../components/common/footer/Footer";
-import { useLanguage } from "../context/language/LanguageContext";
-import adImage from "../assets/AD.png";
-import contentImage from "../assets/image.png";
-import filesIcon from "../assets/files.png";
+import { useLanguage } from "../../context/language/LanguageContext";
+import adImage from "../../assets/AD.png";
+import contentImage from "../../assets/image.png";
+import filesIcon from "../../assets/files.png";
 import "./FilesPage.css";
 
 const FilesPage = () => {
@@ -23,7 +21,6 @@ const FilesPage = () => {
 
   return (
     <div className="files-page">
-      <Navbar />
       <div className="files-container">
         <img src={adImage} alt="AD Left" className="ad-side" />
 
@@ -61,9 +58,6 @@ const FilesPage = () => {
         </div>
 
         <img src={adImage} alt="AD Right" className="ad-side" />
-      </div>
-      <div className="footer-wrapper">
-        <Footer />
       </div>
     </div>
   );

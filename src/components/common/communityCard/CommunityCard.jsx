@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './CommunityCard.css';
-import image from '../assets/image.png';
+import image from "../../../assets/image.png";
 import { FaThumbsUp, FaRegThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+
 
 const CommunityCard = ({ onClick }) => {
   const [liked, setLiked] = useState(false);

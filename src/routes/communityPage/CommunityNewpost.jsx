@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import './CommunityNewpost.css';
-import Navbar from "../components/common/navbar/Navbar";
-import Footer from "../components/common/footer/Footer";
-import { useLanguage } from "../context/language/LanguageContext";
-import adImage from '../assets/AD.png';
-import defaultImage from '../assets/image.png';
+import { useLanguage } from "../../context/language/LanguageContext";
+import adImage from '../../assets/AD.png';        
+import defaultImage from '../../assets/image.png';
 
 const CommunityNewpost = () => {
   const { language } = useLanguage();
@@ -31,7 +29,6 @@ const CommunityNewpost = () => {
 
   return (
     <div className="newpost-wrapper">
-      <Navbar />
       <div className="newpost-content">
         <img src={adImage} alt="ad" className="side-ad" />
 
@@ -82,7 +79,6 @@ const CommunityNewpost = () => {
 
         <img src={adImage} alt="ad" className="side-ad" />
       </div>
-      <Footer />
     </div>
   );
 };

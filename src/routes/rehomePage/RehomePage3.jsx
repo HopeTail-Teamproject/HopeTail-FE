@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useLanguage } from "../context/language/LanguageContext";
-import { FaHeart, FaRegHeart, FaEnvelope } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import rehomeData from "../../data/rehomeData.json";
 import image from "../assets/image.png";
-import "./AdoptPage.css";
+import { FaFileAlt } from "react-icons/fa";
+import "./AdoptPage.css"; // AdoptPage.css 그대로 재사용
 
-// 예시 데이터: 실제로는 context, props, API 등으로 불러와야 함
-import rehomeData from "../data/rehomeData.json";
-
-const AdoptPage = () => {
-  const { language } = useLanguage();
-  const navigate = useNavigate();
+const RehomePage3 = () => {
   const { id } = useParams();
-  const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
   const [pet, setPet] = useState(null);
 
   useEffect(() => {
@@ -20,9 +15,8 @@ const AdoptPage = () => {
     setPet(selectedPet);
   }, [id]);
 
-  const handleHeartClick = () => setLiked(!liked);
-  const handleChooseClick = () => navigate("/adoptPage1");
-  const handleChatClick = () => navigate("/chatPage");
+  const handleFilesClick = () => navigate("/filesPage");
+  const handleDoneClick = () => navigate("/user");
 
   if (!pet) return <div>Loading...</div>;
 
@@ -34,6 +28,7 @@ const AdoptPage = () => {
       </div>
 
       <div className="adopt-body-wrapper">
+        {/* 왼쪽 썸네일 + 이미지 + 텍스트 */}
         <div className="left-group">
           <div className="thumbnail-column">
             {pet.images?.map((img, i) => (
@@ -51,33 +46,26 @@ const AdoptPage = () => {
               <p>Species: {pet.species}</p>
               <p>Location: {pet.location}</p>
               <p>Vaccinated: {pet.vaccinated}</p>
-              <div className="row-inline">
-                <p>House-Trained: {pet.houseTrained}</p>
-                <button onClick={handleHeartClick} className="heart-button">
-                  {liked ? <FaHeart color="red" /> : <FaRegHeart />}
-                </button>
-              </div>
+              <p>House-Trained: {pet.houseTrained}</p>
               <p>Neutered: {pet.neutered}</p>
+
               <div className="chat-row">
-                <span className="chat-gradient-circle" />
-                <FaEnvelope className="chat-icon" />
-                <button className="chat-text" onClick={handleChatClick}>Chat</button>
+                <FaFileAlt className="chat-icon" />
+                <button className="chat-text" onClick={handleFilesClick}>Files</button>
               </div>
             </div>
           </div>
         </div>
 
+        {/* 오른쪽 정보 칸 */}
         <div className="description-column">
           <h3>Information</h3>
-          <textarea
-            readOnly
-            value={pet.information || "No additional information provided."}
-          />
-          <button className="choose-button" onClick={handleChooseClick}>Choose</button>
+          <textarea readOnly value={pet.information || "No additional info."} />
+          <button className="choose-button" onClick={handleDoneClick}>Done</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default AdoptPage;
+export default RehomePage3;

@@ -1,6 +1,6 @@
 .left-sidebar {
   position: sticky;
-  top: 120px; /* ✅ Navbar 아래로 시작 */
+  top: 120px; 
   height: calc(100vh - 120px);
   width: 228px;
   background-color: #d9d9d9;
@@ -24,19 +24,19 @@
 .sidebar-info {
   font-size: 13px;
   color: #000;
-  text-align: left;         /* ← 왼쪽 정렬 */
-  line-height: 1.8;         /* ← 줄 간격 넉넉하게 */
+  text-align: left;         
+  line-height: 1.8;        
   margin-bottom: 24px;
   width: 180px;
   display: flex;
   flex-direction: column;
-  gap: 12px;                /* 항목 사이 간격 */
+  gap: 12px;               
 }
 
 .sidebar-info p {
   display: flex;
   align-items: center;
-  gap: 8px;                 /* 아이콘과 텍스트 간격 */
+  gap: 8px;                 
   margin: 0;
 }
 
@@ -72,9 +72,9 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start;  /* ← 왼쪽 정렬로 수정 */
+  align-items: flex-start;  
   margin-top: 24px;
-  width: 80%;               /* ← 줄 정렬 안정화를 위해 너비 제한 (선택) */
+  width: 80%;              
 }
 
 .sidebar-actions p {

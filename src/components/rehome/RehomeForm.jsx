@@ -1,8 +1,7 @@
-// src/components/RehomeForm.jsx
 import React from "react";
-import image3 from "../assets/image3.png";
-import image33 from "../assets/image33.png";
-import "../pages/RehomePage.css";
+import image3 from "../../assets/image3.png";
+import image33 from "../../assets/image33.png";
+import "../../routes/rehomePage/RehomePage.css";
 
 const RehomeForm = () => {
   return (

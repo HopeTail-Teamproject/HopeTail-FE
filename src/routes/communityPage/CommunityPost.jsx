@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import '../pages/CommunityPost.css';
-import Navbar from "../components/common/navbar/Navbar";
-import Footer from "../components/common/footer/Footer";
-import LeftSidebar from '../components/LeftSidebar';
-import { useLanguage } from "../context/language/LanguageContext";
-import adImage from '../assets/AD.png';
-import image from '../assets/image.png';
-import userImage from '../assets/user.png';
+import "./CommunityPost.css";
+import Navbar from "../../components/common/navbar/Navbar";
+import Footer from "../../components/common/footer/Footer";
+import LeftSidebar from '../../components/common/leftSidebar/LeftSidebar';
+import { useLanguage } from "../../context/language/LanguageContext";
+import adImage from '../../assets/AD.png'; 
+import image from '../../assets/image.png';
+import userImage from '../../assets/user.png';
 import {
   FaThumbsUp, FaRegThumbsUp, FaRegBookmark, FaBookmark,
   FaShareAlt, FaExclamationTriangle,
   FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight
 } from 'react-icons/fa';
+
 
 const CommunityPost = () => {
   const { language } = useLanguage();

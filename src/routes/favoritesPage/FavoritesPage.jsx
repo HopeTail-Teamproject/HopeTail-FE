@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import Navbar from "../components/common/navbar/Navbar";
-import Footer from "../components/common/footer/Footer"
-import AdoptCard from "../components/common/AdoptCard";
-import { useFavorites } from "../context/FavoritesContext";
-import { useLanguage } from "../context/language/LanguageContext";
-import "./RehomePage2.css";
+import React, { useState, useEffect } from "react";
+import Navbar from "../../components/common/navbar/Navbar";
+import Footer from "../../components/common/footer/Footer";
+import AdoptCard from "../../components/common/adoptCard/AdoptCard";
+import { useLanguage } from "../../context/language/LanguageContext";
+import "./FavoritesPage.css";
 
-const RehomePage2 = () => {
+const FavoritesPage = () => {
   const { language } = useLanguage();
-  const { favorites } = useFavorites();
   const [currentPage, setCurrentPage] = useState(1);
+  const [favoritedPets, setFavoritedPets] = useState([]);
 
-  const totalPages = Math.ceil(favorites.length / 16);
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavoritedPets(storedFavorites);
+  }, []);
+
+  const totalPages = Math.ceil(favoritedPets.length / 16);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -19,18 +23,18 @@ const RehomePage2 = () => {
     }
   };
 
-  const paginatedFavorites = favorites.slice(
+  const paginatedFavorites = favoritedPets.slice(
     (currentPage - 1) * 16,
     currentPage * 16
   );
 
   return (
-    <div className="page-container">
+    <div className="favorites-page">
       <Navbar />
-      <div className="rehome2-wrapper">
-        <h1 className="rehome2-title">Rehome</h1>
+      <div className="favorites-content">
+        <h2 className="favorites-title">Favorites</h2>
 
-        <div className="card-grid">
+        <div className="favorites-card-list">
           {paginatedFavorites.map((pet) => (
             <AdoptCard key={pet.id} pet={pet} />
           ))}
@@ -67,4 +71,4 @@ const RehomePage2 = () => {
   );
 };
 
-export default RehomePage2;
+export default FavoritesPage;

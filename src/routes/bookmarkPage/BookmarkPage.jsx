@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import CommunityCard from "../components/CommunityCard";
-import { useLanguage } from "../context/language/LanguageContext";
+import CommunityCard from "../../components/common/communityCard/CommunityCard";
+import { useLanguage } from "../../context/language/LanguageContext";
 import "./BookmarkPage.css";
 
 const BookmarkPage = () => {

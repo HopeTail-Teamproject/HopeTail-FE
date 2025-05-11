@@ -2,15 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LeftSidebar.css";
 
-import logo from "../assets/logo.png";
-import defaultUserPic from "../assets/user.png";
-
-import userProfileIcon from "../assets/userprofile.png";
-import chat from "../assets/chat.png";
-import rehome from "../assets/rehome.png";
-import bookmark from "../assets/bookmark.png";
-import files from "../assets/files.png";
-import donate from "../assets/donate.png";
+import logo from "../../../assets/logo.png";
+import defaultUserPic from "../../../assets/user.png";
+import userProfileIcon from "../../../assets/userprofile.png";
+import chat from "../../../assets/chat.png";
+import rehome from "../../../assets/rehome.png";
+import bookmark from "../../../assets/bookmark.png";
+import files from "../../../assets/files.png";
+import donate from "../../../assets/donate.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
