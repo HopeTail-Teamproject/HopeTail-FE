@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './CommunityCard.css';
+import image from "../../../assets/image.png";
 import { FaThumbsUp, FaRegThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+
 
 const CommunityCard = ({ onClick }) => {
   const [liked, setLiked] = useState(false);
@@ -21,7 +23,7 @@ const CommunityCard = ({ onClick }) => {
   return (
     <div className="community-card" onClick={onClick}>
       <div className="card-image-container">
-        <img src="/images/image.png" alt="thumbnail" className="card-image" />
+        <img src={image} alt="thumbnail" className="card-image" />
         <div className="bookmark-icon" onClick={toggleBookmark}>
           {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
         </div>
