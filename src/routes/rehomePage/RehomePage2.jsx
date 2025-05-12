@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import AdoptCard from "../../components/common/AdoptCard";
 import { useFavorites } from "../../context/FavoritesContext";
 import { useLanguage } from "../../context/language/LanguageContext";
@@ -26,7 +24,6 @@ const RehomePage2 = () => {
 
   return (
     <div className="page-container">
-      <Navbar />
       <div className="rehome2-wrapper">
         <h1 className="rehome2-title">Rehome</h1>
 
@@ -62,7 +59,6 @@ const RehomePage2 = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
