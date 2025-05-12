@@ -1,10 +1,7 @@
-// File: src/pages/CommunityPage.jsx
 import React, { useState } from 'react';
 import './CommunityPage.css';
 import CommunityCard from '../../components/CommunityCard';
 import LeftSidebar from '../../components/LeftSidebar';
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from "../../context/language/LanguageContext";
 
@@ -23,7 +20,6 @@ const CommunityPage = () => {
 
   return (
     <div className="community-wrapper">
-      <Navbar />
       <div className="community-body">
         <LeftSidebar />
         <main className="community-main">
@@ -91,7 +87,6 @@ const CommunityPage = () => {
           </div>
         </main>
       </div>
-      <Footer />
     </div>
   );
 };

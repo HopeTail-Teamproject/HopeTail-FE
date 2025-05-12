@@ -1,7 +1,5 @@
 import React from 'react';
 import './CommunityGuideline.css';
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import { useLanguage } from "../../context/language/LanguageContext";
 import dogPic from "../../assets/dog_pic.png";
 
@@ -10,7 +8,6 @@ const CommunityGuideline = () => {
 
   return (
     <div className="guideline-wrapper">
-      <Navbar />
       <div className="guideline-container">
         <div className="main-layout-wrapper">
           <div className="guideline-title-wrapper">
@@ -84,7 +81,6 @@ const CommunityGuideline = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

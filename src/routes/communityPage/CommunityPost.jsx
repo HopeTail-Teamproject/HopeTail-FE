@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './CommunityPost.css';
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import LeftSidebar from '../../components/LeftSidebar';
 import { useLanguage } from "../../context/language/LanguageContext";
 import adImage from "../../assets/AD.png";
@@ -44,7 +42,6 @@ const CommunityPost = () => {
 
   return (
     <div className="post-wrapper">
-      <Navbar />
       <div className="post-body">
         <LeftSidebar />
         <main className="post-main">
@@ -110,7 +107,6 @@ const CommunityPost = () => {
           <img src={adImage} alt="ad" className="ad-img" />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
