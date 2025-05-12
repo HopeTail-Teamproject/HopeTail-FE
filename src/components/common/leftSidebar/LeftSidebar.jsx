@@ -2,15 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LeftSidebar.css";
 
-import logo from "../../../assets/logo.png";
-import defaultUserPic from "../../../assets/user.png";
-import userProfileIcon from "../../../assets/userprofile.png";
-import chat from "../../../assets/chat.png";
-import rehome from "../../../assets/rehome.png";
-import bookmark from "../../../assets/bookmark.png";
-import files from "../../../assets/files.png";
-import donate from "../../../assets/donate.png";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -32,11 +23,11 @@ const LeftSidebar = () => {
 
   return (
     <div className="left-sidebar">
-      <img src={logo} alt="Logo" className="sidebar-logo" />
+      <img src="/images/logo.png" alt="Logo" className="sidebar-logo" />
 
       {/* ✅ 등록된 사진 불러오기, 없으면 기본 사진 */}
       <img
-        src={userPhoto || defaultUserPic}
+        src={userPhoto || "/images/user.png"}
         alt="User"
         className="sidebar-profile"
       />
@@ -51,37 +42,37 @@ const LeftSidebar = () => {
       {/* 기능 아이콘들 */}
       <div className="sidebar-icons">
         <img
-          src={userProfileIcon}
+          src="/images/userprofile.png"
           alt="Profile"
           title="Profile"
           onClick={() => navigate("/user")}
         />
         <img
-          src={chat}
+          src="/images/chat.png"
           alt="Chat"
           title="Chat"
           onClick={() => navigate("/chatpage")}
         />
         <img
-          src={rehome}
+          src="/images/rehome.png"
           alt="Rehome"
           title="Adopt/Rehome"
           onClick={() => navigate("/rehome2")}
         />
         <img
-          src={bookmark}
+          src="/images/bookmark.png"
           alt="Bookmark"
           title="Bookmarks"
           onClick={() => navigate("/bookmark")}
         />
         <img
-          src={files}
+          src="/images/files.png"
           alt="Files"
           title="Posts"
           onClick={() => navigate("/files")}
         />
         <img
-          src={donate}
+          src="/images/donate.png"
           alt="Donate"
           title="Donate"
           onClick={() => navigate("/about")}

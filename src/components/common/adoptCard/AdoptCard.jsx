@@ -13,7 +13,11 @@ const AdoptCard = ({ pet, onFavorite, isFavorited }) => {
   return (
     <div className="adopt-card">
       <div className="top-section">
-        <img src={pet.image || "/default.png"} alt="pet" className="pet-img" />
+        <img
+          src={pet.image || "/images/default_img.png"}
+          alt="pet"
+          className="pet-img"
+        />
         <div className="side-buttons">
           <FaHeart
             className="heart-icon"

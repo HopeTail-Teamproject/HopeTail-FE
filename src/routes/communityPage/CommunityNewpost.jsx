@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './CommunityNewpost.css';
 import { useLanguage } from "../../context/language/LanguageContext";
-import adImage from "../../assets/AD.png";
-import defaultImage from "../../assets/image.png";
 
 const CommunityNewpost = () => {
   const { language } = useLanguage();
@@ -30,15 +28,15 @@ const CommunityNewpost = () => {
   return (
     <div className="newpost-wrapper">
       <div className="newpost-content">
-        <img src={adImage} alt="ad" className="side-ad" />
+        <img src="/images/AD.png" alt="ad" className="side-ad" />
 
         <main className="newpost-main">
           <h2 className="newpost-title">New Post</h2>
 
           <div className="image-preview-row">
-            <img src={defaultImage} alt="preview1" className="preview-image" />
-            <img src={defaultImage} alt="preview2" className="preview-image" />
-            <img src={defaultImage} alt="preview3" className="preview-image" />
+            <img src="/images/image.png" alt="preview1" className="preview-image" />
+            <img src="/images/image.png" alt="preview2" className="preview-image" />
+            <img src="/images/image.png" alt="preview3" className="preview-image" />
           </div>
 
           <div className="form-section">
@@ -77,7 +75,7 @@ const CommunityNewpost = () => {
           </div>
         </main>
 
-        <img src={adImage} alt="ad" className="side-ad" />
+        <img src="/images/AD.png" alt="ad" className="side-ad" />
       </div>
     </div>
   );
