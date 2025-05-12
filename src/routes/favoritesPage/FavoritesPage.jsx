@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import AdoptCard from "../../components/common/AdoptCard";
 import { useLanguage } from "../../context/language/LanguageContext";
 import "./FavoritesPage.css";
@@ -30,7 +28,6 @@ const FavoritesPage = () => {
 
   return (
     <div className="favorites-page">
-      <Navbar />
       <div className="favorites-content">
         <h2 className="favorites-title">Favorites</h2>
 
@@ -66,7 +63,6 @@ const FavoritesPage = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
