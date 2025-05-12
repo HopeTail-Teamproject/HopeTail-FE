@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./UserPage.css";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +19,6 @@ const UserPage = () => {
 
   return (
     <div className="user-page">
-      <Navbar />
       <div className="user-content">
         <div className="left-panel">
           <div className="profile-image">
@@ -111,7 +108,6 @@ const UserPage = () => {
           <button className="change-button">Change</button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
