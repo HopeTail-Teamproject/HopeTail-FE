@@ -30,32 +30,8 @@ function SingupForm({ actionData, isSubmitting }) {
             {actionData?.data?.errMsg && (
               <div className="error-message">{actionData.data.errMsg}</div>
             )}
-            <div className="name">
-              <div className="first-name">
-                <label htmlFor="first-name">{t.firstNameLabel}</label>
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="first-name"
-                    placeholder={t.firstNameLabel}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="last-name">
-                <label htmlFor="last-name">{t.lastNameLabel}</label>
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="last-name"
-                    placeholder={t.lastNameLabel}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
             <label htmlFor="username">{t.usernameLabel}</label>
-            <div className="input-wrapper">
+            <div className="input-wrapper username">
               <input type="text" name="username" placeholder={t.usernameLabel} required />
             </div>
             <label htmlFor="email">{t.emailLabel}</label>

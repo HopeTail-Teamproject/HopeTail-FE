@@ -1,5 +1,6 @@
 import { useActionData, useNavigation, redirect } from "react-router-dom";
 import LoginForm from "../../components/auth/LoginForm";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -22,10 +23,10 @@ export async function action({ request }) {
 
     if (response.ok) {
       const data = await response.json();
-      return redirect("/");
+      return { ...data, redirectTo: "/" };
     } else {
       const error = await response.json();
-      return { success: false, error: error.message || "로그인에 실패했습니다." };
+      return error;
     }
   } catch (error) {
     return { success: false, error: "서버 오류가 발생했습니다." };
@@ -35,6 +36,13 @@ export async function action({ request }) {
 function LoginPage() {
   const actionData = useActionData();
   const navigation = useNavigation();
+  const auth = useAuth();
+
+  if (actionData?.redirectTo) {
+    const { user, token, refreshToken, redirectTo } = actionData;
+    auth.login(user, token, refreshToken);
+    return redirect(redirectTo);
+  }
 
   return (
     <LoginForm actionData={actionData} isSubmitting={navigation.state === "submitting"} />

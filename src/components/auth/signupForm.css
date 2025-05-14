@@ -103,18 +103,16 @@
   outline: none;
 }
 
-.signup-page .signup-right .signup-mid .signup-form .name {
-  display: flex;
-  flex-direction: row;
-  gap: 80px;
+.signup-page .signup-right .signup-mid .signup-form .username {
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .email {
-  width: 50%;
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .password {
-  width: 50%;
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .input-wrapper .toggle-password {
