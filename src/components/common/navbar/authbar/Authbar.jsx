@@ -8,6 +8,11 @@ function Authbar() {
   const { isAuthenticated, logout, token } = useAuth();
 
   const handleLogout = async () => {
+    if (!token) {
+      console.error("토큰이 없습니다.");
+      return;
+    }
+
     try {
       const response = await fetch("/api/account/logout", {
         method: "POST",
@@ -20,7 +25,8 @@ function Authbar() {
       if (response.ok) {
         logout();
       } else {
-        console.error("로그아웃 실패");
+        const error = await response.json();
+        console.error("로그아웃 실패:", error);
       }
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);

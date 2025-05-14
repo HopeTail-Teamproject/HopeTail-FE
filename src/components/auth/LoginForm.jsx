@@ -27,7 +27,13 @@ function LoginForm({ actionData, isSubmitting }) {
         </div>
         <div className="login-mid">
           <Form method="post" className="login-form">
-            {actionData?.error && <div className="error-message">{actionData.error}</div>}
+            {actionData?.error && (
+              <div className="error-message">
+                {typeof actionData.error === "string"
+                  ? actionData.error
+                  : "로그인에 실패했습니다."}
+              </div>
+            )}
             <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper">
               <input type="email" name="email" placeholder={t.emailLabel} required />
@@ -49,8 +55,8 @@ function LoginForm({ actionData, isSubmitting }) {
               </button>
             </div>
             <div className="remember">
-              <input type="checkbox" name="remember" />
-              <label htmlFor="remember">{t.rememberMe}</label>
+              <input type="checkbox" name="rememberMe" />
+              <label htmlFor="rememberMe">{t.rememberMe}</label>
             </div>
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? t.submitting : t.submit}

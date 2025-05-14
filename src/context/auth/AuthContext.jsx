@@ -24,14 +24,12 @@ export function AuthProvider({ children }) {
   // 토큰 갱신 함수
   const refreshAccessToken = async () => {
     try {
-      const response = await fetch("/api/account/refresh", {
+      const response = await fetch("/api/account/auth/refresh", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${refreshToken}`,
         },
-        body: JSON.stringify({
-          refreshToken,
-        }),
       });
 
       if (response.ok) {
@@ -51,15 +49,24 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const login = (userData, authToken, authRefreshToken) => {
-    setIsAuthenticated(true);
-    setUser(userData);
-    setToken(authToken);
-    setRefreshToken(authRefreshToken);
+  const login = async (userData, authToken, refreshTokenValue) => {
+    try {
+      console.log("로그인 시도:", { userData, authToken, refreshTokenValue });
 
-    localStorage.setItem("token", authToken);
-    localStorage.setItem("refreshToken", authRefreshToken);
-    localStorage.setItem("user", JSON.stringify(userData));
+      // 로컬 스토리지에 토큰 정보 저장
+      localStorage.setItem("token", authToken);
+      localStorage.setItem("refreshToken", refreshTokenValue);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      // 상태 업데이트
+      setIsAuthenticated(true);
+      setUser(userData);
+      setToken(authToken);
+      setRefreshToken(refreshTokenValue);
+    } catch (error) {
+      console.error("로그인 처리 중 오류:", error);
+      throw error;
+    }
   };
 
   const logout = () => {

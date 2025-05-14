@@ -1,5 +1,15 @@
-import SingupForm from "../../components/auth/SingupForm";
-import { redirect, useActionData, useNavigation } from "react-router-dom";
+import { useActionData, useNavigation, redirect, useNavigate } from "react-router-dom";
+import SignupForm from "../../components/auth/SingupForm";
+import { useAuth } from "../../context/auth/AuthContext";
+
+export async function loader() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    alert("이미 로그인되어 있습니다.");
+    return redirect("/");
+  }
+  return null;
+}
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -7,7 +17,7 @@ export async function action({ request }) {
   const password = formData.get("password");
   const username = formData.get("username");
   const address = formData.get("address");
-  const phoneNumber = formData.get("phone");
+  const phoneNumber = formData.get("phoneNumber");
 
   try {
     const response = await fetch("/api/account/create", {
@@ -24,19 +34,22 @@ export async function action({ request }) {
       }),
     });
 
+    const data = await response.json();
+    console.log("회원가입 응답:", data);
+
     if (response.ok) {
-      return redirect("/login");
+      return { success: true };
     } else {
-      const error = await response.json();
-      return error;
+      return {
+        success: false,
+        error: data.message || "회원가입에 실패했습니다.",
+      };
     }
   } catch (error) {
+    console.error("회원가입 중 오류 발생:", error);
     return {
-      httpStatus: "INTERNAL_SERVER_ERROR",
-      code: 500,
-      data: {
-        errMsg: "서버 오류가 발생했습니다.",
-      },
+      success: false,
+      error: "서버 오류가 발생했습니다.",
     };
   }
 }
@@ -46,7 +59,7 @@ function SingupPage() {
   const navigation = useNavigation();
 
   return (
-    <SingupForm
+    <SignupForm
       actionData={actionData}
       isSubmitting={navigation.state === "submitting"}
     />
