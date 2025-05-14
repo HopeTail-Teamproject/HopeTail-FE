@@ -8,7 +8,7 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { signupPage } from "../../lib/auth";
 
-function SingupForm() {
+function SingupForm({ actionData, isSubmitting }) {
   const [showPassword, setShowPassword] = useState(false);
   const { language } = useLanguage();
 
@@ -26,32 +26,14 @@ function SingupForm() {
           <span className="title">{t.title}</span>
         </div>
         <div className="signup-mid">
-          <Form className="signup-form">
-            <div className="name">
-              <div className="first-name">
-                <label htmlFor="first-name">{t.firstNameLabel}</label>
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="first-name"
-                    placeholder={t.firstNameLabel}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="last-name">
-                <label htmlFor="last-name">{t.lastNameLabel}</label>
-                <div className="input-wrapper">
-                  <input
-                    type="text"
-                    name="last-name"
-                    placeholder={t.lastNameLabel}
-                    required
-                  />
-                </div>
-              </div>
+          <Form method="post" className="signup-form">
+            {actionData?.data?.errMsg && (
+              <div className="error-message">{actionData.data.errMsg}</div>
+            )}
+            <label htmlFor="username">{t.usernameLabel}</label>
+            <div className="input-wrapper username">
+              <input type="text" name="username" placeholder={t.usernameLabel} required />
             </div>
-            <div className="email"></div>
             <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper email">
               <input type="email" name="email" placeholder={t.emailLabel} required />
@@ -84,7 +66,9 @@ function SingupForm() {
               {t.policyTextStart} <u>{t.termsOfUse}</u> {t.policyTextMiddle}
               <u>{t.privacyPolicy}</u> {t.policyTextLast}
             </span>
-            <button type="submit">{t.submit}</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? t.submitting : t.submit}
+            </button>
           </Form>
         </div>
         <div className="signup-btm">

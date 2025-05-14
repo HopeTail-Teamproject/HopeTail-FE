@@ -7,10 +7,11 @@
 .signup-left {
   position: relative;
   width: 50%;
+  height: 100vh;
+  display: flex;
 }
 
 .signup-left img:first-child {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -29,7 +30,8 @@
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 100%;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .signup-page .signup-right .signup-top {
@@ -101,18 +103,16 @@
   outline: none;
 }
 
-.signup-page .signup-right .signup-mid .signup-form .name {
-  display: flex;
-  flex-direction: row;
-  gap: 80px;
+.signup-page .signup-right .signup-mid .signup-form .username {
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .email {
-  width: 50%;
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .password {
-  width: 50%;
+  width: 70%;
 }
 
 .signup-page .signup-right .signup-mid .signup-form .input-wrapper .toggle-password {
@@ -154,4 +154,11 @@
 
 .signup-page .signup-right .signup-btm span u {
   color: #000;
+}
+
+.signup-page .signup-right .signup-mid .signup-form .error-message {
+  color: #ff0000;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
 }
