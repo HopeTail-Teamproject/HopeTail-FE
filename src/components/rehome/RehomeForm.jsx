@@ -1,54 +1,110 @@
-import React from "react";
-import image3 from "../../assets/image3.png";
-import image33 from "../../assets/image33.png";
+import React, { useState } from "react";
 import "../../routes/rehomePage/RehomePage.css";
 
 const RehomeForm = () => {
+  const [name, setName] = useState("Hope");
+  const [ageYear, setAgeYear] = useState(2);
+  const [ageMonth, setAgeMonth] = useState(3);
+  const [gender, setGender] = useState("female");
+  const [weight, setWeight] = useState(12);
+  const [height, setHeight] = useState(91);
+  const [vaccinated, setVaccinated] = useState(true);
+  const [houseTrained, setHouseTrained] = useState(true);
+  const [neutered, setNeutered] = useState(true);
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = () => {
+    alert("연동 전 임시 제출: 콘솔 확인");
+    console.log({
+      name,
+      ageYear,
+      ageMonth,
+      gender,
+      weight,
+      height,
+      vaccinated,
+      houseTrained,
+      neutered,
+      description,
+    });
+  };
+
   return (
     <div className="form-container">
       <div className="image-grid">
-        <img src={image3} alt="img1" className="form-image" />
-        <img src={image3} alt="img2" className="form-image" />
-        <img src={image3} alt="img3" className="form-image" />
-        <img src={image33} alt="img4" className="form-image" />
+        <div className="form-image-placeholder">Upload at least 3 image</div>
+        <div className="form-image-placeholder">Upload at least 3 image</div>
+        <div className="form-image-placeholder">Upload at least 3 image</div>
+        <div className="form-image-placeholder">+</div>
       </div>
 
-      <div className="form-row">
-        <label>Dog Name</label>
-        <input type="text" value="Hope" readOnly />
-      </div>
+      {/* ✅ 좌우 정렬 위한 row */}
+      <div className="form-main-row">
+        <div className="form-left">
+          <div className="form-row">
+            <label>Dog Name</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
 
-      <div className="form-row age-row">
-        <label>Age</label>
-        <input type="number" value="2" readOnly /> <span>years</span>
-        <input type="number" value="3" readOnly /> <span>months</span>
-      </div>
+          <div className="form-row">
+            <label>Age</label>
+            <input type="number" value={ageYear} onChange={(e) => setAgeYear(Number(e.target.value))} /> years
+            <input type="number" value={ageMonth} onChange={(e) => setAgeMonth(Number(e.target.value))} /> months
+          </div>
 
-      <div className="form-row gender-row">
-        <label>Gender</label>
-        <div className="gender-icons">
-          <input type="radio" name="gender" id="male" />
-          <label htmlFor="male">♂</label>
-          <input type="radio" name="gender" id="female" defaultChecked />
-          <label htmlFor="female">♀</label>
+          <div className="form-row">
+            <label>Gender</label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={gender === "male"}
+                onChange={(e) => setGender(e.target.value)}
+              />{" "}
+              ♂
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={gender === "female"}
+                onChange={(e) => setGender(e.target.value)}
+              />{" "}
+              ♀
+            </label>
+          </div>
+
+          <div className="form-row">
+            <label>Weight</label>
+            <input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} /> kg
+            <label>Height</label>
+            <input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} /> cm
+          </div>
+
+          <div className="form-row">
+            <label>
+              <input type="checkbox" checked={vaccinated} onChange={() => setVaccinated(!vaccinated)} /> Vaccinated
+            </label>
+            <label>
+              <input type="checkbox" checked={houseTrained} onChange={() => setHouseTrained(!houseTrained)} /> House-Trained
+            </label>
+            <label>
+              <input type="checkbox" checked={neutered} onChange={() => setNeutered(!neutered)} /> Neutered
+            </label>
+          </div>
+        </div>
+
+        <div className="form-right">
+          <textarea
+            placeholder="Write about your dog’s story."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button className="send-button" onClick={handleSubmit}>Send</button>
         </div>
       </div>
-
-      <div className="form-row measure-row">
-        <label>Weight</label>
-        <input type="number" value="12" readOnly /> <span>kg</span>
-        <label>Height</label>
-        <input type="number" value="91" readOnly /> <span>cm</span>
-      </div>
-
-      <div className="check-row">
-        <span>Vaccinated ✓</span>
-        <span>House-Trained ✓</span>
-        <span>Neutrated ✓</span>
-      </div>
-
-      <textarea placeholder="Write about your dog's story." defaultValue="" />
-      <button className="send-button">Send</button>
     </div>
   );
 };

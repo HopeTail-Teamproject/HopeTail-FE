@@ -1,65 +1,87 @@
-import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { LanguageProvider } from "./context/language/LanguageContext";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
 
-import MainPage from "./routes/mainPage/MainPage";
 import BasicLayout from "./layouts/BasicLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import LoginPage from "./routes/authPage/LoginPage";
-import SignupPage from "./routes/authPage/SingupPage";
+
+import MainPage from "./routes/mainPage/MainPage";
 import AboutPage from "./routes/aboutPage/AboutPage";
-import AdoptionPage from "./routes/adoptionPage/AdoptionPage";
 import CareGuidePage from "./routes/careGuidePage/CareGuidePage";
-import ChatPage from "./routes/chatPage/ChatPage";
+import ErrorPage from "./routes/errorPage/ErrorPage";
 
-import AdoptSelect from "./routes/adoptPage/AdoptSelect";
+import AdoptionPage, { action as adoptAction } from "./routes/adoptionPage/AdoptionPage";
 import AdoptPage from "./routes/adoptPage/AdoptPage";
-
-import CommunityPage from "./routes/communityPage/CommunityPage";
-import CommunityGuideline from "./routes/communityPage/CommunityGuideline";
-import CommunityNewpost from "./routes/communityPage/CommunityNewpost";
-import CommunityPost from "./routes/communityPage/CommunityPost";
-
-import UserPage from "./routes/userPage/UserPage";  
-import BookmarkPage from "./routes/bookmarkPage/BookmarkPage";
-import FavoritesPage from "./routes/favoritesPage/FavoritesPage";
-import FilesPage from "./routes/filesPage/FilesPage";
 
 import RehomePage from "./routes/rehomePage/RehomePage";
 import RehomePage2 from "./routes/rehomePage/RehomePage2";
+import RehomePage3 from "./routes/rehomePage/RehomePage3";
 
-import ErrorPage from "./routes/errorPage/ErrorPage";
+import CommunityPage from "./routes/communityPage/CommunityPage";
+import CommunityNewpost from "./routes/communityPage/CommunityNewpost";
+import CommunityGuideline from "./routes/communityPage/CommunityGuideline";
+import CommunityPost from "./routes/communityPage/CommunityPost";
+
+import UserPage from "./routes/userPage/UserPage";
+import BookmarkPage from "./routes/bookmarkPage/BookmarkPage";
+import FavoritesPage from "./routes/favoritesPage/FavoritesPage";
+import FilesPage from "./routes/filesPage/FilesPage";
+import UserProfilePage from "./routes/userPage/UserProfilePage";
+
+import LoginPage from "./routes/authPage/LoginPage";
+import SingupPage from "./routes/authPage/SingupPage";
+
+import ChatPage from "./routes/chatPage/ChatPage";
+
+import { LanguageProvider } from "./context/language/LanguageContext";
+
+const router = createBrowserRouter(
+  [
+    {
+      element: <BasicLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+        { index: true, element: <MainPage /> },
+        { path: "about", element: <AboutPage /> },
+        { path: "care-guide", element: <CareGuidePage /> },
+        { path: "adopt", element: <AdoptionPage />, action: adoptAction },
+        { path: "adopt/:id", element: <AdoptPage /> },
+        { path: "rehome", element: <RehomePage /> },
+        { path: "rehome2", element: <RehomePage2 /> },
+        { path: "rehome/:id", element: <RehomePage3 /> },
+        {
+          path: "community",
+          children: [
+            { index: true, element: <CommunityPage /> },
+            { path: "new", element: <CommunityNewpost /> },
+            { path: "guideline", element: <CommunityGuideline /> },
+            { path: ":postId", element: <CommunityPost /> },
+          ],
+        },
+        { path: "user", element: <UserPage /> },
+        { path: "bookmark", element: <BookmarkPage /> },
+        { path: "favorites", element: <FavoritesPage /> },
+        { path: "files", element: <FilesPage /> },
+        { path: "profile/:userId", element: <UserProfilePage /> },
+        { path: "chat", element: <ChatPage /> },
+      ],
+    },
+    {
+      element: <AuthLayout />,
+      children: [
+        { path: "login", element: <LoginPage /> },
+        { path: "signup", element: <SingupPage /> },
+      ],
+    },
+  ],
+  {
+    basename: "/HopeTail-FE",
+  }
+);
 
 function App() {
   return (
     <LanguageProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/adopt" element={<AdoptSelect />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/post" element={<CommunityPost />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/care-guide" element={<CareGuidePage />} />
-          <Route path="/chat" element={<ChatPage />} />
-
-          <Route element={<BasicLayout />}>
-            <Route path="/adopt/:id" element={<AdoptPage />} />
-            <Route path="/adoption_Page" element={<AdoptionPage />} />
-            <Route path="/community/guideline" element={<CommunityGuideline />} />
-            <Route path="/community/newpost" element={<CommunityNewpost />} />
-            <Route path="/user" element={<UserPage />} />
-            <Route path="/bookmark" element={<BookmarkPage />} />
-            <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/files" element={<FilesPage />} />
-            <Route path="/rehome" element={<RehomePage />} />
-            <Route path="/rehome2" element={<RehomePage2 />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Route>
-        </Routes>
-      </Router>
+      <RouterProvider router={router} />
     </LanguageProvider>
   );
 }

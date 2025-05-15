@@ -2,15 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LeftSidebar.css";
 
-import logo from "../../../assets/logo.png";
-import defaultUserPic from "../../../assets/user.png";
-import userProfileIcon from "../../../assets/userprofile.png";
-import chat from "../../../assets/chat.png";
-import rehome from "../../../assets/rehome.png";
-import bookmark from "../../../assets/bookmark.png";
-import files from "../../../assets/files.png";
-import donate from "../../../assets/donate.png";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -22,7 +13,6 @@ import {
 const LeftSidebar = () => {
   const navigate = useNavigate();
 
-  // ✅ localStorage에서 유저 정보 불러오기
   const userPhoto = localStorage.getItem("userPhoto");
   const userName = localStorage.getItem("userName") || "Hope Tail";
   const userEmail = localStorage.getItem("userEmail") || "hopetail1234@gmail.com";
@@ -32,56 +22,63 @@ const LeftSidebar = () => {
 
   return (
     <div className="left-sidebar">
-      <img src={logo} alt="Logo" className="sidebar-logo" />
-
-      {/* ✅ 등록된 사진 불러오기, 없으면 기본 사진 */}
       <img
-        src={userPhoto || defaultUserPic}
+        src="/HopeTail-FE/images/logo.png"
+        alt="Logo"
+        className="sidebar-logo"
+      />
+
+      <img
+        src={userPhoto || "/HopeTail-FE/images/user.png"}
         alt="User"
         className="sidebar-profile"
       />
 
-      {/* ✅ 사용자 정보 */}
       <div className="sidebar-info">
-        <p><FontAwesomeIcon icon={faUser} /> {userName}</p>
-        <p><FontAwesomeIcon icon={faEnvelope} /> {userEmail}</p>
-        <p><FontAwesomeIcon icon={faLocationDot} /> {userAddress}</p>
+        <p>
+          <FontAwesomeIcon icon={faUser} /> {userName}
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faEnvelope} /> {userEmail}
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faLocationDot} /> {userAddress}
+        </p>
       </div>
 
-      {/* 기능 아이콘들 */}
       <div className="sidebar-icons">
         <img
-          src={userProfileIcon}
+          src="/HopeTail-FE/images/userprofile.png"
           alt="Profile"
           title="Profile"
           onClick={() => navigate("/user")}
         />
         <img
-          src={chat}
+          src="/HopeTail-FE/images/chat.png"
           alt="Chat"
           title="Chat"
           onClick={() => navigate("/chatpage")}
         />
         <img
-          src={rehome}
+          src="/HopeTail-FE/images/rehome.png"
           alt="Rehome"
           title="Adopt/Rehome"
           onClick={() => navigate("/rehome2")}
         />
         <img
-          src={bookmark}
+          src="/HopeTail-FE/images/bookmark.png"
           alt="Bookmark"
           title="Bookmarks"
           onClick={() => navigate("/bookmark")}
         />
         <img
-          src={files}
+          src="/HopeTail-FE/images/files.png"
           alt="Files"
           title="Posts"
           onClick={() => navigate("/files")}
         />
         <img
-          src={donate}
+          src="/HopeTail-FE/images/donate.png"
           alt="Donate"
           title="Donate"
           onClick={() => navigate("/about")}
@@ -90,7 +87,6 @@ const LeftSidebar = () => {
 
       <hr />
 
-      {/* ✅ 하단 메뉴 */}
       <div className="sidebar-actions">
         <p onClick={() => navigate("/user")}>
           <FontAwesomeIcon icon={faUser} /> Profile

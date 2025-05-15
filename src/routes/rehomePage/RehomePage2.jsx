@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer"
+import React, { useState, useEffect } from "react";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
-import { useFavorites } from "../../context/FavoritesContext";
 import { useLanguage } from "../../context/language/LanguageContext";
 import "./RehomePage2.css";
 
 const RehomePage2 = () => {
   const { language } = useLanguage();
-  const { favorites } = useFavorites();
   const [currentPage, setCurrentPage] = useState(1);
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(stored);
+  }, []);
 
   const totalPages = Math.ceil(favorites.length / 16);
 
@@ -26,7 +28,6 @@ const RehomePage2 = () => {
 
   return (
     <div className="page-container">
-      <Navbar />
       <div className="rehome2-wrapper">
         <h1 className="rehome2-title">Rehome</h1>
 
@@ -47,7 +48,7 @@ const RehomePage2 = () => {
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index + 1}
-              className={`page-btn circle ${currentPage === index + 1 ? 'active' : ''}`}
+              className={`page-btn circle ${currentPage === index + 1 ? "active" : ""}`}
               onClick={() => handlePageChange(index + 1)}
             >
               {index + 1}
@@ -62,7 +63,6 @@ const RehomePage2 = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

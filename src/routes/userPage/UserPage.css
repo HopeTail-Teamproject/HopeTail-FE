@@ -10,7 +10,7 @@
   padding: 60px;
   gap: 80px;
   flex: 1;
-  min-height: 700px; 
+  min-height: 700px;
 }
 
 .left-panel {
@@ -72,8 +72,8 @@
 .right-panel {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 아이콘+텍스트박스를 수직 중앙 정렬 */
-  height: 100%; /* 부모 높이 기준으로 */
+  justify-content: center;
+  height: 100%;
   padding-top: 40px;
 }
 
@@ -128,6 +128,6 @@
   height: 54px;
   align-self: flex-end;
   cursor: pointer;
-  margin-bottom: -10px; /* 아래로 더 내리기 */
-  margin-top: 30px;      /* 위와 공간 주기 */
+  margin-bottom: -10px;
+  margin-top: 30px;
 }

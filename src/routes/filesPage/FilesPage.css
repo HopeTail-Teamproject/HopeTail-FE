@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: white;
 }
 
 .files-container {
@@ -11,10 +12,16 @@
   padding: 40px 60px;
 }
 
-.ad-side {
+.ad-banner {
   width: 160px;
   height: 700px;
-  object-fit: contain;
+  background-color: #888;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .files-content {
@@ -56,16 +63,18 @@
 .card-image {
   width: 130px;
   height: 130px;
-  object-fit: cover;
-  border-radius: 8px;
-  background-color: #eee;
+  background-color: #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* ← 기존 align-items: flex-end 에서 center로 변경 */
+  align-items: center;
   justify-content: center;
   height: 100%;
 }
@@ -73,7 +82,7 @@
 .info-buttons {
   display: flex;
   flex-direction: column;
-  align-items: center; /* ← 여기서도 center로 */
+  align-items: center;
   gap: 10px;
   margin-bottom: 12px;
 }
@@ -142,7 +151,7 @@
 }
 
 .dot {
-  width: 16px;             /* 원래보다 큼 */
+  width: 16px;
   height: 16px;
   border-radius: 50%;
   background-color: #ccc;
@@ -152,7 +161,7 @@
 
 .dot.active {
   background-color: #a084e8;
-  transform: scale(1.3);   /* 활성화된 점 더 커보이게 */
+  transform: scale(1.3);
 }
 
 .footer-wrapper {

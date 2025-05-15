@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
-import AdoptCard from "../../components/common/adoptCard/AdoptCard";        
+import AdoptCard from "../../components/common/adoptCard/AdoptCard";
 import Navbar from "../../components/common/navbar/Navbar";
 import Footer from "../../components/common/footer/Footer";
-import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar"; 
+import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar";
 import "./AdoptSelect.css";
 
 const AdoptSelect = () => {
-  const pets = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    name: `name ${i + 1}`,
-    age: `${1 + (i % 10)}살`,
-    species: "species",
-    location: "location",
-    gender: "male",
-    image: "/image.png",
-  }));
-
   const itemsPerPage = 16;
-  const totalPages = Math.ceil(pets.length / itemsPerPage);
+  const [pets, setPets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/petposts")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch pet list");
+        return res.json();
+      })
+      .then((data) => {
+        setPets(data);
+      })
+      .catch((err) => console.error("유기견 목록 불러오기 실패:", err));
+  }, []);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -27,7 +29,19 @@ const AdoptSelect = () => {
   }, []);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+    if (page >= 1 && page <= Math.ceil(pets.length / itemsPerPage)) {
+      setCurrentPage(page);
+    }
+  };
+
+  const handleFavorite = (pet) => {
+    const exists = favorites.some((p) => p.id === pet.id);
+    const updated = exists
+      ? favorites.filter((p) => p.id !== pet.id)
+      : [...favorites, pet];
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    setFavorites(updated);
   };
 
   const paginatedPets = pets.slice(
@@ -35,19 +49,7 @@ const AdoptSelect = () => {
     currentPage * itemsPerPage
   );
 
-  const handleFavorite = (pet) => {
-    const exists = favorites.some((p) => p.id === pet.id);
-    let updated;
-
-    if (exists) {
-      updated = favorites.filter((p) => p.id !== pet.id);
-    } else {
-      updated = [...favorites, pet];
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(updated));
-    setFavorites(updated);
-  };
+  const totalPages = Math.ceil(pets.length / itemsPerPage);
 
   return (
     <div className="adopt-select-wrapper">

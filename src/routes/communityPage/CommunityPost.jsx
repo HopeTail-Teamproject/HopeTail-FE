@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import "./CommunityPost.css";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
+import './CommunityPost.css';
 import LeftSidebar from '../../components/common/leftSidebar/LeftSidebar';
 import { useLanguage } from "../../context/language/LanguageContext";
-import adImage from '../../assets/AD.png'; 
-import image from '../../assets/image.png';
-import userImage from '../../assets/user.png';
 import {
   FaThumbsUp, FaRegThumbsUp, FaRegBookmark, FaBookmark,
   FaShareAlt, FaExclamationTriangle,
   FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight
 } from 'react-icons/fa';
-
 
 const CommunityPost = () => {
   const { language } = useLanguage();
@@ -45,7 +39,6 @@ const CommunityPost = () => {
 
   return (
     <div className="post-wrapper">
-      <Navbar />
       <div className="post-body">
         <LeftSidebar />
         <main className="post-main">
@@ -54,15 +47,15 @@ const CommunityPost = () => {
           <input type="text" className="post-input-title" value="Title" readOnly />
 
           <div className="post-images">
-            <img src={image} alt="post1" className="post-img" />
-            <img src={image} alt="post2" className="post-img" />
-            <img src={image} alt="post3" className="post-img" />
+            <img src="/images/image.png" alt="post1" className="post-img" />
+            <img src="/images/image.png" alt="post2" className="post-img" />
+            <img src="/images/image.png" alt="post3" className="post-img" />
           </div>
 
           <textarea className="post-content" value="Content" readOnly />
 
           <div className="post-user-bar">
-            <img src={userImage} alt="user" className="user-icon" />
+            <img src="/images/user.png" alt="user" className="user-icon" />
             <div className="user-info">
               <div className="username">User_name</div>
               <div className="email">Email</div>
@@ -106,12 +99,11 @@ const CommunityPost = () => {
         </main>
 
         <div className="post-ads">
-          <img src={adImage} alt="ad" className="ad-img" />
-          <img src={adImage} alt="ad" className="ad-img" />
-          <img src={adImage} alt="ad" className="ad-img" />
+          <img src="/images/AD.png" alt="ad" className="ad-img" />
+          <img src="/images/AD.png" alt="ad" className="ad-img" />
+          <img src="/images/AD.png" alt="ad" className="ad-img" />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

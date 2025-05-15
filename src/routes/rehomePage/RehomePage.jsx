@@ -1,10 +1,10 @@
 import React from "react";
 import RehomeForm from "../../components/rehome/RehomeForm";
 import { useLanguage } from "../../context/language/LanguageContext";
-import "./RehomePage.css"; 
+import "./RehomePage.css";
 
 const RehomePage = () => {
-  const { language } = useLanguage(); 
+  const { language } = useLanguage();
 
   return (
     <div className="page-container">

@@ -1,7 +1,6 @@
 import React from 'react';
 import "./CommunityGuideline.css"; 
 import { useLanguage } from "../../context/language/LanguageContext";
-import dogPic from "../../assets/dog_pic.png";  
 
 const CommunityGuideline = () => {
   const { language } = useLanguage();
@@ -77,7 +76,7 @@ const CommunityGuideline = () => {
                 </ul>
               </li>
             </ol>
-            <img src={dogPic} alt="dog" className="guideline-dog-pic" />
+            <img src="/images/dog_walk.png" alt="dog" className="guideline-dog-pic" />
           </div>
         </div>
       </div>

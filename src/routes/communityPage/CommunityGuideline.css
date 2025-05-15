@@ -8,7 +8,7 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center; /* ✅ 세로 가운데 정렬 */
+  align-items: center;
   padding: 0 20px;
   background-color: white;
 }
@@ -47,9 +47,9 @@
   padding: 40px;
   position: relative;
   line-height: 1.6;
-  font-size: 16px; /* ✅ 30px → 16px 로 적절한 본문 크기로 조정 */
+  font-size: 16px; 
   background-color: white;
-  margin-top: 30px; /* 제목과 간격 */
+  margin-top: 30px; 
 }
 
 .guideline-box h3 {

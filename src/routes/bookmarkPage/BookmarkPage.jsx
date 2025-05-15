@@ -7,11 +7,56 @@ const BookmarkPage = () => {
   const { language } = useLanguage();
 
   const allPosts = [
-    { id: 1, title: "A", isBookmarked: true },
-    { id: 2, title: "B", isBookmarked: false },
-    { id: 3, title: "C", isBookmarked: true },
-    { id: 4, title: "D", isBookmarked: true },
-    { id: 5, title: "E", isBookmarked: true },
+    {
+      id: 1,
+      title: "Dog Nutrition Tips",
+      imageUrl: "/images/image1.png",
+      firstSentence: "Feed your dog twice a day...",
+      username: "Alice",
+      date: "2025/03/26",
+      initialLikes: 3,
+      isBookmarked: true,
+    },
+    {
+      id: 2,
+      title: "Cat Grooming Guide",
+      imageUrl: "/images/image2.png",
+      firstSentence: "Brush regularly to avoid shedding...",
+      username: "Bob",
+      date: "2025/03/27",
+      initialLikes: 5,
+      isBookmarked: true,
+    },
+    {
+      id: 3,
+      title: "Puppy Training 101",
+      imageUrl: "/images/image3.png",
+      firstSentence: "Start with basic commands...",
+      username: "Charlie",
+      date: "2025/03/28",
+      initialLikes: 7,
+      isBookmarked: true,
+    },
+    {
+      id: 4,
+      title: "How to Adopt a Rescue Dog",
+      imageUrl: "/images/image4.png",
+      firstSentence: "Rescue dogs need patience and love...",
+      username: "Dana",
+      date: "2025/03/29",
+      initialLikes: 2,
+      isBookmarked: true,
+    },
+    {
+      id: 5,
+      title: "Pet Safety at Home",
+      imageUrl: "/images/image5.png",
+      firstSentence: "Keep wires out of reach...",
+      username: "Eve",
+      date: "2025/03/30",
+      initialLikes: 4,
+      isBookmarked: true,
+    }
   ];
 
   const bookmarkedPosts = allPosts.filter((post) => post.isBookmarked);
@@ -43,6 +88,7 @@ const BookmarkPage = () => {
           <button
             className="bookmark-nav-button"
             onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
           >
             Before
           </button>
@@ -59,6 +105,7 @@ const BookmarkPage = () => {
           <button
             className="bookmark-nav-button"
             onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
           >
             Next
           </button>

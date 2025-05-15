@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import "./AdoptCard.css";
 
-const AdoptCard = ({ pet, onFavorite, isFavorited }) => {
+const AdoptCard = ({ pet, onHeartClick, isFavorite }) => {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
@@ -13,12 +13,16 @@ const AdoptCard = ({ pet, onFavorite, isFavorited }) => {
   return (
     <div className="adopt-card">
       <div className="top-section">
-        <img src={pet.image || "/default.png"} alt="pet" className="pet-img" />
+        <img
+          src={pet.image || "/images/default_img.png"}
+          alt="pet"
+          className="pet-img"
+        />
         <div className="side-buttons">
           <FaHeart
             className="heart-icon"
-            style={{ color: isFavorited ? "red" : "gray" }}
-            onClick={() => onFavorite(pet)}
+            style={{ color: isFavorite ? "red" : "gray" }}
+            onClick={onHeartClick}
           />
           <button className="more-button" onClick={handleMoreClick}>
             more
