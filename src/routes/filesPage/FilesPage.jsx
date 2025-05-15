@@ -1,8 +1,5 @@
 import React from "react";
 import { useLanguage } from "../../context/language/LanguageContext";
-import adImage from "../../assets/AD.png";
-import contentImage from "../../assets/image.png";
-import filesIcon from "../../assets/files.png";
 import "./FilesPage.css";
 
 const FilesPage = () => {
@@ -22,7 +19,7 @@ const FilesPage = () => {
   return (
     <div className="files-page">
       <div className="files-container">
-        <img src={adImage} alt="AD Left" className="ad-side" />
+        <img src="/images/AD.png" alt="AD Left" className="ad-side" />
 
         <div className="files-content">
           <h2 className="files-title">Files</h2>
@@ -30,14 +27,14 @@ const FilesPage = () => {
           <div className="files-grid">
             {filteredItems.map((item) => (
               <div className="files-card" key={item.id}>
-                <img src={contentImage} alt="pet" className="card-image" />
+                <img src="/images/image.png" alt="pet" className="card-image" />
                 <div className="card-info">
                   <div className="info-buttons">
                     <button className="info-btn">{item.name}</button>
                     <button className="info-btn">{item.species}</button>
                   </div>
                   <div className="files-label">
-                    <img src={filesIcon} alt="files icon" className="files-icon" />
+                    <img src="/images/files.png" alt="files icon" className="files-icon" />
                     <span>Files</span>
                   </div>
                 </div>
@@ -57,7 +54,7 @@ const FilesPage = () => {
           </div>
         </div>
 
-        <img src={adImage} alt="AD Right" className="ad-side" />
+        <img src="/images/AD.png" alt="AD Right" className="ad-side" />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import rehomeData from "../../data/rehomeData.json";
-import image from "../assets/image.png";
 import { FaFileAlt } from "react-icons/fa";
 import "./AdoptPage.css"; 
 
@@ -32,12 +31,12 @@ const RehomePage3 = () => {
         <div className="left-group">
           <div className="thumbnail-column">
             {pet.images?.map((img, i) => (
-              <img key={i} src={img || image} alt="thumbnail" className="thumbnail-img" />
+              <img key={i} src={img || "/images/image.png"} alt="thumbnail" className="thumbnail-img" />
             ))}
           </div>
 
           <div className="image-info-group">
-            <img src={pet.images?.[0] || image} alt="main" className="main-img" />
+            <img src={pet.images?.[0] || "/images/image.png"} alt="main" className="main-img" />
 
             <div className="text-column">
               <h2>{pet.name}</h2>

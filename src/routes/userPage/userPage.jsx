@@ -2,14 +2,6 @@ import React, { useState } from "react";
 import "./UserPage.css";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { useNavigate } from "react-router-dom";
-
-import userImg from "../../assets/user.png";
-import chatIcon from "../../assets/chat.png";
-import bookmarkIcon from "../../assets/bookmark.png";
-import favoritesIcon from "../../assets/favorites.png";
-import filesIcon from "../../assets/files.png";
-import rehomeIcon from "../../assets/rehome.png";
-import donateIcon from "../../assets/donate.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const UserPage = () => {
@@ -22,7 +14,7 @@ const UserPage = () => {
       <div className="user-content">
         <div className="left-panel">
           <div className="profile-image">
-            <img src={userImg} alt="User" />
+            <img src="/images/user.png" alt="User" />
           </div>
 
           <div className="input-section">
@@ -77,27 +69,27 @@ const UserPage = () => {
         <div className="right-panel">
           <div className="icon-buttons">
             <div onClick={() => navigate("/chat")}>
-              <img src={chatIcon} alt="Chat" />
+              <img src="/images/chat.png" alt="Chat" />
               <span>Chat</span>
             </div>
             <div onClick={() => navigate("/bookmark")}>
-              <img src={bookmarkIcon} alt="Bookmark" />
+              <img src="/images/bookmark.png" alt="Bookmark" />
               <span>Bookmark</span>
             </div>
             <div onClick={() => navigate("/favorites")}>
-              <img src={favoritesIcon} alt="Favorites" />
+              <img src="/images/favorites.png" alt="Favorites" />
               <span>Favorites</span>
             </div>
             <div onClick={() => navigate("/files")}>
-              <img src={filesIcon} alt="Files" />
+              <img src="/images/files.png" alt="Files" />
               <span>Files</span>
             </div>
             <div onClick={() => navigate("/rehome2")}>
-              <img src={rehomeIcon} alt="Rehome" />
+              <img src="/images/rehome.png" alt="Rehome" />
               <span>Rehome</span>
             </div>
             <div onClick={() => alert("기부는 준비 중입니다.")}>
-              <img src={donateIcon} alt="Donate" />
+              <img src="/images/donate.png" alt="Donate" />
               <span>Donate</span>
             </div>
           </div>

@@ -1,17 +1,14 @@
-// src/components/RehomeForm.jsx
 import React from "react";
-import image3 from "../assets/image3.png";
-import image33 from "../assets/image33.png";
 import "../routes/rehomePage/RehomePage.css";
 
 const RehomeForm = () => {
   return (
     <div className="form-container">
       <div className="image-grid">
-        <img src={image3} alt="img1" className="form-image" />
-        <img src={image3} alt="img2" className="form-image" />
-        <img src={image3} alt="img3" className="form-image" />
-        <img src={image33} alt="img4" className="form-image" />
+        <img src="/images/image3.png" alt="img1" className="form-image" />
+        <img src="/images/image3.png" alt="img2" className="form-image" />
+        <img src="/images/image3.png" alt="img3" className="form-image" />
+        <img src="/images/image33.png" alt="img4" className="form-image" />
       </div>
 
       <div className="form-row">

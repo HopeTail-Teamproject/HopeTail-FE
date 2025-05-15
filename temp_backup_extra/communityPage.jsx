@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './CommunityPage.css';
 import CommunityCard from '../../components/common/communityCard/CommunityCard';
-import LeftSidebar from '../../components/common/leftSidebar/LeftSidebar';
+import LeftSidebar from '../../components/common/leftSidebar/LeftSidebar'; 
+import Navbar from "../../components/common/navbar/Navbar";
+import Footer from "../../components/common/footer/Footer";
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../context/language/LanguageContext';
+import { useLanguage } from "../../context/language/LanguageContext";
 
 const CommunityPage = () => {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const CommunityPage = () => {
 
   return (
     <div className="community-wrapper">
+      <Navbar />
       <div className="community-body">
         <LeftSidebar />
         <main className="community-main">
@@ -32,10 +35,7 @@ const CommunityPage = () => {
               <span className="notice-label">Notice</span>
               <span className="notice-text">
                 Thank you for visiting our community. Please read the{' '}
-                <span
-                  className="guideline-link"
-                  onClick={() => navigate('/community/guideline')}
-                >
+                <span className="guideline-link" onClick={() => navigate('/community/guideline')}>
                   guidelines
                 </span>.
               </span>
@@ -51,69 +51,46 @@ const CommunityPage = () => {
                 </select>
               </div>
 
-              <button
-                className="new-post-button"
-                onClick={() => navigate('/community/newpost')}
-              >
+              <button className="new-post-button" onClick={() => navigate('/community/newpost')}>
                 New Post
               </button>
             </div>
 
             <div className="card-grid">
               {[...Array(9)].map((_, index) => (
-                <CommunityCard
-                  key={index}
-                  onClick={() => navigate('/community/post')}
-                />
+                <CommunityCard key={index} onClick={() => navigate('/community/post')} />
               ))}
             </div>
 
             <div className="pagination">
-              <button
-                className="page-btn circle"
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-              >
+              <button className="page-btn circle" onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
                 ≪
               </button>
-              <button
-                className="page-btn circle"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
+              <button className="page-btn circle" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                 ＜
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
                 <button
                   key={index + 1}
-                  className={`page-btn circle ${
-                    currentPage === index + 1 ? 'active' : ''
-                  }`}
+                  className={`page-btn circle ${currentPage === index + 1 ? 'active' : ''}`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
                 </button>
               ))}
 
-              <button
-                className="page-btn circle"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
+              <button className="page-btn circle" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                 ＞
               </button>
-              <button
-                className="page-btn circle"
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-              >
+              <button className="page-btn circle" onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
                 ≫
               </button>
             </div>
           </div>
         </main>
       </div>
+      <Footer />
     </div>
   );
 };
