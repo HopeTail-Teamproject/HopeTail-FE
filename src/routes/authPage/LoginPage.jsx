@@ -39,7 +39,7 @@ export async function action({ request }) {
         success: true,
         user: { email: data.data.accessToken.email },
         token: data.data.accessToken.token,
-        refreshToken: data.data.refreshToken,
+        refreshToken: data.data.refreshToken?.token || null,
       };
     } else {
       return {

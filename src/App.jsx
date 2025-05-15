@@ -49,7 +49,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/HopeTail-FE",
+    basename: "/HopeTail-FE/",
   }
 );
 
