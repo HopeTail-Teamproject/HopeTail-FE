@@ -3,14 +3,16 @@ import "./App.css";
 
 import BasicLayout from "./layouts/BasicLayout";
 import AuthLayout from "./layouts/AuthLayout";
+import ErrorLayout from "./layouts/ErrorLayout";
 
 import MainPage from "./routes/mainPage/MainPage";
 import AboutPage from "./routes/aboutPage/AboutPage";
 import CareGuidePage from "./routes/careGuidePage/CareGuidePage";
 import ErrorPage from "./routes/errorPage/ErrorPage";
 
-import AdoptionPage, { action as adoptAction } from "./routes/adoptionPage/AdoptionPage";
+import AdoptSelect from "./routes/adoptPage/AdoptSelect";
 import AdoptPage from "./routes/adoptPage/AdoptPage";
+import AdoptionPage, { action as adoptAction } from "./routes/adoptionPage/AdoptionPage";
 
 import RehomePage from "./routes/rehomePage/RehomePage";
 import RehomePage2 from "./routes/rehomePage/RehomePage2";
@@ -38,15 +40,20 @@ const router = createBrowserRouter(
   [
     {
       element: <BasicLayout />,
-      errorElement: <ErrorPage />,
+      errorElement: (
+        <ErrorLayout>
+          <ErrorPage />
+        </ErrorLayout>
+      ),
       children: [
         { index: true, element: <MainPage /> },
         { path: "about", element: <AboutPage /> },
         { path: "care-guide", element: <CareGuidePage /> },
-        { path: "adopt", element: <AdoptionPage />, action: adoptAction },
+        { path: "adopt", element: <AdoptSelect /> },
         { path: "adopt/:id", element: <AdoptPage /> },
+        { path: "adoption", element: <AdoptionPage />, action: adoptAction },
         { path: "rehome", element: <RehomePage /> },
-        { path: "rehome2", element: <RehomePage2 /> },
+        { path: "rehome/list", element: <RehomePage2 /> },
         { path: "rehome/:id", element: <RehomePage3 /> },
         {
           path: "community",
@@ -58,10 +65,10 @@ const router = createBrowserRouter(
           ],
         },
         { path: "user", element: <UserPage /> },
-        { path: "bookmark", element: <BookmarkPage /> },
-        { path: "favorites", element: <FavoritesPage /> },
-        { path: "files", element: <FilesPage /> },
-        { path: "profile/:userId", element: <UserProfilePage /> },
+        { path: "user/bookmark", element: <BookmarkPage /> },
+        { path: "user/favorites", element: <FavoritesPage /> },
+        { path: "user/files", element: <FilesPage /> },
+        { path: "user/:userId", element: <UserProfilePage /> },
         { path: "chat", element: <ChatPage /> },
       ],
     },

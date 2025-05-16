@@ -10,39 +10,42 @@ const AdoptPage = () => {
   const { id } = useParams();
   const [liked, setLiked] = useState(false);
   const [pet, setPet] = useState(null);
-  const [mainImage, setMainImage] = useState("/images/image.png");
+  const [mainImage, setMainImage] = useState("/HopeTail-FE/images/default_img.png");
 
   const user = JSON.parse(localStorage.getItem("user"));
   const isAdopter = user?.role === "adopter";
   const isRehomer = user?.role === "rehomer";
-  const profileImage = user?.profileImage || "/images/user.png";
+  const profileImage = user?.profileImage || "/HopeTail-FE/images/user.png";
 
   useEffect(() => {
-    fetch(`/api/petposts/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch pet");
-        return res.json();
-      })
-      .then((data) => {
-        setPet(data);
-        if (data?.images?.[0]) {
-          setMainImage(data.images[0]);
-        }
-      })
-      .catch((err) => {
-        console.error("유기견 정보 로딩 실패:", err);
-      });
+    const dummyPet = {
+      id: parseInt(id),
+      name: "Coco",
+      gender: "female",
+      age: "2살",
+      species: "Maltese",
+      location: "Seoul",
+      vaccinated: "Yes",
+      houseTrained: "Yes",
+      neutered: "No",
+      information: "Very friendly and loves people.",
+      images: [
+        "/HopeTail-FE/images/default_img.png",
+        "/HopeTail-FE/images/default_img.png",
+      ],
+    };
+
+    setPet(dummyPet);
+    setMainImage(dummyPet.images[0]);
   }, [id]);
 
   const handleHeartClick = () => setLiked(!liked);
-  const handleChooseClick = () => navigate("/adoptPage1");
+  const handleChooseClick = () => navigate("/adoption");
   const handleChatClick = () => {
     if (isAdopter) navigate("/chatPage");
     else if (isRehomer) navigate("/chatList");
   };
-  const handleThumbnailClick = (src) => {
-    if (src) setMainImage(src);
-  };
+  const handleThumbnailClick = (src) => src && setMainImage(src);
 
   if (!pet) return <div>Loading...</div>;
 
@@ -59,7 +62,7 @@ const AdoptPage = () => {
             {pet.images?.map((img, i) => (
               <img
                 key={i}
-                src={img || "/images/image.png"}
+                src={img}
                 alt="thumbnail"
                 className="thumbnail-img"
                 onClick={() => handleThumbnailClick(img)}
@@ -83,17 +86,22 @@ const AdoptPage = () => {
             </button>
           </div>
           <p>Neutered: {pet.neutered}</p>
+
           <div className="chat-row">
-            <img
-              src={profileImage}
-              alt="profile"
-              className="chat-profile-img"
-            />
+            <img src={profileImage} alt="profile" className="chat-profile-img" />
             <FaEnvelope className="chat-icon" />
             <button className="chat-text" onClick={handleChatClick}>
               Chat
             </button>
           </div>
+
+          {isRehomer && (
+            <div className="rehomer-buttons">
+              <button onClick={() => navigate("/files")}>Files</button>
+              <button onClick={() => alert("Change clicked!")}>Change</button>
+              <button onClick={() => alert("Done clicked!")}>Done</button>
+            </div>
+          )}
         </div>
 
         <div className="description-column">

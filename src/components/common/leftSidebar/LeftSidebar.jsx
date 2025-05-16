@@ -57,25 +57,25 @@ const LeftSidebar = () => {
           src="/HopeTail-FE/images/chat.png"
           alt="Chat"
           title="Chat"
-          onClick={() => navigate("/chatpage")}
+          onClick={() => navigate("/chat")}
         />
         <img
           src="/HopeTail-FE/images/rehome.png"
           alt="Rehome"
           title="Adopt/Rehome"
-          onClick={() => navigate("/rehome2")}
+          onClick={() => navigate("/rehome/list")}
         />
         <img
           src="/HopeTail-FE/images/bookmark.png"
           alt="Bookmark"
           title="Bookmarks"
-          onClick={() => navigate("/bookmark")}
+          onClick={() => navigate("/user/bookmark")}
         />
         <img
           src="/HopeTail-FE/images/files.png"
           alt="Files"
           title="Posts"
-          onClick={() => navigate("/files")}
+          onClick={() => navigate("/user/files")}
         />
         <img
           src="/HopeTail-FE/images/donate.png"

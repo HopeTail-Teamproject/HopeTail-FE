@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from "react";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
-import Navbar from "../../components/common/navbar/Navbar";
-import Footer from "../../components/common/footer/Footer";
 import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar";
 import "./AdoptSelect.css";
 
 const AdoptSelect = () => {
+  const DEFAULT_IMAGE = "/HopeTail-FE/images/default_img.png";
+
+  const pets = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    name: `name ${i + 1}`,
+    age: `${1 + (i % 10)}살`,
+    species: "species",
+    location: "location",
+    gender: "male",
+    image: DEFAULT_IMAGE,
+  }));
+
   const itemsPerPage = 16;
-  const [pets, setPets] = useState([]);
+  const totalPages = Math.ceil(pets.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
   const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/petposts")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch pet list");
-        return res.json();
-      })
-      .then((data) => {
-        setPets(data);
-      })
-      .catch((err) => console.error("유기견 목록 불러오기 실패:", err));
-  }, []);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -29,19 +27,7 @@ const AdoptSelect = () => {
   }, []);
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= Math.ceil(pets.length / itemsPerPage)) {
-      setCurrentPage(page);
-    }
-  };
-
-  const handleFavorite = (pet) => {
-    const exists = favorites.some((p) => p.id === pet.id);
-    const updated = exists
-      ? favorites.filter((p) => p.id !== pet.id)
-      : [...favorites, pet];
-
-    localStorage.setItem("favorites", JSON.stringify(updated));
-    setFavorites(updated);
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
   const paginatedPets = pets.slice(
@@ -49,11 +35,18 @@ const AdoptSelect = () => {
     currentPage * itemsPerPage
   );
 
-  const totalPages = Math.ceil(pets.length / itemsPerPage);
+  const handleFavorite = (pet) => {
+    const exists = favorites.some((p) => p.id === pet.id);
+    let updated = exists
+      ? favorites.filter((p) => p.id !== pet.id)
+      : [...favorites, pet];
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    setFavorites(updated);
+  };
 
   return (
     <div className="adopt-select-wrapper">
-      <Navbar />
       <div className="adopt-select-body">
         <LeftSidebar />
         <div className="adopt-select-container">
@@ -66,8 +59,8 @@ const AdoptSelect = () => {
                 <AdoptCard
                   key={pet.id}
                   pet={pet}
-                  onFavorite={handleFavorite}
-                  isFavorited={favorites.some((f) => f.id === pet.id)}
+                  onHeartClick={() => handleFavorite(pet)}
+                  isFavorite={favorites.some((f) => f.id === pet.id)}
                 />
               ))}
             </div>
@@ -88,7 +81,6 @@ const AdoptSelect = () => {
             >
               ＜
             </button>
-
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index + 1}
@@ -100,7 +92,6 @@ const AdoptSelect = () => {
                 {index + 1}
               </button>
             ))}
-
             <button
               className="page-btn circle"
               onClick={() => handlePageChange(currentPage + 1)}
@@ -118,7 +109,6 @@ const AdoptSelect = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
