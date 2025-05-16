@@ -1,0 +1,51 @@
+.rehome2-wrapper {
+  padding: 40px 20px 100px;
+  text-align: center;
+}
+
+.rehome2-title {
+  font-size: 2.4rem;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  justify-content: center;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid #caaefc;
+  background-color: white;
+  color: #6c36ec;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+  background-color: #f1e7ff;
+  transform: scale(1.1);
+}
+
+.page-btn.active {
+  background-color: #a88bfd;
+  color: white;
+}

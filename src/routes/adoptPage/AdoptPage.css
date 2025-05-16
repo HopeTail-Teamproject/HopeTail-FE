@@ -1,0 +1,182 @@
+.adopt-page-content {
+  flex-grow: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  font-family: "Pretendard", sans-serif;
+}
+
+.adopt-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20px;
+}
+
+.adopt-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 auto 0.5rem auto;
+}
+
+.adopt-title-underline {
+  height: 2px;
+  background-color: #999;
+  width: 200px;
+  margin: 0 auto 2rem auto;
+}
+
+.adopt-body-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* 썸네일+메인 | 글 | Info */
+  gap: 150px;
+  max-width: 1400px;
+  width: 100%;
+  margin-top: 80px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* 썸네일 + 메인이미지 */
+.image-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  grid-column: 1;
+}
+
+.thumbnail-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.thumbnail-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #ccc;
+  transition: transform 0.2s ease;
+}
+
+.thumbnail-img:hover {
+  transform: scale(1.05);
+}
+
+.main-img {
+  width: 450px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: #666;
+}
+
+/* 가운데 글 영역 */
+.text-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  font-size: 24px;
+  width: 300px;
+  grid-column: 2;
+}
+
+.row-inline {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.heart-button {
+  background: none;
+  border: 1px solid #999;
+  border-radius: 10px;
+  padding: 8px 12px;
+  transform: scale(1.5);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.chat-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.chat-profile-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #eee;
+}
+
+.chat-icon {
+  font-size: 48px;
+}
+
+.chat-text {
+  background: none;
+  border: none;
+  font-size: 26px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 오른쪽 설명 영역 */
+.description-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start; 
+  width: 400px;
+  margin-top: -20px;          
+}
+
+.description-column h3 {
+  color: #2c2cce;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.description-column textarea {
+  width: 100%;
+  height: 500px;
+  font-size: 18px;
+  border: 2px solid #814ffb;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: inherit;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.choose-button {
+  align-self: flex-end;
+  background-color: #814ffb;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 8px;
+  width: 130px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+body, html, #root {
+  height: 100%;
+}
+
+footer {
+  margin-top: auto;
+}

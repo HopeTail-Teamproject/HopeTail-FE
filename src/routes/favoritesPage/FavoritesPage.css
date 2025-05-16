@@ -1,0 +1,105 @@
+.favorites-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.favorites-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+}
+
+.favorites-title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.favorites-card-list {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.favorites-pagination {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.favorites-nav-button {
+  padding: 10px 30px;
+  border: 1.5px solid #a084e8;
+  background: white;
+  color: #a084e8;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.favorites-page-numbers {
+  display: flex;
+  gap: 10px;
+}
+
+.page-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #eee;
+  color: #a084e8;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.page-circle.active {
+  background-color: #a084e8;
+  color: white;
+}
+
+.pagination {
+  margin-top: 32px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.page-btn.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #a855f7;
+  color: #6b21a8;
+  background-color: #f3e8ff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.page-btn.circle:hover:not(:disabled) {
+  background-color: #e9d5ff;
+}
+
+.page-btn.circle.active {
+  background-color: #c084fc;
+  color: white;
+  font-weight: bold;
+}
+
+.page-btn.circle:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
