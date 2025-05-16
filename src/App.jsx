@@ -29,12 +29,19 @@ import FavoritesPage from "./routes/favoritesPage/FavoritesPage";
 import FilesPage from "./routes/filesPage/FilesPage";
 import UserProfilePage from "./routes/userPage/UserProfilePage";
 
-import LoginPage from "./routes/authPage/LoginPage";
-import SingupPage from "./routes/authPage/SingupPage";
+import LoginPage, {
+  action as loginAction,
+  loader as loginLoader,
+} from "./routes/authPage/LoginPage";
+import SingupPage, {
+  action as signupAction,
+  loader as signupLoader,
+} from "./routes/authPage/SingupPage";
 
 import ChatPage from "./routes/chatPage/ChatPage";
 
 import { LanguageProvider } from "./context/language/LanguageContext";
+import { AuthProvider } from "./context/auth/AuthContext";
 
 const router = createBrowserRouter(
   [
@@ -75,22 +82,35 @@ const router = createBrowserRouter(
     {
       element: <AuthLayout />,
       children: [
-        { path: "login", element: <LoginPage /> },
-        { path: "signup", element: <SingupPage /> },
+        {
+          path: "login",
+          element: <LoginPage />,
+          action: loginAction,
+          loader: loginLoader,
+        },
+        {
+          path: "signup",
+          element: <SingupPage />,
+          action: signupAction,
+          loader: signupLoader,
+        },
       ],
     },
   ],
   {
-    basename: "/HopeTail-FE",
+    basename: "/HopeTail-FE/",
   }
 );
 
 function App() {
   return (
     <LanguageProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </LanguageProvider>
   );
 }
 
 export default App;
+

@@ -8,10 +8,9 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { loginPage } from "../../lib/auth";
 import { useLanguage } from "../../context/language/LanguageContext";
 
-function LoginForm() {
+function LoginForm({ actionData, isSubmitting }) {
   const [showPassword, setShowPassword] = useState(false);
   const { language } = useLanguage();
-
   const t = loginPage[language];
 
   return (
@@ -27,7 +26,14 @@ function LoginForm() {
           <span className="subtitle">{t.subtitle}</span>
         </div>
         <div className="login-mid">
-          <Form className="login-form">
+          <Form method="post" className="login-form">
+            {actionData?.error && (
+              <div className="error-message">
+                {typeof actionData.error === "string"
+                  ? actionData.error
+                  : "로그인에 실패했습니다."}
+              </div>
+            )}
             <label htmlFor="email">{t.emailLabel}</label>
             <div className="input-wrapper">
               <input type="email" name="email" placeholder={t.emailLabel} required />
@@ -49,10 +55,12 @@ function LoginForm() {
               </button>
             </div>
             <div className="remember">
-              <input type="checkbox" name="remember" />
-              <label htmlFor="remember">{t.rememberMe}</label>
+              <input type="checkbox" name="rememberMe" />
+              <label htmlFor="rememberMe">{t.rememberMe}</label>
             </div>
-            <button type="submit">{t.submit}</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? t.submitting : t.submit}
+            </button>
           </Form>
         </div>
         <div className="login-btm">
