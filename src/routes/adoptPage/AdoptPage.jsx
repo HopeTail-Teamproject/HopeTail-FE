@@ -40,7 +40,7 @@ const AdoptPage = () => {
   }, [id]);
 
   const handleHeartClick = () => setLiked(!liked);
-  const handleChooseClick = () => navigate("/adoption");
+  const handleChooseClick = () => navigate(`/adopt/${id}/adoption`);
   const handleChatClick = () => {
     if (isAdopter) navigate("/chatPage");
     else if (isRehomer) navigate("/chatList");
