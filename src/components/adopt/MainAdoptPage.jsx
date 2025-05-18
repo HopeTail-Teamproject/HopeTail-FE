@@ -9,11 +9,23 @@ import AdoptForm3 from "./step/AdoptForm3";
 import FormDone from "./step/FormDone";
 import { useLanguage } from "../../context/language/LanguageContext";
 
-function MainAdoptPage() {
+function MainAdoptPage({ adoptionId, onImageUpload, onAnswersSubmit }) {
   const { language } = useLanguage();
 
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 5;
+
+  const handleImageSubmit = async (imageUrls) => {
+    if (onImageUpload) {
+      await onImageUpload(imageUrls);
+    }
+  };
+
+  const handleAnswersSubmit = async (answers) => {
+    if (onAnswersSubmit) {
+      await onAnswersSubmit(answers);
+    }
+  };
 
   const getCurrentStep = () => {
     if (currentStep === 0) return 0;
@@ -44,6 +56,7 @@ function MainAdoptPage() {
       <StepBar currentStep={getCurrentStep()} />
       <div className="adopt-main">
         <Form method="post" encType="multipart/form-data">
+          <input type="hidden" name="adoptionId" value={adoptionId} />
           <div className="form-slider-wrapper">
             <div
               className="form-slider"
@@ -52,16 +65,16 @@ function MainAdoptPage() {
               }}
             >
               <div className="adopt-step">
-                <AdoptForm1 />
+                <AdoptForm1 onImageSubmit={handleImageSubmit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm2 />
+                <AdoptForm2 onAnswersSubmit={handleAnswersSubmit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm22 />
+                <AdoptForm22 onAnswersSubmit={handleAnswersSubmit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm3 />
+                <AdoptForm3 onAnswersSubmit={handleAnswersSubmit} />
               </div>
               <div className="adopt-step">
                 <FormDone />
