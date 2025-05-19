@@ -27,9 +27,7 @@ function SingupForm({ actionData, isSubmitting }) {
         </div>
         <div className="signup-mid">
           <Form method="post" className="signup-form">
-            {actionData?.data?.errMsg && (
-              <div className="error-message">{actionData.data.errMsg}</div>
-            )}
+            {actionData?.error && <div className="error-message">{actionData.error}</div>}
             <label htmlFor="username">{t.usernameLabel}</label>
             <div className="input-wrapper username">
               <input type="text" name="username" placeholder={t.usernameLabel} required />
@@ -54,9 +52,9 @@ function SingupForm({ actionData, isSubmitting }) {
                 <FontAwesomeIcon icon={faEyeSlash} />
               </button>
             </div>
-            <label htmlFor="phone">{t.phoneLabel}</label>
+            <label htmlFor="phoneNumber">{t.phoneLabel}</label>
             <div className="input-wrapper">
-              <input type="tel" name="phone" placeholder={t.phoneLabel} required />
+              <input type="tel" name="phoneNumber" placeholder={t.phoneLabel} required />
             </div>
             <label htmlFor="address">{t.addressLabel}</label>
             <div className="input-wrapper">

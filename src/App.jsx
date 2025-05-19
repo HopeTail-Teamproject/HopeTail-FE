@@ -59,6 +59,7 @@ const router = createBrowserRouter(
         { path: "adopt", element: <AdoptSelect /> },
         { path: "adopt/:id", element: <AdoptPage /> },
         { path: "adopt/:id/adoption", element: <AdoptionPage />, action: adoptAction },
+        { path: "adopt/:id/chat", element: <ChatPage /> },
         { path: "rehome", element: <RehomePage /> },
         { path: "rehome/list", element: <RehomePage2 /> },
         { path: "rehome/:id", element: <RehomePage3 /> },
@@ -76,7 +77,6 @@ const router = createBrowserRouter(
         { path: "user/favorites", element: <FavoritesPage /> },
         { path: "user/files", element: <FilesPage /> },
         { path: "user/:userId", element: <UserProfilePage /> },
-        { path: "chat", element: <ChatPage /> },
       ],
     },
     {

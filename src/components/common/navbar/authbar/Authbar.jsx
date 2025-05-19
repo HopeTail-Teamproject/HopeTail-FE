@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./authbar.css";
 import { useLanguage } from "../../../../context/language/LanguageContext";
 import { useAuth } from "../../../../context/auth/AuthContext";
@@ -6,6 +6,7 @@ import { useAuth } from "../../../../context/auth/AuthContext";
 function Authbar() {
   const { language } = useLanguage();
   const { isAuthenticated, logout, token } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     if (!token) {
@@ -24,6 +25,7 @@ function Authbar() {
 
       if (response.ok) {
         logout();
+        navigate("/");
       } else {
         const error = await response.json();
         console.error("로그아웃 실패:", error);
