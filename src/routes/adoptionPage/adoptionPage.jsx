@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 function AdoptionPage() {
   const { id } = useParams();
   const [adoptionId, setAdoptionId] = useState(null);
+  const [formData, setFormData] = useState({
+    images: [],
+    form2Answers: [],
+    form22Answers: [],
+    form3Answers: [],
+  });
 
   useEffect(() => {
     const startAdoption = async () => {
@@ -33,79 +39,84 @@ function AdoptionPage() {
     startAdoption();
   }, [id]);
 
-  const handleImageUpload = async (imageUrls) => {
-    if (!adoptionId) return;
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`/api/adoption/${adoptionId}/images`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(imageUrls),
-      });
-
-      if (!response.ok) {
-        throw new Error("이미지 업로드에 실패했습니다.");
-      }
-
-      // 응답이 비어있는 경우 처리
-      const text = await response.text();
-      if (!text) {
-        console.log("이미지 업로드 성공 (응답 없음)");
-        return;
-      }
-
-      // JSON 파싱 시도
-      try {
-        const result = JSON.parse(text);
-        console.log("이미지 업로드 성공:", result);
-      } catch (e) {
-        console.log("이미지 업로드 성공 (응답:", text, ")");
-      }
-    } catch (error) {
-      console.error("이미지 업로드 중 오류 발생:", error);
-      // 에러 처리 로직 추가 필요
-    }
+  const handleImageUpload = (imageUrls) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: imageUrls,
+    }));
   };
 
-  const handleAnswersSubmit = async (answers) => {
+  const handleAnswersSubmit = (answers, formType) => {
+    setFormData((prev) => ({
+      ...prev,
+      [formType]: answers,
+    }));
+  };
+
+  const handleFinalSubmit = async () => {
     if (!adoptionId) return;
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`/api/adoption/${adoptionId}/answers`, {
+
+      // 이미지 업로드
+      if (formData.images.length > 0) {
+        const imageResponse = await fetch(`/api/adoption/${adoptionId}/images`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData.images),
+        });
+
+        if (!imageResponse.ok) {
+          throw new Error("이미지 업로드에 실패했습니다.");
+        }
+      }
+
+      // 모든 답변 합치기
+      const allAnswers = [
+        ...formData.form2Answers,
+        ...formData.form22Answers,
+        ...formData.form3Answers,
+      ];
+
+      // 답변 저장
+      const answersResponse = await fetch(`/api/adoption/${adoptionId}/answers`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(answers),
+        body: JSON.stringify(allAnswers),
       });
 
-      if (!response.ok) {
+      if (!answersResponse.ok) {
         throw new Error("답변 저장에 실패했습니다.");
       }
 
-      // 응답이 비어있는 경우 처리
-      const text = await response.text();
-      if (!text) {
-        console.log("답변 저장 성공 (응답 없음)");
-        return;
+      // 최종 제출
+      const submitResponse = await fetch(`/api/adoption/${adoptionId}/submit`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!submitResponse.ok) {
+        throw new Error("입양 신청 제출에 실패했습니다.");
       }
 
-      // JSON 파싱 시도
-      try {
-        const result = JSON.parse(text);
-        console.log("답변 저장 성공:", result);
-      } catch (e) {
-        console.log("답변 저장 성공 (응답:", text, ")");
-      }
+      window.location.href = "/";
     } catch (error) {
-      console.error("답변 저장 중 오류 발생:", error);
-      // 에러 처리 로직 추가 필요
+      console.error("입양 신청 제출 중 오류 발생:", error);
+      alert(
+        language === "kr"
+          ? "입양 신청 제출 중 오류가 발생했습니다."
+          : "An error occurred while submitting the adoption request."
+      );
     }
   };
 
@@ -118,6 +129,7 @@ function AdoptionPage() {
       adoptionId={adoptionId}
       onImageUpload={handleImageUpload}
       onAnswersSubmit={handleAnswersSubmit}
+      onFinalSubmit={handleFinalSubmit}
     />
   );
 }
@@ -146,25 +158,9 @@ export async function action({ request }) {
       throw new Error("입양 신청 제출에 실패했습니다.");
     }
 
-    // 응답이 비어있는 경우 처리
-    const text = await response.text();
-    if (!text) {
-      console.log("입양 신청 제출 성공 (응답 없음)");
-      return redirect("/");
-    }
-
-    // JSON 파싱 시도
-    try {
-      const result = JSON.parse(text);
-      console.log("입양 신청 제출 성공:", result);
-    } catch (e) {
-      console.log("입양 신청 제출 성공 (응답:", text, ")");
-    }
-
     return redirect("/");
   } catch (error) {
     console.error("입양 신청 제출 중 오류 발생:", error);
-    // 에러 처리 로직 추가 필요
     return redirect("/");
   }
 }
