@@ -2,57 +2,76 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #fff;
+}
+
+.title-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 .post-body {
   display: flex;
-  background-color: #fff;
+}
+
+.post-center {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 40px;
+  gap: 40px;
 }
 
 .post-main {
   flex: 1;
-  padding: 40px;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  width: 100%;
+  max-width: 100%;
+  display: block;
 }
 
 .post-title {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  position: relative;
+ font-size: 2.5rem;
+ font-weight: bold;
+ text-align: center;
+ margin-bottom: 0.5rem;
+ width: 100%;
 }
 
-.post-title::after {
-  content: '';
-  display: block;
-  width: 120px; /* 밑줄 길이 */
-  height: 2px;
-  background-color: black;
-  margin: 8px auto 0 auto; /* 위 여백: 텍스트와 간격 조절 */
+.post-title-underline {
+  height: 1px;
+  background-color: #999;
+  width: 300px;
+  margin: 0 auto 2rem auto;
 }
-
 
 .post-input-title {
-  width: 100%;
+  width: 960px;
   padding: 12px;
   font-size: 18px;
-  border: 1.5px solid #a855f7;
+  border: 1.5px solid #7B61FF !important;
   border-radius: 6px;
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .post-images {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  gap: 20px;
 }
 
 .post-img {
-  width: 32%;
-  height: 180px;
+  flex: 1;
+  height: 200px;
   object-fit: cover;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .post-content {
@@ -60,50 +79,67 @@
   height: 240px;
   padding: 12px;
   font-size: 16px;
-  border: 1.5px solid #a855f7;
+  border: 1.5px solid #7B61FF;
   border-radius: 6px;
   resize: none;
   margin-bottom: 20px;
+  white-space: pre-line;
+  box-sizing: border-box;
+  background-color: white;
 }
 
 .post-user-bar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 12px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  align-items: center;
+  padding: 0;
+  border: none;
   margin-bottom: 20px;
 }
 
+.user-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 240px;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
 .user-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  margin-right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
 }
 
 .user-info {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .username {
+  font-size: 14px;
   font-weight: bold;
 }
 
 .email {
-  font-size: 12px;
+  font-size: 11px;
   color: gray;
 }
 
 .post-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
+  font-size: 22px;
+  margin-right: 8px;
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
 }
 
@@ -121,9 +157,10 @@
   width: 100%;
   padding: 12px;
   font-size: 14px;
-  border: 1.5px solid #a855f7;
-  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
   margin-bottom: 16px;
+  background-color: transparent;
 }
 
 .comment-list {
@@ -133,19 +170,32 @@
 
 .comment-row {
   display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 10px 14px;
   border-top: 1px solid #eee;
   font-size: 14px;
+  min-height: 48px;
+}
+
+.comment-user-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .comment-username {
-  width: 100px;
+  width: 80px;
   font-weight: bold;
   color: #555;
+  font-size: 13px;
 }
 
 .comment-text {
   flex: 1;
+  font-size: 13px;
 }
 
 .pagination {
@@ -179,11 +229,29 @@
 .post-ads {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 40px 20px;
+  gap: 150px;
+  padding-top: 40px;
+  align-items: center;
+  width: 300px;
+  flex-shrink: 0;
 }
 
 .ad-img {
-  width: 100px;
-  height: auto;
+  width: 350px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.rehomer-profile-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.gradient-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9333ea, #ec4899);
 }

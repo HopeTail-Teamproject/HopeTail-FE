@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../../routes/rehomePage/RehomePage.css";
 
 const RehomeForm = () => {
@@ -12,44 +12,128 @@ const RehomeForm = () => {
   const [houseTrained, setHouseTrained] = useState(true);
   const [neutered, setNeutered] = useState(true);
   const [description, setDescription] = useState("");
+  const [images, setImages] = useState([]);
 
-  const handleSubmit = () => {
-    alert("연동 전 임시 제출: 콘솔 확인");
-    console.log({
-      name,
-      ageYear,
-      ageMonth,
-      gender,
-      weight,
-      height,
-      vaccinated,
-      houseTrained,
-      neutered,
-      description,
-    });
+  const fileInputRef = useRef();
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = [...images, ...files].slice(0, 5); // 최대 5장 제한
+    setImages(newImages);
+  };
+
+  const handleImageDelete = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };
+
+  const handleSubmit = async () => {
+    if (images.length < 3) {
+      alert("사진은 최소 3장 이상 업로드해야 합니다.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("gender", gender);
+    formData.append("ageYear", ageYear);
+    formData.append("ageMonth", ageMonth);
+    formData.append("weight", weight);
+    formData.append("height", height);
+    formData.append("vaccinated", vaccinated);
+    formData.append("houseTrained", houseTrained);
+    formData.append("neutered", neutered);
+    formData.append("information", description);
+    images.forEach((img) => formData.append("images", img));
+
+    try {
+      const res = await fetch("/api/petposts", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        alert("등록 완료!");
+        window.location.reload();
+      } else {
+        alert("등록 실패");
+      }
+    } catch (err) {
+      console.error("등록 오류:", err);
+      alert("에러 발생");
+    }
   };
 
   return (
     <div className="form-container">
       <div className="image-grid">
-        <div className="form-image-placeholder">Upload at least 3 image</div>
-        <div className="form-image-placeholder">Upload at least 3 image</div>
-        <div className="form-image-placeholder">Upload at least 3 image</div>
-        <div className="form-image-placeholder">+</div>
+        {[0, 1, 2].map((index) => (
+          <div key={index} className="form-image-box">
+            {images[index] ? (
+              <>
+                <img
+                  src={URL.createObjectURL(images[index])}
+                  alt={`upload-${index}`}
+                  className="form-image-preview"
+                />
+                <button
+                  className="delete-button"
+                  onClick={() => handleImageDelete(index)}
+                >
+                  ×
+                </button>
+              </>
+            ) : (
+              <div className="form-image-placeholder">Upload at least 3 image</div>
+            )}
+          </div>
+        ))}
+
+        {images.length < 5 && (
+          <div
+            className="form-image-box upload-box"
+            onClick={() => fileInputRef.current.click()}
+          >
+            <span className="plus-icon">＋</span>
+          </div>
+        )}
+
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageChange}
+          ref={fileInputRef}
+          style={{ display: "none" }}
+        />
       </div>
 
-      {/* ✅ 좌우 정렬 위한 row */}
       <div className="form-main-row">
         <div className="form-left">
           <div className="form-row">
             <label>Dog Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div className="form-row">
             <label>Age</label>
-            <input type="number" value={ageYear} onChange={(e) => setAgeYear(Number(e.target.value))} /> years
-            <input type="number" value={ageMonth} onChange={(e) => setAgeMonth(Number(e.target.value))} /> months
+            <input
+              type="number"
+              value={ageYear}
+              onChange={(e) => setAgeYear(Number(e.target.value))}
+            />{" "}
+            years
+            <input
+              type="number"
+              value={ageMonth}
+              onChange={(e) => setAgeMonth(Number(e.target.value))}
+            />{" "}
+            months
           </div>
 
           <div className="form-row">
@@ -78,20 +162,45 @@ const RehomeForm = () => {
 
           <div className="form-row">
             <label>Weight</label>
-            <input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} /> kg
+            <input
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(Number(e.target.value))}
+            />{" "}
+            kg
             <label>Height</label>
-            <input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} /> cm
+            <input
+              type="number"
+              value={height}
+              onChange={(e) => setHeight(Number(e.target.value))}
+            />{" "}
+            cm
           </div>
 
           <div className="form-row">
             <label>
-              <input type="checkbox" checked={vaccinated} onChange={() => setVaccinated(!vaccinated)} /> Vaccinated
+              <input
+                type="checkbox"
+                checked={vaccinated}
+                onChange={() => setVaccinated(!vaccinated)}
+              />{" "}
+              Vaccinated
             </label>
             <label>
-              <input type="checkbox" checked={houseTrained} onChange={() => setHouseTrained(!houseTrained)} /> House-Trained
+              <input
+                type="checkbox"
+                checked={houseTrained}
+                onChange={() => setHouseTrained(!houseTrained)}
+              />{" "}
+              House-Trained
             </label>
             <label>
-              <input type="checkbox" checked={neutered} onChange={() => setNeutered(!neutered)} /> Neutered
+              <input
+                type="checkbox"
+                checked={neutered}
+                onChange={() => setNeutered(!neutered)}
+              />{" "}
+              Neutered
             </label>
           </div>
         </div>
@@ -102,7 +211,9 @@ const RehomeForm = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <button className="send-button" onClick={handleSubmit}>Send</button>
+          <button className="send-button" onClick={handleSubmit}>
+            Send
+          </button>
         </div>
       </div>
     </div>

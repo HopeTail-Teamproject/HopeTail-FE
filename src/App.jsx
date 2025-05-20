@@ -75,7 +75,7 @@ const router = createBrowserRouter(
         { path: "user/bookmark", element: <BookmarkPage /> },
         { path: "user/favorites", element: <FavoritesPage /> },
         { path: "user/files", element: <FilesPage /> },
-        { path: "user/:userId", element: <UserProfilePage /> },
+        { path: "user/profile/:username", element: <UserProfilePage /> },
         { path: "chat", element: <ChatPage /> },
       ],
     },
@@ -113,4 +113,3 @@ function App() {
 }
 
 export default App;
-

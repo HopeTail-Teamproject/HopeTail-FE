@@ -10,12 +10,12 @@ const AdoptPage = () => {
   const { id } = useParams();
   const [liked, setLiked] = useState(false);
   const [pet, setPet] = useState(null);
-  const [mainImage, setMainImage] = useState("/HopeTail-FE/images/default_img.png");
+  const [mainImage, setMainImage] = useState("/images/image.png");
 
   const user = JSON.parse(localStorage.getItem("user"));
   const isAdopter = user?.role === "adopter";
   const isRehomer = user?.role === "rehomer";
-  const profileImage = user?.profileImage || "/HopeTail-FE/images/user.png";
+  const profileImage = user?.profileImage || "/default-profile.png";
 
   useEffect(() => {
     const dummyPet = {
@@ -29,10 +29,7 @@ const AdoptPage = () => {
       houseTrained: "Yes",
       neutered: "No",
       information: "Very friendly and loves people.",
-      images: [
-        "/HopeTail-FE/images/default_img.png",
-        "/HopeTail-FE/images/default_img.png",
-      ],
+      images: ["/images/image.png", "/images/image.png"],
     };
 
     setPet(dummyPet);

@@ -4,8 +4,6 @@ import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar";
 import "./AdoptSelect.css";
 
 const AdoptSelect = () => {
-  const DEFAULT_IMAGE = "/HopeTail-FE/images/default_img.png";
-
   const pets = Array.from({ length: 50 }, (_, i) => ({
     id: i,
     name: `name ${i + 1}`,
@@ -13,7 +11,7 @@ const AdoptSelect = () => {
     species: "species",
     location: "location",
     gender: "male",
-    image: DEFAULT_IMAGE,
+    image: "/image.png",
   }));
 
   const itemsPerPage = 16;
@@ -59,8 +57,8 @@ const AdoptSelect = () => {
                 <AdoptCard
                   key={pet.id}
                   pet={pet}
-                  onHeartClick={() => handleFavorite(pet)}
-                  isFavorite={favorites.some((f) => f.id === pet.id)}
+                  onFavorite={handleFavorite}
+                  isFavorited={favorites.some((f) => f.id === pet.id)}
                 />
               ))}
             </div>

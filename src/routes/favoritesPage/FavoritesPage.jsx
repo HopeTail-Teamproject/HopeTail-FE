@@ -19,7 +19,7 @@ const FavoritesPage = () => {
         gender: "female",
         species: "Maltese",
         location: "Seoul",
-        image: "/images/image.png",
+        image: "/HopeTail-FE/images/image.png",
       },
       {
         id: 2,
@@ -28,7 +28,7 @@ const FavoritesPage = () => {
         gender: "male",
         species: "Poodle",
         location: "Busan",
-        image: "/images/image.png",
+        image: "/HopeTail-FE/images/image.png",
       },
       {
         id: 3,
@@ -37,7 +37,7 @@ const FavoritesPage = () => {
         gender: "female",
         species: "Beagle",
         location: "Incheon",
-        image: "/images/image.png",
+        image: "/HopeTail-FE/images/image.png",
       },
     ];
 
