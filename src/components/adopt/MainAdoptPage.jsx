@@ -9,11 +9,83 @@ import AdoptForm3 from "./step/AdoptForm3";
 import FormDone from "./step/FormDone";
 import { useLanguage } from "../../context/language/LanguageContext";
 
-function MainAdoptPage() {
+function MainAdoptPage({ adoptionId, onImageUpload, onAnswersSubmit, onFinalSubmit }) {
   const { language } = useLanguage();
 
   const [currentStep, setCurrentStep] = useState(0);
   const totalSteps = 5;
+
+  // 각 단계별 데이터 상태 관리
+  const [formData, setFormData] = useState({
+    images: [],
+    form2Answers: {},
+    form22Answers: {},
+    form3Answers: {},
+  });
+
+  // 각 단계별 필수 입력 상태
+  const [stepValidation, setStepValidation] = useState({
+    0: false, // 이미지 업로드
+    1: false, // Form2
+    2: false, // Form22
+    3: false, // Form3
+  });
+
+  const handleImageSubmit = (imageUrls) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: imageUrls,
+    }));
+    setStepValidation((prev) => ({
+      ...prev,
+      0: imageUrls.length >= 2,
+    }));
+
+    // 로컬 상태만 업데이트
+    onImageUpload(imageUrls);
+  };
+
+  const handleForm2Submit = (answers) => {
+    setFormData((prev) => ({
+      ...prev,
+      form2Answers: answers,
+    }));
+    setStepValidation((prev) => ({
+      ...prev,
+      1: true,
+    }));
+
+    // 로컬 상태만 업데이트
+    onAnswersSubmit(answers, "form2Answers");
+  };
+
+  const handleForm22Submit = (answers) => {
+    setFormData((prev) => ({
+      ...prev,
+      form22Answers: answers,
+    }));
+    setStepValidation((prev) => ({
+      ...prev,
+      2: true,
+    }));
+
+    // 로컬 상태만 업데이트
+    onAnswersSubmit(answers, "form22Answers");
+  };
+
+  const handleForm3Submit = (answers) => {
+    setFormData((prev) => ({
+      ...prev,
+      form3Answers: answers,
+    }));
+    setStepValidation((prev) => ({
+      ...prev,
+      3: true,
+    }));
+
+    // 로컬 상태만 업데이트
+    onAnswersSubmit(answers, "form3Answers");
+  };
 
   const getCurrentStep = () => {
     if (currentStep === 0) return 0;
@@ -27,6 +99,16 @@ function MainAdoptPage() {
     e.preventDefault();
     if (currentStep >= totalSteps - 1) return;
 
+    // 현재 단계의 유효성 검사
+    if (!stepValidation[currentStep]) {
+      alert(
+        language === "kr"
+          ? "모든 필수 항목을 입력해주세요."
+          : "Please fill in all required fields."
+      );
+      return;
+    }
+
     setCurrentStep(currentStep + 1);
   };
 
@@ -36,14 +118,32 @@ function MainAdoptPage() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // 모든 단계가 완료되었는지 확인
+    const allStepsCompleted = Object.values(stepValidation).every((valid) => valid);
+    if (!allStepsCompleted) {
+      alert(
+        language === "kr"
+          ? "모든 필수 항목을 입력해주세요."
+          : "Please fill in all required fields."
+      );
+      return;
+    }
+
+    await onFinalSubmit();
+  };
+
   return (
     <section className="adopt">
       <div className="adopt-title">
         <span>{language === "kr" ? "입양하기" : "Adopt"}</span>
       </div>
-      <StepBar currentStep={getCurrentStep()} />
+      <StepBar currentStep={getCurrentStep()} stepValidation={stepValidation} />
       <div className="adopt-main">
-        <Form method="post" encType="multipart/form-data">
+        <Form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+          <input type="hidden" name="adoptionId" value={adoptionId} />
           <div className="form-slider-wrapper">
             <div
               className="form-slider"
@@ -52,16 +152,16 @@ function MainAdoptPage() {
               }}
             >
               <div className="adopt-step">
-                <AdoptForm1 />
+                <AdoptForm1 onImageSubmit={handleImageSubmit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm2 />
+                <AdoptForm2 onAnswersSubmit={handleForm2Submit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm22 />
+                <AdoptForm22 onAnswersSubmit={handleForm22Submit} />
               </div>
               <div className="adopt-step">
-                <AdoptForm3 />
+                <AdoptForm3 onAnswersSubmit={handleForm3Submit} />
               </div>
               <div className="adopt-step">
                 <FormDone />

@@ -1,21 +1,25 @@
 import default_img from "/images/default_img.png";
 import "./chatPetInfo.css";
+import { useLanguage } from "../../../context/language/LanguageContext";
 
-function ChatPetInfo() {
+function ChatPetInfo({ petInfo }) {
+  const { language } = useLanguage();
+
+  if (!petInfo) {
+    return <div>로딩 중...</div>;
+  }
+
   return (
     <section className="chatPetInfo">
       <div className="top">
-        <img src={default_img} alt="pet_main_img" />
+        <img src={petInfo.photoUrl || default_img} alt="pet_main_img" />
       </div>
       <div className="main">
-        <h1 className="name">Dog_name</h1>
-        <span>Gender: Female or male</span>
-        <span>Age: 2 years and 3 months</span>
-        <span>Species: species</span>
-        <span>Loaction: 47, Hanyangdaehak 1-gil, Sangnok-gu, Ansan-si, Gyeonggi-do</span>
-        <span>Vaccinated: yy/mm/dd</span>
-        <span>House-Trained: Yes or No</span>
-        <span>Neutrated : Yes or No</span>
+        <h1 className="name">{petInfo.name}</h1>
+        <span>나이: {petInfo.age}살</span>
+        <span>품종: {petInfo.species}</span>
+        <span>위치: {petInfo.address}</span>
+        <span>설명: {petInfo.description}</span>
       </div>
     </section>
   );

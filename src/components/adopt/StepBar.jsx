@@ -3,7 +3,7 @@ import "./stepBar.css";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { adoptStep } from "../../lib/adopt";
 
-function StepBar({ currentStep }) {
+function StepBar({ currentStep, stepValidation }) {
   const { language } = useLanguage();
   const t = adoptStep[language];
 
@@ -12,6 +12,7 @@ function StepBar({ currentStep }) {
       {t.map((label, index) => {
         const isCompleted = index < currentStep;
         const isActive = index === currentStep;
+        const isValid = stepValidation[index];
 
         return (
           <div className="step-wrapper" key={index}>
@@ -19,11 +20,15 @@ function StepBar({ currentStep }) {
               <div
                 className={`step-circle ${
                   isCompleted ? "completed" : isActive ? "active" : ""
+                } ${!isValid && isActive ? "invalid" : ""}`}
+              >
+                {isCompleted ? "✓" : !isValid && isActive ? "✕" : index + 1}
+              </div>
+              <div
+                className={`step-label ${isCompleted || isActive ? "active" : ""} ${
+                  !isValid && isActive ? "invalid" : ""
                 }`}
               >
-                {isCompleted ? "✓" : index + 1}
-              </div>
-              <div className={`step-label ${isCompleted || isActive ? "active" : ""} `}>
                 {label}
               </div>
             </div>

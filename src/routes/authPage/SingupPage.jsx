@@ -24,6 +24,7 @@ export async function action({ request }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         email,
@@ -34,23 +35,15 @@ export async function action({ request }) {
       }),
     });
 
-    const data = await response.json();
-    console.log("회원가입 응답:", data);
-
-    if (response.ok) {
-      return { success: true };
-    } else {
-      return {
-        success: false,
-        error: data.message || "회원가입에 실패했습니다.",
-      };
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "회원가입에 실패했습니다.");
     }
+
+    return redirect("/login");
   } catch (error) {
     console.error("회원가입 중 오류 발생:", error);
-    return {
-      success: false,
-      error: "서버 오류가 발생했습니다.",
-    };
+    return { error: error.message };
   }
 }
 
