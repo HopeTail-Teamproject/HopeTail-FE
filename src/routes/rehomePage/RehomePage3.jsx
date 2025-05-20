@@ -7,6 +7,9 @@ const RehomePage3 = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [pet, setPet] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdopter = user?.role === "adopter";
+  const isRehomer = user?.role === "rehomer";
 
   useEffect(() => {
     fetch(`/api/petposts/${id}`)
@@ -24,6 +27,9 @@ const RehomePage3 = () => {
 
   const handleChatClick = () => navigate("/chat");
   const handleChooseClick = () => navigate("/adoptionPage");
+  const handleEditClick = () => navigate(`/edit/${pet.id}`);
+  const handleFilesClick = () => navigate(`/files/${pet.id}`);
+  const handleCompleteClick = () => alert("Complete feature: 구현 예정");
 
   if (!pet) return <div>Loading...</div>;
 
@@ -64,13 +70,29 @@ const RehomePage3 = () => {
               <p>House-Trained: {pet.houseTrained ? "Yes" : "No"}</p>
               <p>Neutered: {pet.neutered ? "Yes" : "No"}</p>
 
+              {/* 🟢 역할별 버튼 분기 렌더링 */}
               <div className="action-row">
-                <button className="heart-button">
-                  <FaHeart className="heart-icon" />
-                </button>
-                <button className="chat-button" onClick={handleChatClick}>
-                  <FaComments className="chat-icon" /> Chat
-                </button>
+                {isAdopter && (
+                  <>
+                    <button className="heart-button">
+                      <FaHeart className="heart-icon" />
+                    </button>
+                    <button className="chat-button" onClick={handleChatClick}>
+                      <FaComments className="chat-icon" /> Chat
+                    </button>
+                    <button className="choose-button" onClick={handleChooseClick}>
+                      Choose
+                    </button>
+                  </>
+                )}
+
+                {isRehomer && (
+                  <>
+                    <button className="chat-button" onClick={handleFilesClick}>📁 Files</button>
+                    <button className="chat-button" onClick={handleEditClick}>✏️ Edit</button>
+                    <button className="choose-button" onClick={handleCompleteClick}>✅ Complete</button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -79,9 +101,6 @@ const RehomePage3 = () => {
         <div className="description-column">
           <h3>Information</h3>
           <textarea readOnly value={pet.information || "No additional info."} />
-          <button className="choose-button" onClick={handleChooseClick}>
-            Choose
-          </button>
         </div>
       </div>
     </div>

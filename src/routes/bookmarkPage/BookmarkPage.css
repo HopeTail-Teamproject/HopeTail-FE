@@ -1,59 +1,65 @@
-/* 전체 페이지 레이아웃 */
 .bookmark-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* 콘텐츠 영역 */
 .bookmark-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
+  padding-bottom: 100px;
 }
 
-/* 제목 스타일 */
 .bookmark-title {
-  font-size: 28px;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 10px;
+  font-size: 32px;
   font-weight: bold;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #000;
+  text-align: center;
 }
 
-/* 카드 리스트 */
+.bookmark-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #a084e8;
+  padding: 40px 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+}
+
 .bookmark-card-list {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
   justify-content: center;
   margin-bottom: 40px;
+  width: 100%;
+  max-width: 1200px; 
 }
 
-/* 페이지네이션 전체 감싸는 wrapper */
 .bookmark-pagination-wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto 40px auto;
-  padding: 0 20px;
-  box-sizing: border-box;
+  gap: 24px;
+  margin-top: 20px;
 }
 
-/* 이전/다음 버튼 */
 .bookmark-nav-button {
-  padding: 10px 30px;
-  border: 1.5px solid #a084e8;
+  padding: 12px 36px;
+  border: 2px solid #a084e8;
   background: white;
   color: #a084e8;
   border-radius: 10px;
   font-weight: 600;
-  min-width: 100px;
-  text-align: center;
+  font-size: 16px;
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -62,12 +68,10 @@
   background-color: #f3efff;
 }
 
-/* 가운데 dot 그룹 */
 .dot-indicators {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  flex-grow: 1;
 }
 
 .dot {

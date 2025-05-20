@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
-import './CommunityCard.css';
-import { FaThumbsUp, FaRegThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import React, { useState } from "react";
+import "./CommunityCard.css";
+import {
+  FaThumbsUp,
+  FaRegThumbsUp,
+  FaBookmark,
+  FaRegBookmark,
+} from "react-icons/fa";
 
-const CommunityCard = ({
-  imageUrl = "/images/image.png",
-  title = "title",
-  firstSentence = "first sentence",
-  username = "User name",
-  date = "2025/03/26",
-  initialLikes = 0,
-  isBookmarked = false,
-  onClick
-}) => {
+const CommunityCard = ({ post, isBookmarked = false, onBookmarkClick, onClick }) => {
+  const {
+    imageUrl = "/HopeTail-FE/images/image.png",
+    title = "title",
+    content = "",
+    username = "User name",
+    createdAt = "2025/03/26",
+    likeCount: initialLikes = 0,
+    category = "Tips",
+    profileImage = "/HopeTail-FE/images/profile_circle.png",
+  } = post;
+
+  const firstSentence = typeof content === "string" ? content.split("\n")[0] : "";
+
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialLikes);
-  const [bookmarked, setBookmarked] = useState(isBookmarked);
 
   const toggleLike = (e) => {
     e.stopPropagation();
@@ -22,24 +30,24 @@ const CommunityCard = ({
     setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
   };
 
-  const toggleBookmark = (e) => {
+  const handleBookmarkClick = (e) => {
     e.stopPropagation();
-    setBookmarked((prev) => !prev);
+    if (onBookmarkClick) onBookmarkClick(post.id);
   };
 
   return (
     <div className="community-card" onClick={onClick}>
       <div className="card-image-container">
         <img src={imageUrl} alt="thumbnail" className="card-image" />
-        <div className="bookmark-icon" onClick={toggleBookmark}>
-          {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
+        <div className="bookmark-icon" onClick={handleBookmarkClick}>
+          {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
         </div>
       </div>
 
       <div className="card-text">
         <div className="card-title-row">
           <div className="card-title">{title}</div>
-          <div className="tag-label">Tips</div>
+          <div className="tag-label">{category}</div>
         </div>
 
         <div className="card-subtitle-row">
@@ -53,10 +61,19 @@ const CommunityCard = ({
 
       <div className="card-footer">
         <div className="user-info">
-          <div className="profile-circle" />
-          <span>{username}</span>
+          <img
+            src={profileImage && profileImage !== "" ? profileImage : "/images/default_img.png"}
+            alt="profile"
+            className="profile-thumbnail"
+            onError={(e) => {
+              if (!e.target.src.includes("default_img.png")) {
+                e.target.src = "/images/default_img.png";
+              }
+            }}
+          />
+          <span className="user-name">{username}</span>
         </div>
-        <div className="post-date">{date}</div>
+        <div className="post-date">{createdAt}</div>
       </div>
     </div>
   );
