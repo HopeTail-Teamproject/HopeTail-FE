@@ -41,13 +41,16 @@ export function AuthProvider({ children }) {
       // localStorage에서 refresh 토큰 확인
       const storedRefreshToken = localStorage.getItem("refreshToken");
 
-      const response = await fetch("/api/account/auth/refresh", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(storedRefreshToken && { Authorization: `Bearer ${storedRefreshToken}` }),
-        },
-      });
+      const response = await fetch(
+        `${process.env.VITE_API_BASE_URL}/api/account/auth/refresh`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(storedRefreshToken && { Authorization: `Bearer ${storedRefreshToken}` }),
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

@@ -78,10 +78,7 @@ const RehomePage3 = () => {
 
         <div className="description-column">
           <h3>Information</h3>
-          <textarea
-            readOnly
-            value={pet.information || "No additional info."}
-          />
+          <textarea readOnly value={pet.information || "No additional info."} />
           <button className="choose-button" onClick={handleChooseClick}>
             Choose
           </button>

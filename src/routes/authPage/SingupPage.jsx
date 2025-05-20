@@ -20,11 +20,10 @@ export async function action({ request }) {
   const phoneNumber = formData.get("phoneNumber");
 
   try {
-    const response = await fetch("/api/account/create", {
+    const response = await fetch(`${process.env.VITE_API_BASE_URL}/api/account/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
       },
       body: JSON.stringify({
         email,
@@ -36,8 +35,8 @@ export async function action({ request }) {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "회원가입에 실패했습니다.");
+      const errorData = await response.json();
+      throw new Error(errorData.data?.errMsg || "회원가입에 실패했습니다.");
     }
 
     return redirect("/login");
