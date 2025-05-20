@@ -14,7 +14,7 @@ const AdoptCard = ({ pet, onHeartClick, isFavorite }) => {
     <div className="adopt-card">
       <div className="top-section">
         <img
-          src={pet.image || "/HopeTail-FE/images/default_img.png"}
+          src={pet.image || "/images/default_img.png"}
           alt="pet"
           className="pet-img"
         />

@@ -25,24 +25,22 @@
 }
 
 .guideline-title {
-  display: inline-block;
-  font-size: 28px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  position: relative;
+ font-size: 2.5rem;
+ font-weight: bold;
+ text-align: center;
+ margin-bottom: 0.5rem;
+ width: 100%;
 }
 
-.guideline-title::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #000000;
-  margin-top: 2px;
+.guideline-title-underline {
+  height: 1px;
+  background-color: #999;
+  width: 400px;
+  margin: 0 auto 2rem auto;
 }
 
 .guideline-box {
-  border: 2px solid #a855f7;
+  border: 2px solid #7B61FF;
   border-radius: 10px;
   padding: 40px;
   position: relative;
@@ -70,5 +68,5 @@
   position: absolute;
   bottom: 10px;
   right: 30px;
-  width: 160px;
+  width: 300px;
 }

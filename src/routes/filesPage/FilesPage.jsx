@@ -9,7 +9,6 @@ const FilesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // ✅ API 대신 mock 데이터로 대체
   useEffect(() => {
     const mockPets = [
       { id: 1, name: "Coco", species: "Maltese" },
@@ -20,6 +19,19 @@ const FilesPage = () => {
       { id: 6, name: "Charlie", species: "Corgi" },
     ];
     setPets(mockPets);
+
+    /*
+    // 추후 API 연동 시 사용
+    const fetchPets = async () => {
+      try {
+        const response = await axios.get("/api/petposts");
+        setPets(response.data);
+      } catch (error) {
+        console.error("🐶 펫 목록을 불러오는 데 실패했습니다:", error);
+      }
+    };
+    fetchPets();
+    */
   }, []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -37,7 +49,9 @@ const FilesPage = () => {
   return (
     <div className="files-page">
       <div className="files-container">
-        <div className="ad-banner">AD</div>
+        <div className="ad-banner">
+          <img src="/HopeTail-FE/images/AD.png" alt="Ad Banner" />
+        </div>
 
         <div className="files-content">
           <h2 className="files-title">Files</h2>
@@ -67,7 +81,9 @@ const FilesPage = () => {
           </div>
         </div>
 
-        <div className="ad-banner">AD</div>
+        <div className="ad-banner">
+          <img src="/HopeTail-FE/images/AD.png" alt="Ad Banner" />
+        </div>
       </div>
     </div>
   );

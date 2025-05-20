@@ -1,112 +1,138 @@
 .newpost-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: 100%;
   min-height: 100vh;
-}
-
-.newpost-content {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px 60px;
-  gap: 40px;
-  flex: 1;
+  background-color: #fff;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .side-ad {
-  width: 140px;
-  height: 519px;
+  width: 200px;
+  height: 50vh;
   object-fit: cover;
+  display: block;
+  margin-top: 140px;
+  margin-left: 80px;
+  margin-right: 80px;
 }
 
-.newpost-main {
+.newpost-content {
   flex: 1;
+  max-width: 1280px;
+  padding: 60px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 40px;
+}
+
+.center-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
 
 .newpost-title {
-  font-size: 28px;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
-  border-bottom: 2px solid black;
-  padding-bottom: 6px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 8px;
 }
 
-.image-preview-row {
+.image-upload-section {
   display: flex;
+  gap: 120px;
   justify-content: center;
-  gap: 30px;
-  margin-bottom: 24px;
+  width: 100%;
 }
 
-.preview-image {
+.image-box {
   width: 320px;
   height: 240px;
-  object-fit: cover;
-  background-color: #ddd;
-}
-
-.form-section {
-  width: 100%;
-  max-width: 1000px;
+  background-color: #eee;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-.form-group {
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.input-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-category,
+.input-title {
   display: flex;
   flex-direction: column;
-}
-
-.category-group {
-  width: 30%;
-  min-width: 200px;
-}
-
-.title-group {
-  width: 67%;
-  min-width: 400px;
-}
-
-.form-group.full {
-  flex: 1 1 100%;
-}
-
-.form-group label {
-  font-size: 12px;
-  color: #a855f7;
-  margin-bottom: 4px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  border: 1px solid #a855f7;
-  border-radius: 4px;
-  padding: 10px;
   font-size: 14px;
 }
 
-textarea {
-  height: 200px;
-  resize: none;
+.input-category {
+  width: 150px;
+  flex-shrink: 0;
 }
 
-.post-button-wrapper {
+.input-title {
+  flex: 1;
+}
+
+.input-category label,
+.input-title label,
+.input-content label {
+  color: #7b61ff;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.input-category select,
+.input-title input {
+  height: 40px;
+  padding: 0 10px;
+  border: 2.5px solid #7b61ff;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000000;
+  width: 100%;
+}
+
+.input-content {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  font-size: 14px;
 }
 
-.post-button {
-  background-color: #a855f7;
-  color: white;
-  padding: 10px 30px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.input-content textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+  padding: 10px;
   font-size: 16px;
+  border: 2.5px solid #7b61ff;
+  border-radius: 5px;
+  color: #000000;
+}
+
+.post-btn {
+  align-self: flex-end;
+  padding: 14px 40px;
+  background-color: #7b61ff;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
 }

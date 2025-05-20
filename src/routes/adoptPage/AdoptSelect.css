@@ -8,6 +8,7 @@
   display: flex;
   flex: 1;
   align-items: stretch;
+  column-gap: 0;
 }
 
 .left-sidebar {
@@ -20,7 +21,6 @@
 
 .adopt-select-container {
   width: 100%;
-  max-width: 1200px;
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
@@ -29,32 +29,39 @@
 }
 
 .adopt-title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin: 0 auto 0.5rem auto;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .adopt-title-underline {
   height: 1px;
   background-color: #999;
-  width: 160px;
+  width: 200px;
   margin: 0 auto 2rem auto;
 }
 
 .adopt-card-box {
   width: 100%;
-  max-width: 1120px;
-  padding: 1.5rem;
+  max-width: 1350px;
   box-sizing: border-box;
-  margin: 0 auto;
+  padding: 2rem;
+  margin-top: 1rem;
+  border: 3px solid #7B61FF;
+  border-radius: 16px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
 }
 
 .adopt-card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 5.5rem;
+  gap: 5rem;
   justify-items: center;
+  width: 100%;
 }
 
 .pagination {
@@ -62,6 +69,7 @@
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .page-btn.circle {

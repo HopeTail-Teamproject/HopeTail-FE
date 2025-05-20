@@ -1,8 +1,8 @@
 .adopt-card {
   width: 250px;
-  background: rgba(229, 203, 225, 0.44); /* E5CBE1 with 44% opacity */
-  border: 2px solid #000000; /* 검정 테두리 */
-  border-radius: 16px;
+  background: rgba(229, 203, 225, 0.44); 
+  border: 3px solid #000000; 
+  border-radius: 8px;
   padding: 16px;
   position: relative;
   display: flex;
@@ -39,9 +39,14 @@
 }
 
 .heart-icon {
-  font-size: 20px;
+  font-size: 24px;
   color: red;
   cursor: pointer;
+  text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
 }
 
 .more-button {
@@ -49,7 +54,9 @@
   flex-grow: 1;
   background-color: #EDE9FE;
   color: #5E29A6;
-  border: 2px solid #D7C9FF;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #D7C9FF;
   border-radius: 10px;
   font-weight: 500;
   font-size: 13px;
@@ -79,7 +86,9 @@
   padding: 6px 10px;
   background-color: #EDE9FE;
   color: #5E29A6;
-  border: 2px solid #D7C9FF;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #D7C9FF;
   border-radius: 10px;
   font-weight: 500;
   font-size: 13px;
@@ -92,7 +101,9 @@
   padding: 6px 10px;
   background-color: #EDE9FE;
   color: #5E29A6;
-  border: 2px solid #D7C9FF;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #D7C9FF;
   border-radius: 10px;
   font-weight: 500;
   font-size: 13px;
