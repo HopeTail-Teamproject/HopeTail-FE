@@ -61,14 +61,17 @@ function AdoptionPage() {
 
       // 이미지 업로드
       if (formData.images.length > 0) {
-        const imageResponse = await fetch(`/api/adoption/${adoptionId}/images`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData.images),
-        });
+        const imageResponse = await fetch(
+          `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/images`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData.images),
+          }
+        );
 
         if (!imageResponse.ok) {
           throw new Error("이미지 업로드에 실패했습니다.");
@@ -83,27 +86,33 @@ function AdoptionPage() {
       ];
 
       // 답변 저장
-      const answersResponse = await fetch(`/api/adoption/${adoptionId}/answers`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allAnswers),
-      });
+      const answersResponse = await fetch(
+        `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/answers`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(allAnswers),
+        }
+      );
 
       if (!answersResponse.ok) {
         throw new Error("답변 저장에 실패했습니다.");
       }
 
       // 최종 제출
-      const submitResponse = await fetch(`/api/adoption/${adoptionId}/submit`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const submitResponse = await fetch(
+        `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/submit`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!submitResponse.ok) {
         throw new Error("입양 신청 제출에 실패했습니다.");

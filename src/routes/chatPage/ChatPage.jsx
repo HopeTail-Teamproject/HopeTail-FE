@@ -38,11 +38,14 @@ function ChatPage() {
         }
 
         console.log("Fetching pet info for ID:", id);
-        const response = await fetch(`/api/petposts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.VITE_API_BASE_URL}/api/petposts/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("유기견 정보를 가져오는데 실패했습니다.");
