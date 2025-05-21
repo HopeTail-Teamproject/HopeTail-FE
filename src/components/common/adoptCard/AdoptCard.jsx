@@ -35,7 +35,7 @@ const AdoptCard = ({ pet, onHeartClick, isFavorite }) => {
           <button className="info-button">{pet.name}</button>
           <button className="info-button">{pet.age}</button>
           <button className="gender-button">
-            {pet.gender === "male" ? "♂" : "♀"}
+            {pet.gender === "male" ? "♂" : pet.gender === "female" ? "♀" : "?"}
           </button>
         </div>
         <div className="row">

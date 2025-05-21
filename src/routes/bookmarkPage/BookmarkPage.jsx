@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommunityCard from "../../components/common/communityCard/CommunityCard";
 import { useLanguage } from "../../context/language/LanguageContext";
+import { fetchAllPosts } from "../../lib/community.js";
 import "./BookmarkPage.css";
 
 const BookmarkPage = () => {
@@ -12,45 +13,14 @@ const BookmarkPage = () => {
 
   useEffect(() => {
     const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-
-    const mockData = [
-      {
-        id: 1,
-        title: "강아지 산책 꿀팁",
-        content: "산책은 언제, 어떻게 해야 좋을까요?",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "밍키맘",
-        createdAt: "2025/03/26",
-        likeCount: 20,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
-      },
-      {
-        id: 2,
-        title: "고양이 장난감 추천",
-        content: "우리 고양이가 제일 좋아한 장난감은?",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "냥덕후",
-        createdAt: "2025/03/26",
-        likeCount: 35,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
-      },
-      {
-        id: 3,
-        title: "입양 전 체크리스트",
-        content: "입양 전 꼭 확인해야 할 체크리스트를 소개합니다.",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "보호소직원",
-        createdAt: "2025/03/26",
-        likeCount: 12,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
-      }
-    ];
-
     setBookmarkIds(storedBookmarks);
-    setAllPosts(mockData);
+
+    fetchAllPosts()
+      .then((posts) => {
+        const filtered = posts.filter((post) => storedBookmarks.includes(post.id));
+        setAllPosts(filtered);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   const handleBookmarkToggle = (postId) => {
@@ -63,6 +33,12 @@ const BookmarkPage = () => {
 
     localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
     setBookmarkIds(updatedBookmarks);
+
+    setAllPosts((prev) =>
+      prev.filter((post) =>
+        updatedBookmarks.includes(post.id)
+      )
+    );
   };
 
   const totalPages = Math.ceil(allPosts.length / itemsPerPage);

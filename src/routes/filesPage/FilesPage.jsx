@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FilesCard from "../../components/common/filesCard/FilesCard";
 import { useLanguage } from "../../context/language/LanguageContext";
+import axios from "axios";
 import "./FilesPage.css";
 
 const FilesPage = () => {
@@ -10,28 +11,21 @@ const FilesPage = () => {
   const itemsPerPage = 6;
 
   useEffect(() => {
-    const mockPets = [
-      { id: 1, name: "Coco", species: "Maltese" },
-      { id: 2, name: "Milo", species: "Poodle" },
-      { id: 3, name: "Luna", species: "Beagle" },
-      { id: 4, name: "Max", species: "Shih Tzu" },
-      { id: 5, name: "Bella", species: "Retriever" },
-      { id: 6, name: "Charlie", species: "Corgi" },
-    ];
-    setPets(mockPets);
-
-    /*
-    // 추후 API 연동 시 사용
     const fetchPets = async () => {
       try {
-        const response = await axios.get("/api/petposts");
+        const user = JSON.parse(localStorage.getItem("user"));
+        const response = await axios.get("/api/petposts", {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
         setPets(response.data);
       } catch (error) {
         console.error("🐶 펫 목록을 불러오는 데 실패했습니다:", error);
       }
     };
+
     fetchPets();
-    */
   }, []);
 
   const startIndex = (currentPage - 1) * itemsPerPage;

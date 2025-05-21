@@ -12,16 +12,26 @@ const RehomePage2 = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    fetch("/api/petposts")
-      .then((res) => {
+    const fetchPets = async () => {
+      try {
+        const res = await fetch("/api/petposts", {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
         if (!res.ok) throw new Error("유기견 목록 불러오기 실패");
-        return res.json();
-      })
-      .then((data) => {
-        const filtered = data.filter((pet) => pet.ownerId === user?.id);
+        const data = await res.json();
+
+        const filtered = user?.email
+          ? data.filter((pet) => pet.email === user.email)
+          : data;
         setMyDogs(filtered);
-      })
-      .catch((err) => console.error("오류 발생:", err));
+      } catch (err) {
+        console.error("오류 발생:", err);
+      }
+    };
+
+    fetchPets();
   }, []);
 
   const totalPages = Math.ceil(myDogs.length / itemsPerPage);

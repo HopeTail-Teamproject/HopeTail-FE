@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LeftSidebar.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -9,16 +8,31 @@ import {
   faLocationDot,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
+import { getUserInfo } from "../../../lib/user.js";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState({
+    username: "Hope Tail",
+    email: "hopetail1234@gmail.com",
+    address: "47, Hanyangdaehak 1-gil,\nSangnok-gu, Ansan-si, Gyeonggi-do",
+    profileImage: "/HopeTail-FE/images/user.png",
+  });
 
-  const userPhoto = localStorage.getItem("userPhoto");
-  const userName = localStorage.getItem("userName") || "Hope Tail";
-  const userEmail = localStorage.getItem("userEmail") || "hopetail1234@gmail.com";
-  const userAddress =
-    localStorage.getItem("userAddress") ||
-    "47, Hanyangdaehak 1-gil,\nSangnok-gu, Ansan-si, Gyeonggi-do";
+  useEffect(() => {
+    getUserInfo()
+      .then((data) => {
+        setUserInfo({
+          username: data.username || "Hope Tail",
+          email: data.email || "hopetail1234@gmail.com",
+          address: data.address || "47, Hanyangdaehak 1-gil,\nSangnok-gu, Ansan-si, Gyeonggi-do",
+          profileImage: data.profileImage || "/HopeTail-FE/images/user.png",
+        });
+      })
+      .catch((err) => {
+        console.error("유저 정보 로딩 실패:", err);
+      });
+  }, []);
 
   return (
     <div className="left-sidebar">
@@ -27,22 +41,20 @@ const LeftSidebar = () => {
         alt="Logo"
         className="sidebar-logo"
       />
-
       <img
-        src={userPhoto || "/HopeTail-FE/images/user.png"}
+        src={userInfo.profileImage}
         alt="User"
         className="sidebar-profile"
       />
-
       <div className="sidebar-info">
         <p>
-          <FontAwesomeIcon icon={faUser} /> {userName}
+          <FontAwesomeIcon icon={faUser} /> {userInfo.username}
         </p>
         <p>
-          <FontAwesomeIcon icon={faEnvelope} /> {userEmail}
+          <FontAwesomeIcon icon={faEnvelope} /> {userInfo.email}
         </p>
         <p>
-          <FontAwesomeIcon icon={faLocationDot} /> {userAddress}
+          <FontAwesomeIcon icon={faLocationDot} /> {userInfo.address}
         </p>
       </div>
 

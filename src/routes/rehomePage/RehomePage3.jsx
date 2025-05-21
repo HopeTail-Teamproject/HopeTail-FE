@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaHeart, FaComments } from "react-icons/fa";
+import { getPetDetail, likePet, deletePet } from "../../lib/pet";
 import "../adoptPage/AdoptPage.css";
 
 const RehomePage3 = () => {
@@ -12,17 +13,9 @@ const RehomePage3 = () => {
   const isRehomer = user?.role === "rehomer";
 
   useEffect(() => {
-    fetch(`/api/petposts/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch pet detail");
-        return res.json();
-      })
-      .then((data) => {
-        setPet(data);
-      })
-      .catch((err) => {
-        console.error("유기견 상세 조회 실패:", err);
-      });
+    getPetDetail(id, user?.token)
+      .then(setPet)
+      .catch((err) => console.error("유기견 상세 조회 실패:", err));
   }, [id]);
 
   const handleChatClick = () => navigate("/chat");
@@ -30,6 +23,22 @@ const RehomePage3 = () => {
   const handleEditClick = () => navigate(`/edit/${pet.id}`);
   const handleFilesClick = () => navigate(`/files/${pet.id}`);
   const handleCompleteClick = () => alert("Complete feature: 구현 예정");
+
+  const handleLikeClick = () => {
+    likePet(pet.id, user?.token)
+      .then(() => alert("좋아요 완료!"))
+      .catch((err) => console.error("좋아요 에러:", err));
+  };
+
+  const handleDeleteClick = () => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    deletePet(pet.id, user?.token)
+      .then(() => {
+        alert("삭제 완료!");
+        navigate("/rehome2");
+      })
+      .catch((err) => console.error("삭제 에러:", err));
+  };
 
   if (!pet) return <div>Loading...</div>;
 
@@ -70,11 +79,10 @@ const RehomePage3 = () => {
               <p>House-Trained: {pet.houseTrained ? "Yes" : "No"}</p>
               <p>Neutered: {pet.neutered ? "Yes" : "No"}</p>
 
-              {/* 🟢 역할별 버튼 분기 렌더링 */}
               <div className="action-row">
                 {isAdopter && (
                   <>
-                    <button className="heart-button">
+                    <button className="heart-button" onClick={handleLikeClick}>
                       <FaHeart className="heart-icon" />
                     </button>
                     <button className="chat-button" onClick={handleChatClick}>
@@ -91,6 +99,7 @@ const RehomePage3 = () => {
                     <button className="chat-button" onClick={handleFilesClick}>📁 Files</button>
                     <button className="chat-button" onClick={handleEditClick}>✏️ Edit</button>
                     <button className="choose-button" onClick={handleCompleteClick}>✅ Complete</button>
+                    <button className="chat-button" onClick={handleDeleteClick}>🗑️ Delete</button>
                   </>
                 )}
               </div>

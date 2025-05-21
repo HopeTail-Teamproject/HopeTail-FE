@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UserProfilePage.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { getUserInfo } from "../../lib/user";
 
 const UserProfilePage = () => {
-  const { userId } = useParams(); 
+  const { userId } = useParams();
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({
-    username: userId || "Hope",
-    email: "hopetail.official@gmail.com",
-    phone: "010-1234-1234",
-    address: "252, Wangsimni-ro, Seongdong-gu, Seoul, Republic of Korea",
-    about: "We’re HopeTail! A community for pet rehoming and adoption. 💜",
+    username: "",
+    email: "",
+    phone: "",
+    address: "",
+    about: "",
   });
+
+  useEffect(() => {
+    getUserInfo()
+      .then((data) => {
+        setUserInfo({
+          username: data.username || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          address: data.address || "",
+          about: data.about || "",
+        });
+      })
+      .catch((err) => {
+        console.error("유저 정보 로딩 실패:", err);
+      });
+  }, []);
 
   const handleChange = (field) => (e) => {
     setUserInfo({ ...userInfo, [field]: e.target.value });
@@ -21,7 +38,6 @@ const UserProfilePage = () => {
   return (
     <div className="userpage-wrapper">
       <div className="userpage-container">
-        {/* 왼쪽 영역: 프로필 사진 + 입력 필드 */}
         <div className="left-box">
           <div className="profile-box">
             <img
@@ -70,7 +86,6 @@ const UserProfilePage = () => {
           </div>
         </div>
 
-        {/* 오른쪽 영역: About + 버튼 */}
         <div className="right-box">
           <div className="about-section">
             <textarea

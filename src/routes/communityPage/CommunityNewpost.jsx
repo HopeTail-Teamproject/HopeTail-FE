@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import './CommunityNewpost.css';
 import { useLanguage } from '../../context/language/LanguageContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { uploadImageToServer } from '../../lib/imageUpload';
 
 const CommunityNewpost = () => {
   const { language } = useLanguage();
-  const [category, setCategory] = useState('Story');
+  const navigate = useNavigate();
+
+  const [category, setCategory] = useState('REVIEW');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [images, setImages] = useState([null, null, null]);
@@ -27,8 +32,30 @@ const CommunityNewpost = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log({ category, title, content, images });
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
+      alert('Please fill in both the title and content.');
+      return;
+    }
+
+    try {
+      const uploadedUrls = await Promise.all(
+        images.filter(Boolean).map((img) => uploadImageToServer(img))
+      );
+
+      const response = await axios.post('/api/posts', {
+        title,
+        content,
+        category,
+        photoUrls: uploadedUrls,
+      });
+
+      alert('Post created successfully!');
+      navigate('/community');
+    } catch (error) {
+      console.error('Error creating post:', error);
+      alert('Failed to create post.');
+    }
   };
 
   return (
@@ -46,7 +73,11 @@ const CommunityNewpost = () => {
                   onChange={(e) => handleImageChange(e, index)}
                   style={{ display: 'none' }}
                 />
-                {url ? <img src={url} alt="preview" /> : <img src="/HopeTail-FE/images/image.png" alt="placeholder" />}
+                {url ? (
+                  <img src={url} alt="preview" />
+                ) : (
+                  <img src="/HopeTail-FE/images/image.png" alt="placeholder" />
+                )}
               </label>
             ))}
           </div>
@@ -54,9 +85,8 @@ const CommunityNewpost = () => {
             <div className="input-category">
               <label>Category</label>
               <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="Story">Story</option>
-                <option value="Tips">Tips</option>
-                <option value="QnA">QnA</option>
+                <option value="REVIEW">Review</option>
+                <option value="DIARY">Diary</option>
               </select>
             </div>
             <div className="input-title">
@@ -77,7 +107,9 @@ const CommunityNewpost = () => {
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
-          <button className="post-btn" onClick={handleSubmit}>Post</button>
+          <button className="post-btn" onClick={handleSubmit}>
+            Post
+          </button>
         </div>
       </div>
       <img className="side-ad" src="/HopeTail-FE/images/AD.png" alt="AD" />

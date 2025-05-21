@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UserPage.css";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { getUserInfo } from "../../lib/user";
 
 const UserPage = () => {
   const { language } = useLanguage();
@@ -10,13 +11,30 @@ const UserPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
-    username: "Hope",
-    email: "hopetail.official@gmail.com",
-    password: "hopetail1234!",
-    phone: "010-1234-1234",
-    address: "252, Wangsimni-ro, Seongdong-gu, Seoul, Republic of Korea",
+    username: "",
+    email: "",
+    password: "",
+    phone: "",
+    address: "",
     about: "",
   });
+
+  useEffect(() => {
+    getUserInfo()
+      .then((data) => {
+        setUserInfo({
+          username: data.username || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          address: data.address || "",
+          about: data.about || "",
+          password: "",
+        });
+      })
+      .catch((err) => {
+        console.error("유저 정보 로딩 실패:", err);
+      });
+  }, []);
 
   const handleInputChange = (field) => (e) => {
     setUserInfo({ ...userInfo, [field]: e.target.value });

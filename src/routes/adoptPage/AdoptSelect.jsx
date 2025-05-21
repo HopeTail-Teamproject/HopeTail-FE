@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
 import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar";
+import { getAllPets, likePet } from "../../lib/adoptDetail";
 import "./AdoptSelect.css";
 
 const AdoptSelect = () => {
-  const pets = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    name: `name ${i + 1}`,
-    age: `${1 + (i % 10)}살`,
-    species: "species",
-    location: "location",
-    gender: "male",
-    image: "/image.png",
-  }));
-
-  const itemsPerPage = 16;
-  const totalPages = Math.ceil(pets.length / itemsPerPage);
+  const [pets, setPets] = useState([]);
+  const [favorites, setFavorites] = useState([]); 
   const [currentPage, setCurrentPage] = useState(1);
-  const [favorites, setFavorites] = useState([]);
+  const itemsPerPage = 16;
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user?.token;
 
   useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const res = await getAllPets(token);
+        const mapped = res.map((p) => ({
+          id: p.id,
+          name: p.name,
+          age: `${p.age}살`,
+          species: p.species,
+          location: p.address,
+          gender: p.gender || "unknown",
+          image: p.photoUrl || "/images/image.png",
+        }));
+        setPets(mapped);
+      } catch (err) {
+        console.error("Failed to fetch pets:", err);
+      }
+    };
+
+    fetchPets();
+
     const stored = JSON.parse(localStorage.getItem("favorites")) || [];
     setFavorites(stored);
   }, []);
+
+  const totalPages = Math.ceil(pets.length / itemsPerPage);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -33,14 +49,25 @@ const AdoptSelect = () => {
     currentPage * itemsPerPage
   );
 
-  const handleFavorite = (pet) => {
-    const exists = favorites.some((p) => p.id === pet.id);
-    let updated = exists
-      ? favorites.filter((p) => p.id !== pet.id)
-      : [...favorites, pet];
+  const handleFavorite = async (pet) => {
+    try {
+      if (!token) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
 
-    localStorage.setItem("favorites", JSON.stringify(updated));
-    setFavorites(updated);
+      await likePet(pet.id, token);
+
+      const exists = favorites.includes(pet.id);
+      const updated = exists
+        ? favorites.filter((id) => id !== pet.id)
+        : [...favorites, pet.id];
+
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      setFavorites(updated);
+    } catch (err) {
+      console.error("하트 실패:", err);
+    }
   };
 
   return (
@@ -55,10 +82,10 @@ const AdoptSelect = () => {
             <div className="adopt-card-grid">
               {paginatedPets.map((pet) => (
                 <AdoptCard
-                  key={pet.id}
+                  key={`${pet.id}-${favorites.includes(pet.id)}`} 
                   pet={pet}
-                  onFavorite={handleFavorite}
-                  isFavorited={favorites.some((f) => f.id === pet.id)}
+                  onHeartClick={() => handleFavorite(pet)}
+                  isFavorite={favorites.includes(pet.id)} 
                 />
               ))}
             </div>

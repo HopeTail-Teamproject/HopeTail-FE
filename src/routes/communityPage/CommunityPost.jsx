@@ -8,6 +8,17 @@ import {
   FaShareAlt, FaExclamationTriangle,
   FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight
 } from 'react-icons/fa';
+import {
+  getPostById,
+  likePost,
+  deletePost,
+} from "../../lib/communityPost";
+
+import {
+  getComments,
+  createComment,
+  deleteComment,
+} from "../../lib/comment";
 
 const CommunityPost = () => {
   const { language } = useLanguage();
@@ -22,36 +33,35 @@ const CommunityPost = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const dummy = {
-      id: postId,
-      title: '임시 제목',
-      content: '이것은 더미 게시글의 내용입니다.\n줄바꿈 테스트용입니다.',
-      username: 'dog_lover99',
-      email: 'dog@naver.com',
-      userId: 1,
-      likes: 5,
-      isBookmarked: false,
-      images: [
-        '/HopeTail-FE/images/image.png',
-        '/HopeTail-FE/images/image.png',
-        '/HopeTail-FE/images/image.png'
-      ]
-    };
+    getPostById(postId)
+      .then((data) => {
+        setPost({
+          ...data,
+          username: data.username || 'user',
+          images: [
+            '/HopeTail-FE/images/image.png',
+            '/HopeTail-FE/images/image.png',
+            '/HopeTail-FE/images/image.png',
+          ]
+        });
+        setLikes(data.likeCount || 0);
+        setBookmarked(data.isBookmarked || false);
+      })
+      .catch((err) => console.error(err));
 
-    setPost(dummy);
-    setLikes(dummy.likes);
-    setBookmarked(dummy.isBookmarked);
-
-    setComments([
-      { id: 1, username: 'user1', content: '너무 귀여워요!' },
-      { id: 2, username: 'user2', content: '입양하고 싶어요~' }
-    ]);
+    getComments(postId)
+      .then(setComments)
+      .catch((err) => console.error(err));
   }, [postId]);
 
   const handleLike = () => {
-    const newLiked = !liked;
-    setLiked(newLiked);
-    setLikes(prev => newLiked ? prev + 1 : prev - 1);
+    likePost(postId)
+      .then(() => {
+        const newLiked = !liked;
+        setLiked(newLiked);
+        setLikes((prev) => newLiked ? prev + 1 : prev - 1);
+      })
+      .catch((err) => console.error(err));
   };
 
   const handleBookmark = () => {
@@ -71,20 +81,33 @@ const CommunityPost = () => {
 
   const handleCommentSubmit = (e) => {
     if (e.key === 'Enter' && commentInput.trim()) {
-      const newComment = {
-        id: comments.length + 1,
-        username: 'you',
-        content: commentInput
-      };
-      setComments([...comments, newComment]);
-      setCommentInput('');
+      createComment(postId, commentInput)
+        .then((newComment) => {
+          setComments((prev) => [...prev, newComment]);
+          setCommentInput('');
+        })
+        .catch((err) => console.error(err));
     }
   };
 
-  const handleDeleteComment = (indexToDelete) => {
+  const handleDeleteComment = (commentId) => {
     const confirmDelete = window.confirm('댓글을 삭제하시겠습니까?');
     if (!confirmDelete) return;
-    setComments(comments.filter((_, i) => i !== indexToDelete));
+    deleteComment(commentId)
+      .then(() => {
+        setComments((prev) => prev.filter((c) => c.id !== commentId));
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleDeletePost = () => {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    deletePost(postId)
+      .then(() => {
+        alert('삭제되었습니다.');
+        navigate('/community');
+      })
+      .catch((err) => console.error(err));
   };
 
   if (!post) return <div>Post not found</div>;
@@ -146,6 +169,7 @@ const CommunityPost = () => {
                 </div>
                 <FaShareAlt className="icon" onClick={handleShare} />
                 <FaExclamationTriangle className="icon" onClick={handleReport} />
+                <button className="delete-post-btn" onClick={handleDeletePost}>삭제</button>
               </div>
             </div>
 
@@ -169,13 +193,13 @@ const CommunityPost = () => {
                   />
                   <div
                     className="comment-username"
-                    onClick={() => navigate(`/user/profile/${c.username}`)}
+                    onClick={() => navigate(`/user/profile/${c.email}`)}
                     style={{ cursor: 'pointer', fontWeight: 'bold', color: '#6a4cfa' }}
                   >
-                    {c.username}
+                    {c.email}
                   </div>
                   <div className="comment-text">{c.content}</div>
-                  <button className="delete-comment" onClick={() => handleDeleteComment(i)}>삭제</button>
+                  <button className="delete-comment" onClick={() => handleDeleteComment(c.id)}>삭제</button>
                 </div>
               ))}
             </div>

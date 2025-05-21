@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import "../../routes/rehomePage/RehomePage.css";
+import { uploadImageToServer } from "../../lib/imageUpload";
 
 const RehomeForm = () => {
   const [name, setName] = useState("Hope");
@@ -18,7 +19,7 @@ const RehomeForm = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = [...images, ...files].slice(0, 5); // 최대 5장 제한
+    const newImages = [...images, ...files].slice(0, 5);
     setImages(newImages);
   };
 
@@ -34,26 +35,27 @@ const RehomeForm = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("gender", gender);
-    formData.append("ageYear", ageYear);
-    formData.append("ageMonth", ageMonth);
-    formData.append("weight", weight);
-    formData.append("height", height);
-    formData.append("vaccinated", vaccinated);
-    formData.append("houseTrained", houseTrained);
-    formData.append("neutered", neutered);
-    formData.append("information", description);
-    images.forEach((img) => formData.append("images", img));
-
     try {
+      const photoUrl = await uploadImageToServer(images[0]);
+
+      const petData = {
+        photoUrl,
+        name,
+        age: parseInt(ageYear) + parseInt(ageMonth) / 12,
+        species: "Unknown",
+        address: "서울시 강남구 테헤란로 123",
+        description,
+      };
+
       const res = await fetch("/api/petposts", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(petData),
       });
 
       if (res.ok) {
+        const result = await res.json(); // ✅ 여기!
+        console.log("등록 성공 응답:", result); // ✅ 확인용
         alert("등록 완료!");
         window.location.reload();
       } else {
@@ -126,14 +128,12 @@ const RehomeForm = () => {
               type="number"
               value={ageYear}
               onChange={(e) => setAgeYear(Number(e.target.value))}
-            />{" "}
-            years
+            /> years
             <input
               type="number"
               value={ageMonth}
               onChange={(e) => setAgeMonth(Number(e.target.value))}
-            />{" "}
-            months
+            /> months
           </div>
 
           <div className="form-row">
@@ -145,8 +145,7 @@ const RehomeForm = () => {
                 value="male"
                 checked={gender === "male"}
                 onChange={(e) => setGender(e.target.value)}
-              />{" "}
-              ♂
+              /> ♂
             </label>
             <label>
               <input
@@ -155,8 +154,7 @@ const RehomeForm = () => {
                 value="female"
                 checked={gender === "female"}
                 onChange={(e) => setGender(e.target.value)}
-              />{" "}
-              ♀
+              /> ♀
             </label>
           </div>
 
@@ -166,15 +164,13 @@ const RehomeForm = () => {
               type="number"
               value={weight}
               onChange={(e) => setWeight(Number(e.target.value))}
-            />{" "}
-            kg
+            /> kg
             <label>Height</label>
             <input
               type="number"
               value={height}
               onChange={(e) => setHeight(Number(e.target.value))}
-            />{" "}
-            cm
+            /> cm
           </div>
 
           <div className="form-row">
@@ -183,24 +179,21 @@ const RehomeForm = () => {
                 type="checkbox"
                 checked={vaccinated}
                 onChange={() => setVaccinated(!vaccinated)}
-              />{" "}
-              Vaccinated
+              /> Vaccinated
             </label>
             <label>
               <input
                 type="checkbox"
                 checked={houseTrained}
                 onChange={() => setHouseTrained(!houseTrained)}
-              />{" "}
-              House-Trained
+              /> House-Trained
             </label>
             <label>
               <input
                 type="checkbox"
                 checked={neutered}
                 onChange={() => setNeutered(!neutered)}
-              />{" "}
-              Neutered
+              /> Neutered
             </label>
           </div>
         </div>

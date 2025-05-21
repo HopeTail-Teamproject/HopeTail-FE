@@ -3,40 +3,62 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { FaHeart, FaRegHeart, FaEnvelope } from "react-icons/fa";
 import "./AdoptPage.css";
+import { getPetDetail, likePet } from "../../lib/adoptDetail";
 
 const AdoptPage = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [liked, setLiked] = useState(false);
   const [pet, setPet] = useState(null);
   const [mainImage, setMainImage] = useState("/images/image.png");
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = user?.token;
   const isAdopter = user?.role === "adopter";
   const isRehomer = user?.role === "rehomer";
   const profileImage = user?.profileImage || "/default-profile.png";
 
   useEffect(() => {
-    const dummyPet = {
-      id: parseInt(id),
-      name: "Coco",
-      gender: "female",
-      age: "2살",
-      species: "Maltese",
-      location: "Seoul",
-      vaccinated: "Yes",
-      houseTrained: "Yes",
-      neutered: "No",
-      information: "Very friendly and loves people.",
-      images: ["/images/image.png", "/images/image.png"],
+    const fetchPet = async () => {
+      try {
+        const res = await getPetDetail(id, token);
+        const data = res.data;
+
+        const petData = {
+          id: data.id,
+          name: data.name,
+          gender: data.gender,
+          age: `${data.age} years and 3 months`, 
+          species: data.species,
+          location: data.address,
+          vaccinated: data.vaccinated || "Yes",
+          houseTrained: data.houseTrained || "Yes",
+          neutered: data.neutered || "No",
+          information: data.description || "",
+          images: [data.photoUrl || "/images/image.png"],
+        };
+
+        setPet(petData);
+        setMainImage(petData.images[0]);
+      } catch (err) {
+        console.error("Failed to fetch pet detail:", err);
+      }
     };
 
-    setPet(dummyPet);
-    setMainImage(dummyPet.images[0]);
-  }, [id]);
+    fetchPet();
+  }, [id, token]);
 
-  const handleHeartClick = () => setLiked(!liked);
+  const handleHeartClick = async () => {
+    try {
+      await likePet(id, token);
+      setLiked(!liked);
+    } catch (err) {
+      console.error("Failed to like pet:", err);
+    }
+  };
+
   const handleChooseClick = () => navigate(`/adopt/${id}/adoption`);
   const handleChatClick = () => navigate(`/adopt/${id}/chat`);
   const handleThumbnailClick = (src) => src && setMainImage(src);

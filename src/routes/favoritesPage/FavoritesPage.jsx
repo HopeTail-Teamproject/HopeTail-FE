@@ -1,64 +1,66 @@
 import React, { useEffect, useState } from "react";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
 import { useLanguage } from "../../context/language/LanguageContext";
+import { getAllPets, likePet } from "../../lib/adoptDetail";
 import "./FavoritesPage.css";
 
 const FavoritesPage = () => {
   const { language } = useLanguage();
   const [pets, setPets] = useState([]);
-  const [favoritedPets, setFavoritedPets] = useState([]);
+  const [favoritedIds, setFavoritedIds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16;
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user?.token;
+
   useEffect(() => {
-    const dummyPets = [
-      {
-        id: 1,
-        name: "Coco",
-        age: "2살",
-        gender: "female",
-        species: "Maltese",
-        location: "Seoul",
-        image: "/HopeTail-FE/images/image.png",
-      },
-      {
-        id: 2,
-        name: "Max",
-        age: "3살",
-        gender: "male",
-        species: "Poodle",
-        location: "Busan",
-        image: "/HopeTail-FE/images/image.png",
-      },
-      {
-        id: 3,
-        name: "Bella",
-        age: "1살",
-        gender: "female",
-        species: "Beagle",
-        location: "Incheon",
-        image: "/HopeTail-FE/images/image.png",
-      },
-    ];
+    const fetchFavorites = async () => {
+      try {
+        const res = await getAllPets();
+        const stored = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    const favoriteIds = [1, 2, 3];
-    localStorage.setItem("favorites", JSON.stringify(favoriteIds));
+        const mapped = res.map((p) => ({
+          id: p.id,
+          name: p.name,
+          age: `${p.age}살`,
+          species: p.species,
+          location: p.address,
+          gender: p.gender || "unknown",
+          image: p.photoUrl || "/images/image.png",
+        }));
 
-    const filtered = dummyPets.filter((pet) => favoriteIds.includes(pet.id));
-    setPets(filtered);
-    setFavoritedPets(favoriteIds);
+        const filtered = mapped.filter((pet) => stored.includes(pet.id));
+
+        setFavoritedIds(stored);
+        setPets(filtered);
+      } catch (err) {
+        console.error("즐겨찾기 불러오기 실패:", err);
+      }
+    };
+
+    fetchFavorites();
   }, []);
 
-  const handleLikeToggle = (petId) => {
-    let updatedFavorites;
-    if (favoritedPets.includes(petId)) {
-      updatedFavorites = favoritedPets.filter((id) => id !== petId);
-    } else {
-      updatedFavorites = [...favoritedPets, petId];
+  const handleLikeToggle = async (pet) => {
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
     }
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setFavoritedPets(updatedFavorites);
-    setPets((prev) => prev.filter((pet) => updatedFavorites.includes(pet.id)));
+
+    try {
+      await likePet(pet.id, token);
+
+      const updated = favoritedIds.includes(pet.id)
+        ? favoritedIds.filter((id) => id !== pet.id)
+        : [...favoritedIds, pet.id];
+
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      setFavoritedIds(updated);
+      setPets((prev) => prev.filter((p) => updated.includes(p.id)));
+    } catch (err) {
+      console.error("하트 실패:", err);
+    }
   };
 
   const totalPages = Math.ceil(pets.length / itemsPerPage);
@@ -88,8 +90,8 @@ const FavoritesPage = () => {
             <AdoptCard
               key={pet.id}
               pet={pet}
-              isFavorite={favoritedPets.includes(pet.id)}
-              onHeartClick={() => handleLikeToggle(pet.id)}
+              isFavorite={favoritedIds.includes(pet.id)}
+              onHeartClick={() => handleLikeToggle(pet)}
             />
           ))}
         </div>
