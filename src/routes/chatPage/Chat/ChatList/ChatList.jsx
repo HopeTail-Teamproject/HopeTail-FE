@@ -5,11 +5,13 @@ import "./chatList.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/auth/AuthContext";
+import Chat from "../Chat/Chat";
 
 function ChatList() {
   const [chatList, setChatList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
   const { id: petId } = useParams();
   const navigate = useNavigate();
   const { token } = useAuth();
@@ -43,11 +45,10 @@ function ChatList() {
   };
 
   const handleChatClick = (chat) => {
-    navigate(`/adopt/${petId}/chat`, {
-      state: {
-        selectedUser: chat.applicantEmail,
-        isFromList: true,
-      },
+    setSelectedChat({
+      selectedUser: chat.applicantEmail,
+      isFromList: true,
+      chatRoomId: chat.chatRoomId,
     });
   };
 
@@ -85,30 +86,40 @@ function ChatList() {
 
   return (
     <div className="chat-container">
-      <div className="chat-list">
-        <h2>입양 신청자 목록</h2>
-        {chatList.length === 0 ? (
-          <p>입양 신청자가 없습니다.</p>
-        ) : (
-          chatList.map((chat) => (
-            <div
-              key={chat.requestId}
-              className="chat-item"
-              onClick={() => handleChatClick(chat)}
-            >
-              <img src={userImg} alt={chat.applicantEmail} />
-              <div className="chat-info">
-                <span className="user-email">{chat.applicantEmail}</span>
+      {selectedChat ? (
+        <Chat
+          petId={petId}
+          chatRoomId={selectedChat.chatRoomId}
+          selectedUser={selectedChat.selectedUser}
+          isFromList={selectedChat.isFromList}
+          onBack={() => setSelectedChat(null)}
+        />
+      ) : (
+        <div className="chat-list">
+          <h2>입양 신청자 목록</h2>
+          {chatList.length === 0 ? (
+            <p>입양 신청자가 없습니다.</p>
+          ) : (
+            chatList.map((chat) => (
+              <div
+                key={chat.requestId}
+                className="chat-item"
+                onClick={() => handleChatClick(chat)}
+              >
+                <img src={userImg} alt={chat.applicantEmail} />
+                <div className="chat-info">
+                  <span className="user-email">{chat.applicantEmail}</span>
+                </div>
+                <div className="chat-actions">
+                  <span className="file-icon" onClick={(e) => handleFileClick(e, chat)}>
+                    <FontAwesomeIcon icon={faEnvelopeOpenText} />
+                  </span>
+                </div>
               </div>
-              <div className="chat-actions">
-                <span className="file-icon" onClick={(e) => handleFileClick(e, chat)}>
-                  <FontAwesomeIcon icon={faEnvelopeOpenText} />
-                </span>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }

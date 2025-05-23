@@ -6,19 +6,22 @@ import { useAuth } from "../../../../context/auth/AuthContext";
 import "./chat.css";
 import userImg from "/images/default_img.png";
 
-export default function Chat() {
-  const { id: petId } = useParams();
+export default function Chat({
+  petId,
+  chatRoomId: initialChatRoomId,
+  selectedUser,
+  isFromList,
+  onBack,
+  petInfo,
+}) {
   const location = useLocation();
   const { token, user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [chatRoomId, setChatRoomId] = useState(null);
+  const [chatRoomId, setChatRoomId] = useState(initialChatRoomId);
+  const [chatRoomInfo, setChatRoomInfo] = useState(null);
   const stompClientRef = useRef(null);
   const messagesEndRef = useRef(null);
-
-  // 선택된 사용자 정보 (ChatList에서 전달받은 경우)
-  const selectedUser = location.state?.selectedUser;
-  const isFromList = location.state?.isFromList;
 
   // 스크롤을 항상 최신 메시지로 이동
   const scrollToBottom = () => {
@@ -33,30 +36,75 @@ export default function Chat() {
   useEffect(() => {
     if (!token || !user) return;
 
-    // 채팅방 생성 또는 조회
+    // 채팅방이 없는 경우에만 생성
     const initializeChatRoom = async () => {
+      if (chatRoomId) return; // 이미 채팅방 ID가 있으면 생성하지 않음
+
       try {
-        const response = await fetch(`${process.env.VITE_API_BASE_URL}/api/chatrooms`, {
+        console.log("채팅방 생성 요청:", {
+          url: `${process.env.VITE_API_BASE_URL}/chatrooms`,
+          body: {
+            partnerEmail: isFromList ? selectedUser : petInfo?.email,
+          },
+        });
+
+        // 채팅방 생성
+        const response = await fetch(`${process.env.VITE_API_BASE_URL}/chatrooms`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            partnerEmail: isFromList ? selectedUser : null,
+            partnerEmail: isFromList ? selectedUser : petInfo?.email,
           }),
         });
 
-        if (!response.ok) throw new Error("채팅방 생성 실패");
+        console.log("채팅방 생성 응답:", {
+          status: response.status,
+          statusText: response.statusText,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error("채팅방 생성 에러:", errorData);
+          throw new Error(
+            errorData.message ||
+              `채팅방 생성에 실패했습니다. (${response.status}: ${
+                errorData.error || response.statusText
+              })`
+          );
+        }
+
         const data = await response.json();
-        setChatRoomId(data.chatRoomId); // chatRoomId로 변경
+        console.log("채팅방 생성 성공:", data);
+        setChatRoomId(data.chatRoomId);
+
+        // 채팅방 정보 조회
+        const roomResponse = await fetch(
+          `${process.env.VITE_API_BASE_URL}/chatrooms/${data.chatRoomId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!roomResponse.ok) {
+          throw new Error("채팅방 정보를 가져오는데 실패했습니다.");
+        }
+
+        const roomData = await roomResponse.json();
+        console.log("채팅방 정보:", roomData);
+        setChatRoomInfo(roomData);
       } catch (error) {
         console.error("채팅방 초기화 중 오류:", error);
+        alert(error.message);
       }
     };
 
     initializeChatRoom();
-  }, [token, user, petId, selectedUser, isFromList]);
+  }, [token, user, petId, selectedUser, isFromList, chatRoomId, petInfo]);
 
   // WebSocket 연결 및 메시지 구독
   useEffect(() => {
@@ -131,7 +179,16 @@ export default function Chat() {
     <div className="chat-container">
       <div className="chat-header">
         {isFromList ? (
-          <h3>{selectedUser}님과의 대화</h3>
+          <>
+            <button className="back-button" onClick={onBack}>
+              ←
+            </button>
+            <h3>
+              {chatRoomInfo
+                ? `${chatRoomInfo.member1Username}님과 ${chatRoomInfo.member2Username}님의 대화`
+                : `${selectedUser}님과의 대화`}
+            </h3>
+          </>
         ) : (
           <h3>게시물 작성자와의 대화</h3>
         )}
