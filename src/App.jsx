@@ -39,6 +39,7 @@ import SingupPage, {
 } from "./routes/authPage/SingupPage";
 
 import ChatPage from "./routes/chatPage/ChatPage";
+import ChatFile from "./routes/chatPage/ChatFile/ChatFile";
 
 import { LanguageProvider } from "./context/language/LanguageContext";
 import { AuthProvider } from "./context/auth/AuthContext";
@@ -60,6 +61,7 @@ const router = createBrowserRouter(
         { path: "adopt/:id", element: <AdoptPage /> },
         { path: "adopt/:id/adoption", element: <AdoptionPage />, action: adoptAction },
         { path: "adopt/:id/chat", element: <ChatPage /> },
+        { path: "adopt/:id/chatfile", element: <ChatFile /> },
         { path: "rehome", element: <RehomePage /> },
         { path: "rehome/list", element: <RehomePage2 /> },
         { path: "rehome/:id", element: <RehomePage3 /> },
