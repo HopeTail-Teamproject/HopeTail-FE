@@ -47,3 +47,37 @@ nav a:hover {
 nav a:hover::after {
   background-color: lightgray;
 }
+
+/* 노트북 사이즈 (1366px ~ 1920px) */
+@media screen and (max-width: 1920px) {
+  nav {
+    gap: 60px;
+    margin: 40px 0;
+  }
+
+  nav .nav-left img {
+    width: 200px;
+  }
+
+  nav .nav-main {
+    gap: 60px;
+    font-size: 24px;
+  }
+}
+
+/* 작은 노트북 사이즈 (1366px 이하) */
+@media screen and (max-width: 1366px) {
+  nav {
+    gap: 40px;
+    margin: 30px 0;
+  }
+
+  nav .nav-left img {
+    width: 180px;
+  }
+
+  nav .nav-main {
+    gap: 40px;
+    font-size: 20px;
+  }
+}
