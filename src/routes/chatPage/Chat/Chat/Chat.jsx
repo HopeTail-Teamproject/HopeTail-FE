@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
-import { Client } from "@stomp/stompjs";
+import Stomp from "stompjs";
 import { useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../../../context/auth/AuthContext";
 import "./chat.css";
@@ -110,40 +110,33 @@ export default function Chat({
   useEffect(() => {
     if (!chatRoomId || !token) return;
 
-    const socket = new SockJS(`${process.env.VITE_API_BASE_URL}/ws/chat`);
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
+    const socket = new SockJS(`${process.env.VITE_API_BASE_URL}/ws/chat?token=${token}`);
+    const stompClient = Stomp.over(socket);
+
+    // 디버그 모드 비활성화
+    stompClient.debug = null;
+
+    stompClient.connect(
+      { Authorization: `Bearer ${token}` },
+      (frame) => {
+        console.log("WebSocket 연결 성공:", frame);
+
+        // 메시지 구독
+        stompClient.subscribe(`/topic/chatroom/${chatRoomId}`, (message) => {
+          const msg = JSON.parse(message.body);
+          setMessages((prev) => [...prev, msg]);
+        });
       },
-      debug: function (str) {
-        console.log(str);
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
+      (error) => {
+        console.error("WebSocket 연결 오류:", error);
+      }
+    );
 
-    stompClient.onConnect = (frame) => {
-      console.log("WebSocket 연결 성공:", frame);
-
-      // 메시지 구독
-      stompClient.subscribe(`/topic/chatroom/${chatRoomId}`, (message) => {
-        const msg = JSON.parse(message.body);
-        setMessages((prev) => [...prev, msg]);
-      });
-    };
-
-    stompClient.onStompError = (frame) => {
-      console.error("WebSocket 오류:", frame);
-    };
-
-    stompClient.activate();
     stompClientRef.current = stompClient;
 
     return () => {
       if (stompClientRef.current) {
-        stompClientRef.current.deactivate();
+        stompClientRef.current.disconnect();
       }
     };
   }, [chatRoomId, token]);
@@ -152,17 +145,16 @@ export default function Chat({
   const sendMessage = () => {
     if (!stompClientRef.current || !inputMessage.trim() || !chatRoomId) return;
 
-    const message = {
-      chatRoomId,
-      senderId: user.id,
-      receiverId: null, // 백엔드에서 처리
-      content: inputMessage.trim(),
-    };
-
-    stompClientRef.current.publish({
-      destination: "/app/chat/private",
-      body: JSON.stringify(message),
-    });
+    stompClientRef.current.send(
+      "/app/chat/private",
+      {},
+      JSON.stringify({
+        chatRoomId,
+        senderId: user.id,
+        receiverId: null,
+        content: inputMessage.trim(),
+      })
+    );
 
     setInputMessage("");
   };

@@ -61,7 +61,7 @@ const router = createBrowserRouter(
         { path: "adopt/:id", element: <AdoptPage /> },
         { path: "adopt/:id/adoption", element: <AdoptionPage />, action: adoptAction },
         { path: "adopt/:id/chat", element: <ChatPage /> },
-        { path: "adopt/:id/chatfile", element: <ChatFile /> },
+        { path: "adopt/:id/:username/file", element: <ChatFile /> },
         { path: "rehome", element: <RehomePage /> },
         { path: "rehome/list", element: <RehomePage2 /> },
         { path: "rehome/:id", element: <RehomePage3 /> },

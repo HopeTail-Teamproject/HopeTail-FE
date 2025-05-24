@@ -52,33 +52,13 @@ function ChatList() {
     });
   };
 
-  const handleFileClick = async (e, chat) => {
+  const handleFileClick = (e, chat) => {
     e.stopPropagation();
-    try {
-      const response = await fetch(
-        `${process.env.VITE_API_BASE_URL}/api/adoption/${chat.petId}/requests`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("입양 신청서를 불러오는데 실패했습니다.");
-      }
-
-      const data = await response.json();
-      navigate(`/adopt/${chat.petId}/chatfile`, {
-        state: {
-          requests: data,
-          userEmail: chat.otherUserEmail,
-          petId: chat.petId,
-        },
-      });
-    } catch (err) {
-      setError(err.message);
-    }
+    navigate(`/adopt/${chat.petId}/${chat.applicantEmail}/file`, {
+      state: {
+        request: chat,
+      },
+    });
   };
 
   if (loading) return <div>로딩 중...</div>;
