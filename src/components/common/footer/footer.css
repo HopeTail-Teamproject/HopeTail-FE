@@ -4,20 +4,37 @@
   padding: 30px 70px;
   background-color: #d9d9d9;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 .footer .footer-left {
   display: flex;
   flex-direction: row;
   gap: 50px;
+  align-items: center;
+}
+
+.footer .footer-left span {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333333;
+}
+
+.footer .footer-left .logo {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .footer .footer-left svg {
   margin-right: 20px;
+  font-size: 18px;
 }
 
 .footer .footer-right {
   margin-right: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .footer .footer-right select {
@@ -26,4 +43,56 @@
   font-size: 14px;
   color: #333333;
   cursor: pointer;
+}
+
+/* 노트북 사이즈 (1366px ~ 1920px) */
+@media screen and (max-width: 1920px) {
+  .footer {
+    padding: 25px 50px;
+  }
+
+  .footer .footer-left {
+    gap: 40px;
+  }
+
+  .footer .footer-left span {
+    font-size: 14px;
+  }
+
+  .footer .footer-left .logo {
+    font-size: 20px;
+  }
+
+  .footer .footer-left svg {
+    margin-right: 15px;
+    font-size: 16px;
+  }
+}
+
+/* 작은 노트북 사이즈 (1366px 이하) */
+@media screen and (max-width: 1366px) {
+  .footer {
+    padding: 20px 40px;
+  }
+
+  .footer .footer-left {
+    gap: 30px;
+  }
+
+  .footer .footer-left span {
+    font-size: 12px;
+  }
+
+  .footer .footer-left .logo {
+    font-size: 18px;
+  }
+
+  .footer .footer-left svg {
+    margin-right: 12px;
+    font-size: 14px;
+  }
+
+  .footer .footer-right select {
+    font-size: 12px;
+  }
 }

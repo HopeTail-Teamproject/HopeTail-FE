@@ -84,7 +84,17 @@ function ChatPage() {
         <ChatPetInfo petInfo={petInfo} />
       </div>
       <div className="right">
-        {isOwner ? <ChatList petId={id} /> : <Chat petId={id} />}
+        {isOwner ? (
+          <ChatList petId={id} />
+        ) : (
+          <Chat
+            petId={id}
+            chatRoomId={location.state?.chatRoomId}
+            selectedUser={location.state?.selectedUser}
+            isFromList={location.state?.isFromList}
+            petInfo={petInfo}
+          />
+        )}
       </div>
     </section>
   );

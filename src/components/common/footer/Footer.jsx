@@ -25,7 +25,7 @@ function Footer() {
         </span>
         <span className="email">
           <FontAwesomeIcon icon={faEnvelope} />
-          Hopetail@gmail.com
+          hopetail.official@gmail.com
         </span>
         <span className="instagram">
           <FontAwesomeIcon icon={faInstagram} />

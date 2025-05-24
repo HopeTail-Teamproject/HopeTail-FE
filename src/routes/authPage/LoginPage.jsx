@@ -44,7 +44,7 @@ export async function action({ request }) {
     } else {
       return {
         success: false,
-        error: data.message || "로그인에 실패했습니다.",
+        error: data.data?.errMsg || "로그인에 실패했습니다.",
       };
     }
   } catch (error) {
