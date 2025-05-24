@@ -1,12 +1,48 @@
 export const chatPage = {
-  ko: {
-    loading: "로딩 중...",
-    error: "오류가 발생했습니다.",
-    loginRequired: "로그인이 필요한 서비스입니다.",
-  },
-  en: {
-    loading: "Loading...",
-    error: "An error occurred.",
-    loginRequired: "This service requires login.",
-  },
+    ko: {
+        loading: "로딩 중...",
+        error: "오류가 발생했습니다.",
+        loginRequired: "로그인이 필요한 서비스입니다.",
+        chatPetInfo: {
+            loading: "로딩 중...",
+            age: "나이",
+            species: "품종",
+            location: "위치",
+            description: "설명",
+            years: "살",
+        },
+        chatFile: {
+            loading: "데이터를 불러올 수 없습니다.",
+            application: "님의 입양 신청서",
+            back: "뒤로 가기",
+            applicationNumber: "신청서 #",
+            submissionDate: "제출일",
+            homeImages: "거주 환경 사진",
+            homeImage: "거주 환경",
+            answers: "입양 신청 답변",
+        },
+    },
+    en: {
+        loading: "Loading...",
+        error: "An error occurred.",
+        loginRequired: "This service requires login.",
+        chatPetInfo: {
+            loading: "Loading...",
+            age: "Age",
+            species: "Breed",
+            location: "Location",
+            description: "Description",
+            years: "years",
+        },
+        chatFile: {
+            loading: "Unable to load data.",
+            application: "'s Adoption Application",
+            back: "Go Back",
+            applicationNumber: "Application #",
+            submissionDate: "Submission Date",
+            homeImages: "Home Environment Photos",
+            homeImage: "Home Environment",
+            answers: "Adoption Application Answers",
+        },
+    },
 };
