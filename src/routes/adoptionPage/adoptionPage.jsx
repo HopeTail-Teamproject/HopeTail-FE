@@ -11,6 +11,7 @@ function AdoptionPage() {
     form22Answers: [],
     form3Answers: [],
   });
+  const [language, setLanguage] = useState("kr");
 
   useEffect(() => {
     const startAdoption = async () => {
@@ -66,10 +67,17 @@ function AdoptionPage() {
   };
 
   const handleFinalSubmit = async () => {
-    if (!adoptionId) return;
+    if (!adoptionId) {
+      alert(language === "kr" ? "입양 신청 ID가 없습니다." : "No adoption ID found.");
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert(language === "kr" ? "로그인이 필요합니다." : "Please log in.");
+        return;
+      }
 
       // 이미지 업로드
       if (formData.images.length > 0) {
@@ -90,7 +98,8 @@ function AdoptionPage() {
         );
 
         if (!imageResponse.ok) {
-          throw new Error("이미지 업로드에 실패했습니다.");
+          const errorData = await imageResponse.json().catch(() => ({}));
+          throw new Error(errorData.data?.errMsg || "이미지 업로드에 실패했습니다.");
         }
       }
 
@@ -133,13 +142,24 @@ function AdoptionPage() {
       );
 
       if (!submitResponse.ok) {
-        throw new Error("입양 신청 제출에 실패했습니다.");
+        const errorData = await submitResponse.json().catch(() => ({}));
+        throw new Error(errorData.data?.errMsg || "입양 신청 제출에 실패했습니다.");
       }
 
+      alert(
+        language === "kr"
+          ? "입양 신청이 완료되었습니다."
+          : "Adoption application completed."
+      );
       window.location.href = "/";
     } catch (error) {
       console.error("입양 신청 제출 중 오류 발생:", error);
-      alert(error.message);
+      alert(
+        error.message ||
+          (language === "kr"
+            ? "입양 신청 중 오류가 발생했습니다."
+            : "An error occurred during adoption application.")
+      );
     }
   };
 
