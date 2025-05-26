@@ -10,6 +10,16 @@ export default defineConfig({
     "process.env.VITE_API_BASE_URL": JSON.stringify(API_BASE_URL),
     global: "globalThis",
   },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
   server: {
     proxy: {
       "/api": {
