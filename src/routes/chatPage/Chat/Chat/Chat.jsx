@@ -150,8 +150,8 @@ export default function Chat({
       {},
       JSON.stringify({
         chatRoomId,
-        senderId: user.id,
-        receiverId: null,
+        senderId: user.email,
+        receiverId: isFromList ? selectedUser : petInfo?.email,
         content: inputMessage.trim(),
       })
     );
@@ -189,7 +189,7 @@ export default function Chat({
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message ${msg.senderId === user?.id ? "sent" : "received"}`}
+            className={`message ${msg.senderId === user?.email ? "sent" : "received"}`}
           >
             <div className="message-content">{msg.content}</div>
           </div>
