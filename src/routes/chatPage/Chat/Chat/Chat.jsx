@@ -110,30 +110,102 @@ export default function Chat({
   useEffect(() => {
     if (!chatRoomId || !token) return;
 
-    const socket = new SockJS(`${process.env.VITE_API_BASE_URL}/ws/chat?token=${token}`);
+    console.log("WebSocket 연결 시작:", { chatRoomId, token });
+
+    // SockJS 옵션 설정
+    const socket = new SockJS(
+      `${process.env.VITE_API_BASE_URL}/ws/chat?token=${token}`,
+      null,
+      {
+        transports: ["websocket", "xhr-streaming", "xhr-polling"],
+        timeout: 5000,
+      }
+    );
+
+    // 연결 상태 모니터링
+    socket.onopen = () => {
+      console.log("SockJS 연결 성공");
+    };
+
+    socket.onclose = (event) => {
+      console.log("SockJS 연결 종료:", event);
+    };
+
+    socket.onerror = (error) => {
+      console.error("SockJS 오류:", error);
+    };
+
     const stompClient = Stomp.over(socket);
 
-    // 디버그 모드 비활성화
-    stompClient.debug = null;
+    // 디버그 모드 활성화
+    stompClient.debug = (str) => {
+      console.log("STOMP Debug:", str);
+      // 모든 STOMP 프레임 로깅
+      if (str.startsWith(">>>") || str.startsWith("<<<")) {
+        console.log("STOMP Frame:", str);
+      }
+    };
 
+    // 연결 옵션 설정
+    const connectHeaders = {
+      "heart-beat": "10000,10000",
+      "accept-version": "1.1,1.0",
+      login: token, // 토큰을 login 헤더로 전송
+      passcode: "guest", // 필요한 경우 passcode 추가
+    };
+
+    console.log("STOMP 연결 시도...");
     stompClient.connect(
-      {},
+      connectHeaders,
       (frame) => {
-        console.log("WebSocket 연결 성공:", frame);
-
-        // 메시지 구독 경로 변경
-        stompClient.subscribe(`/sub/chatroom/${chatRoomId}`, (message) => {
-          const msg = JSON.parse(message.body);
-          setMessages((prev) => [...prev, msg]);
+        console.log("STOMP CONNECTED 프레임 수신:", frame);
+        console.log("연결된 STOMP 클라이언트:", {
+          connected: stompClient.connected,
+          ws: stompClient.ws ? "연결됨" : "연결 안됨",
+          subscriptions: Object.keys(stompClient.subscriptions || {}),
         });
+
+        // 구독 전에 현재 채팅방 ID 확인
+        console.log("구독 시작 - 채팅방 ID:", chatRoomId);
+
+        // 구독 경로 확인
+        const subscribePath = `/queue/chatroom/${chatRoomId}`;
+        console.log("구독 경로:", subscribePath);
+
+        try {
+          const subscription = stompClient.subscribe(subscribePath, (msg) => {
+            console.log("메시지 수신됨:", msg);
+            console.log("메시지 헤더:", msg.headers);
+            console.log("메시지 본문:", msg.body);
+            try {
+              const payload = JSON.parse(msg.body);
+              console.log("파싱된 메시지:", payload);
+              setMessages((prev) => {
+                console.log("이전 메시지:", prev);
+                const newMessages = [...prev, payload];
+                console.log("새로운 메시지 목록:", newMessages);
+                return newMessages;
+              });
+            } catch (error) {
+              console.error("메시지 파싱 오류:", error);
+            }
+          });
+
+          console.log("구독 완료:", {
+            id: subscription.id,
+            destination: subscription.destination,
+            unsubscribe: !!subscription.unsubscribe,
+          });
+        } catch (error) {
+          console.error("구독 중 오류 발생:", error);
+        }
       },
       (error) => {
         console.error("WebSocket 연결 오류:", error);
-        // 연결 오류 시 재연결 로직 추가
+        console.log("재연결 시도 예정...");
         setTimeout(() => {
           console.log("WebSocket 재연결 시도...");
-          // 여기에 재연결 로직 추가
-        }, 5000); // 5초 후 재시도
+        }, 5000);
       }
     );
 
@@ -141,6 +213,7 @@ export default function Chat({
 
     return () => {
       if (stompClientRef.current) {
+        console.log("WebSocket 연결 해제");
         stompClientRef.current.disconnect();
       }
     };
@@ -148,18 +221,42 @@ export default function Chat({
 
   // 메시지 전송
   const sendMessage = () => {
-    if (!stompClientRef.current || !inputMessage.trim() || !chatRoomId) return;
+    if (!stompClientRef.current || !inputMessage.trim() || !chatRoomId) {
+      console.log("메시지 전송 조건 미충족:", {
+        stompClient: !!stompClientRef.current,
+        message: inputMessage.trim(),
+        chatRoomId,
+      });
+      return;
+    }
 
     const message = {
-      chatRoomId,
+      chatRoomId: Number(chatRoomId),
       receiverId: isFromList ? selectedUser : petInfo?.email,
       content: inputMessage.trim(),
     };
 
-    // 메시지 전송 경로 변경
-    stompClientRef.current.send("/pub/chat/private", {}, JSON.stringify(message));
+    console.log("전송할 메시지:", message);
+    console.log("STOMP 클라이언트 상태:", {
+      connected: stompClientRef.current.connected,
+      ws: stompClientRef.current.ws ? "연결됨" : "연결 안됨",
+    });
 
-    setInputMessage("");
+    try {
+      console.log("메시지 전송 시작...");
+      stompClientRef.current.send(
+        "/pub/chat/private",
+        {},
+        JSON.stringify(message),
+        (receipt) => {
+          console.log("메시지 전송 영수증:", receipt);
+        }
+      );
+      console.log("메시지 전송 완료");
+      setInputMessage("");
+    } catch (error) {
+      console.error("메시지 전송 중 오류:", error);
+    }
   };
 
   // Enter 키로 메시지 전송
@@ -189,14 +286,17 @@ export default function Chat({
         )}
       </div>
       <div className="chat-messages">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`message ${msg.senderId === user?.email ? "sent" : "received"}`}
-          >
-            <div className="message-content">{msg.content}</div>
-          </div>
-        ))}
+        {messages.map((msg, index) => {
+          console.log("렌더링할 메시지:", msg);
+          return (
+            <div
+              key={index}
+              className={`message ${msg.senderId === user?.email ? "sent" : "received"}`}
+            >
+              <div className="message-content">{msg.content}</div>
+            </div>
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
       <div className="chat-input">
