@@ -169,7 +169,7 @@ export default function Chat({
         console.log("구독 시작 - 채팅방 ID:", chatRoomId);
 
         // 구독 경로 확인
-        const subscribePath = `/queue/chatroom/${chatRoomId}`;
+        const subscribePath = `/sub/chatroom/${chatRoomId}`;
         console.log("구독 경로:", subscribePath);
 
         try {
@@ -196,6 +196,9 @@ export default function Chat({
             destination: subscription.destination,
             unsubscribe: !!subscription.unsubscribe,
           });
+
+          // 구독 상태 확인
+          console.log("현재 구독 목록:", Object.keys(stompClient.subscriptions || {}));
         } catch (error) {
           console.error("구독 중 오류 발생:", error);
         }
