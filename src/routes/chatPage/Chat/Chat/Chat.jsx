@@ -173,13 +173,30 @@ export default function Chat({
         console.log("구독 경로:", subscribePath);
 
         try {
+          // 구독 전 연결 상태 확인
+          console.log("구독 전 STOMP 클라이언트 상태:", {
+            connected: stompClient.connected,
+            ws: stompClient.ws ? "연결됨" : "연결 안됨",
+            subscriptions: Object.keys(stompClient.subscriptions || {}),
+          });
+
           const subscription = stompClient.subscribe(subscribePath, (msg) => {
-            console.log("메시지 수신됨:", msg);
+            console.log("메시지 수신됨 - 전체 메시지:", msg);
             console.log("메시지 헤더:", msg.headers);
             console.log("메시지 본문:", msg.body);
+            console.log("메시지 명령어:", msg.command);
+            console.log("메시지 목적지:", msg.destination);
+
             try {
               const payload = JSON.parse(msg.body);
               console.log("파싱된 메시지:", payload);
+
+              // 메시지 형식 검증
+              if (!payload.chatRoomId || !payload.content) {
+                console.error("잘못된 메시지 형식:", payload);
+                return;
+              }
+
               setMessages((prev) => {
                 console.log("이전 메시지:", prev);
                 const newMessages = [...prev, payload];
@@ -188,8 +205,12 @@ export default function Chat({
               });
             } catch (error) {
               console.error("메시지 파싱 오류:", error);
+              console.error("원본 메시지:", msg.body);
             }
           });
+
+          // 구독 정보 수동 설정
+          subscription.destination = subscribePath;
 
           console.log("구독 완료:", {
             id: subscription.id,
@@ -199,6 +220,14 @@ export default function Chat({
 
           // 구독 상태 확인
           console.log("현재 구독 목록:", Object.keys(stompClient.subscriptions || {}));
+          console.log("구독 상세 정보:", stompClient.subscriptions);
+
+          // 구독 후 연결 상태 확인
+          console.log("구독 후 STOMP 클라이언트 상태:", {
+            connected: stompClient.connected,
+            ws: stompClient.ws ? "연결됨" : "연결 안됨",
+            subscriptions: Object.keys(stompClient.subscriptions || {}),
+          });
         } catch (error) {
           console.error("구독 중 오류 발생:", error);
         }
