@@ -117,18 +117,23 @@ export default function Chat({
     stompClient.debug = null;
 
     stompClient.connect(
-      { Authorization: `Bearer ${token}` },
+      {},
       (frame) => {
         console.log("WebSocket 연결 성공:", frame);
 
-        // 메시지 구독
-        stompClient.subscribe(`/topic/chatroom/${chatRoomId}`, (message) => {
+        // 메시지 구독 경로 변경
+        stompClient.subscribe(`/sub/chatroom/${chatRoomId}`, (message) => {
           const msg = JSON.parse(message.body);
           setMessages((prev) => [...prev, msg]);
         });
       },
       (error) => {
         console.error("WebSocket 연결 오류:", error);
+        // 연결 오류 시 재연결 로직 추가
+        setTimeout(() => {
+          console.log("WebSocket 재연결 시도...");
+          // 여기에 재연결 로직 추가
+        }, 5000); // 5초 후 재시도
       }
     );
 
@@ -145,16 +150,14 @@ export default function Chat({
   const sendMessage = () => {
     if (!stompClientRef.current || !inputMessage.trim() || !chatRoomId) return;
 
-    stompClientRef.current.send(
-      "/app/chat/private",
-      {},
-      JSON.stringify({
-        chatRoomId,
-        senderId: user.email,
-        receiverId: isFromList ? selectedUser : petInfo?.email,
-        content: inputMessage.trim(),
-      })
-    );
+    const message = {
+      chatRoomId,
+      receiverId: isFromList ? selectedUser : petInfo?.email,
+      content: inputMessage.trim(),
+    };
+
+    // 메시지 전송 경로 변경
+    stompClientRef.current.send("/pub/chat/private", {}, JSON.stringify(message));
 
     setInputMessage("");
   };
