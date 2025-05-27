@@ -276,14 +276,33 @@ export default function Chat({
 
     try {
       console.log("메시지 전송 시작...");
+      // 먼저 로컬에 메시지 추가
+      const newMessage = {
+        chatRoomId: Number(chatRoomId),
+        receiverId: isFromList ? selectedUser : petInfo?.email,
+        content: inputMessage.trim(),
+        createdAt: new Date().toISOString()
+      };
+      console.log("새로 추가할 메시지:", newMessage);
+      console.log("메시지 발신자 확인:", { 
+        messageReceiver: newMessage.receiverId, 
+        currentUser: user.email,
+        isSentByMe: true
+      });
+      
+      setMessages(prev => {
+        const updatedMessages = [...prev, newMessage];
+        console.log("업데이트된 메시지 목록:", updatedMessages);
+        return updatedMessages;
+      });
+
+      // 그 다음 서버로 전송
       stompClientRef.current.send(
         "/pub/chat/private",
         {},
-        JSON.stringify(message),
-        (receipt) => {
-          console.log("메시지 전송 영수증:", receipt);
-        }
+        JSON.stringify(message)
       );
+      
       console.log("메시지 전송 완료");
       setInputMessage("");
     } catch (error) {
@@ -319,11 +338,11 @@ export default function Chat({
       </div>
       <div className="chat-messages">
         {messages.map((msg, index) => {
-          console.log("렌더링할 메시지:", msg);
+          const isSentByMe = msg.receiverId === (isFromList ? selectedUser : petInfo?.email);
           return (
             <div
               key={index}
-              className={`message ${msg.senderId === user?.email ? "sent" : "received"}`}
+              className={`message ${isSentByMe ? "sent" : "received"}`}
             >
               <div className="message-content">{msg.content}</div>
             </div>
