@@ -151,7 +151,7 @@ function AdoptionPage() {
           ? "입양 신청이 완료되었습니다."
           : "Adoption application completed."
       );
-      window.location.href = "/";
+      window.location.href = "/HopeTail-FE/";
     } catch (error) {
       console.error("입양 신청 제출 중 오류 발생:", error);
       alert(
@@ -204,9 +204,9 @@ export async function action({ request }) {
       throw new Error("입양 신청 제출에 실패했습니다.");
     }
 
-    return redirect("/");
+    return redirect("/HopeTail-FE/");
   } catch (error) {
     console.error("입양 신청 제출 중 오류 발생:", error);
-    return redirect("/");
+    return redirect("/HopeTail-FE/");
   }
 }
