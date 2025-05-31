@@ -130,6 +130,21 @@ export default function Chat({
     }
   };
 
+  // 3초마다 메시지 목록 조회
+  useEffect(() => {
+    if (!chatRoomId) return;
+
+    // 초기 메시지 로드
+    fetchMessages();
+
+    // 3초마다 메시지 목록 조회
+    const intervalId = setInterval(fetchMessages, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [chatRoomId]);
+
   // 메시지 전송 함수 수정
   const sendMessage = async () => {
     if (!inputMessage.trim() || !chatRoomId || isSending) {
@@ -174,28 +189,21 @@ export default function Chat({
       // 입력창 초기화
       setInputMessage("");
 
-      // 서버가 메시지를 처리할 시간을 주기 위해 약간의 지연 추가
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // 최신 메시지 목록 조회
-      const response = await axios.get(
-        `${process.env.VITE_API_BASE_URL}/chatrooms/${chatRoomId}/messages`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data) {
-        console.log("최신 메시지 목록:", response.data);
-        setMessages(response.data);
-      }
+      // 메시지 전송 후 즉시 목록 조회
+      fetchMessages();
     } catch (error) {
-      console.error("메시지 전송 또는 조회 중 오류:", error);
+      console.error("메시지 전송 중 오류:", error);
       alert("메시지 전송에 실패했습니다.");
     } finally {
       setIsSending(false);
+    }
+  };
+
+  // Enter 키로 메시지 전송
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
@@ -229,7 +237,7 @@ export default function Chat({
       (frame) => {
         console.log("STOMP 연결 성공:", frame);
 
-        const subscribePath = `/topic/chatrooms/${chatRoomId}`;
+        const subscribePath = `/sub/chatroom/${chatRoomId}`;
         console.log("구독 경로:", subscribePath);
 
         try {
@@ -278,20 +286,11 @@ export default function Chat({
     };
   }, [chatRoomId, token]);
 
-  // 채팅방 ID가 변경될 때마다 메시지 목록 조회
+  // 초기 메시지 로드
   useEffect(() => {
-    if (chatRoomId) {
-      fetchMessages();
-    }
+    if (!chatRoomId) return;
+    fetchMessages();
   }, [chatRoomId]);
-
-  // Enter 키로 메시지 전송
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
 
   return (
     <div className="chat-container">
