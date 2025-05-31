@@ -5,6 +5,8 @@ import "./chatList.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/auth/AuthContext";
+import { useLanguage } from "../../../../context/language/LanguageContext";
+import { chatPage } from "../../../../lib/chat";
 import Chat from "../Chat/Chat";
 
 function ChatList() {
@@ -15,6 +17,8 @@ function ChatList() {
   const { id: petId } = useParams();
   const navigate = useNavigate();
   const { token } = useAuth();
+  const { language } = useLanguage();
+  const t = chatPage[language]?.chat || chatPage.ko.chat;
 
   useEffect(() => {
     fetchChatList();
@@ -61,8 +65,8 @@ function ChatList() {
     });
   };
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러: {error}</div>;
+  if (loading) return <div>{t.loading}</div>;
+  if (error) return <div>{t.error}</div>;
 
   return (
     <div className="chat-container">
@@ -76,9 +80,9 @@ function ChatList() {
         />
       ) : (
         <div className="chat-list">
-          <h2>입양 신청자 목록</h2>
+          <h2>{t.applicantsList}</h2>
           {chatList.length === 0 ? (
-            <p>입양 신청자가 없습니다.</p>
+            <p>{t.noApplicants}</p>
           ) : (
             chatList.map((chat) => (
               <div

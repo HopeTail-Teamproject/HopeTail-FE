@@ -3,6 +3,9 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../../../context/auth/AuthContext";
+import { useLanguage } from "../../../../context/language/LanguageContext";
+import { chatPage } from "../../../../lib/chat";
+import axios from "axios";
 import "./chat.css";
 import userImg from "/images/default_img.png";
 
@@ -16,10 +19,13 @@ export default function Chat({
 }) {
   const location = useLocation();
   const { token, user } = useAuth();
+  const { language } = useLanguage();
+  const t = chatPage[language]?.chat || chatPage.ko.chat;
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [chatRoomId, setChatRoomId] = useState(initialChatRoomId);
   const [chatRoomInfo, setChatRoomInfo] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const stompClientRef = useRef(null);
   const messagesEndRef = useRef(null);
 
@@ -32,7 +38,7 @@ export default function Chat({
     scrollToBottom();
   }, [messages]);
 
-  // WebSocket 연결 설정
+  // 채팅방 초기화
   useEffect(() => {
     if (!token || !user) return;
 
@@ -60,11 +66,6 @@ export default function Chat({
           }),
         });
 
-        console.log("채팅방 생성 응답:", {
-          status: response.status,
-          statusText: response.statusText,
-        });
-
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
           console.error("채팅방 생성 에러:", errorData);
@@ -79,10 +80,11 @@ export default function Chat({
         const data = await response.json();
         console.log("채팅방 생성 성공:", data);
         setChatRoomId(data.chatRoomId);
+        setChatRoomInfo(data);
 
-        // 채팅방 정보 조회
-        const roomResponse = await fetch(
-          `${process.env.VITE_API_BASE_URL}/chatrooms/${data.chatRoomId}`,
+        // 채팅방 메시지 목록 조회
+        const messagesResponse = await fetch(
+          `${process.env.VITE_API_BASE_URL}/chatrooms/${data.chatRoomId}/messages`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -90,13 +92,12 @@ export default function Chat({
           }
         );
 
-        if (!roomResponse.ok) {
-          throw new Error("채팅방 정보를 가져오는데 실패했습니다.");
+        if (!messagesResponse.ok) {
+          throw new Error("메시지 목록을 가져오는데 실패했습니다.");
         }
 
-        const roomData = await roomResponse.json();
-        console.log("채팅방 정보:", roomData);
-        setChatRoomInfo(roomData);
+        const messagesData = await messagesResponse.json();
+        setMessages(messagesData);
       } catch (error) {
         console.error("채팅방 초기화 중 오류:", error);
         alert(error.message);
@@ -106,13 +107,110 @@ export default function Chat({
     initializeChatRoom();
   }, [token, user, petId, selectedUser, isFromList, chatRoomId, petInfo]);
 
-  // WebSocket 연결 및 메시지 구독
+  // 메시지 목록 조회 함수
+  const fetchMessages = async () => {
+    if (!chatRoomId) return;
+
+    try {
+      const response = await axios.get(
+        `${process.env.VITE_API_BASE_URL}/chatrooms/${chatRoomId}/messages`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        console.log("채팅방 메시지 목록:", response.data);
+        setMessages(response.data);
+      }
+    } catch (error) {
+      console.error("메시지 목록 조회 중 오류:", error);
+    }
+  };
+
+  // 3초마다 메시지 목록 조회
+  useEffect(() => {
+    if (!chatRoomId) return;
+
+    // 초기 메시지 로드
+    fetchMessages();
+
+    // 3초마다 메시지 목록 조회
+    const intervalId = setInterval(fetchMessages, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [chatRoomId]);
+
+  // 메시지 전송 함수 수정
+  const sendMessage = async () => {
+    if (!inputMessage.trim() || !chatRoomId || isSending) {
+      console.log("메시지 전송 조건 미충족:", {
+        message: inputMessage.trim(),
+        chatRoomId,
+        isSending,
+      });
+      return;
+    }
+
+    setIsSending(true);
+
+    // 현재 사용자가 member1인지 member2인지 확인
+    const isMember1 = chatRoomInfo?.member1Email === user?.email;
+    const receiverId = isMember1 ? chatRoomInfo?.member2Id : chatRoomInfo?.member1Id;
+
+    const message = {
+      chatRoomId: chatRoomId,
+      receiverId: receiverId,
+      content: inputMessage.trim(),
+    };
+
+    try {
+      // 메시지 전송
+      if (stompClientRef.current?.connected) {
+        // WebSocket 연결이 있는 경우
+        stompClientRef.current.send("/pub/chat/private", {}, JSON.stringify(message));
+      } else {
+        // WebSocket 연결이 없는 경우 HTTP 폴백
+        await axios.post(
+          `${process.env.VITE_API_BASE_URL}/chatrooms/${chatRoomId}/messages`,
+          message,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
+      // 입력창 초기화
+      setInputMessage("");
+
+      // 메시지 전송 후 즉시 목록 조회
+      fetchMessages();
+    } catch (error) {
+      console.error("메시지 전송 중 오류:", error);
+      alert("메시지 전송에 실패했습니다.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  // Enter 키로 메시지 전송
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  // WebSocket 메시지 수신 시 처리
   useEffect(() => {
     if (!chatRoomId || !token) return;
 
-    console.log("WebSocket 연결 시작:", { chatRoomId, token });
-
-    // SockJS 옵션 설정
     const socket = new SockJS(
       `${process.env.VITE_API_BASE_URL}/ws/chat?token=${token}`,
       null,
@@ -122,111 +220,52 @@ export default function Chat({
       }
     );
 
-    // 연결 상태 모니터링
-    socket.onopen = () => {
-      console.log("SockJS 연결 성공");
-    };
-
-    socket.onclose = (event) => {
-      console.log("SockJS 연결 종료:", event);
-    };
-
-    socket.onerror = (error) => {
-      console.error("SockJS 오류:", error);
-    };
-
     const stompClient = Stomp.over(socket);
-
-    // 디버그 모드 활성화
     stompClient.debug = (str) => {
       console.log("STOMP Debug:", str);
-      // 모든 STOMP 프레임 로깅
-      if (str.startsWith(">>>") || str.startsWith("<<<")) {
-        console.log("STOMP Frame:", str);
-      }
     };
 
-    // 연결 옵션 설정
     const connectHeaders = {
       "heart-beat": "10000,10000",
       "accept-version": "1.1,1.0",
-      login: token, // 토큰을 login 헤더로 전송
-      passcode: "guest", // 필요한 경우 passcode 추가
+      login: token,
+      passcode: "guest",
     };
 
-    console.log("STOMP 연결 시도...");
     stompClient.connect(
       connectHeaders,
       (frame) => {
-        console.log("STOMP CONNECTED 프레임 수신:", frame);
-        console.log("연결된 STOMP 클라이언트:", {
-          connected: stompClient.connected,
-          ws: stompClient.ws ? "연결됨" : "연결 안됨",
-          subscriptions: Object.keys(stompClient.subscriptions || {}),
-        });
+        console.log("STOMP 연결 성공:", frame);
 
-        // 구독 전에 현재 채팅방 ID 확인
-        console.log("구독 시작 - 채팅방 ID:", chatRoomId);
-
-        // 구독 경로 확인
         const subscribePath = `/sub/chatroom/${chatRoomId}`;
         console.log("구독 경로:", subscribePath);
 
         try {
-          // 구독 전 연결 상태 확인
-          console.log("구독 전 STOMP 클라이언트 상태:", {
-            connected: stompClient.connected,
-            ws: stompClient.ws ? "연결됨" : "연결 안됨",
-            subscriptions: Object.keys(stompClient.subscriptions || {}),
-          });
-
-          const subscription = stompClient.subscribe(subscribePath, (msg) => {
-            console.log("메시지 수신됨 - 전체 메시지:", msg);
-            console.log("메시지 헤더:", msg.headers);
-            console.log("메시지 본문:", msg.body);
-            console.log("메시지 명령어:", msg.command);
-            console.log("메시지 목적지:", msg.destination);
-
+          const subscription = stompClient.subscribe(subscribePath, async (msg) => {
+            console.log("메시지 수신:", msg);
+            // 메시지 수신 시 최신 메시지 목록 조회
             try {
-              const payload = JSON.parse(msg.body);
-              console.log("파싱된 메시지:", payload);
+              const response = await axios.get(
+                `${process.env.VITE_API_BASE_URL}/chatrooms/${chatRoomId}/messages`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
 
-              // 메시지 형식 검증
-              if (!payload.chatRoomId || !payload.content) {
-                console.error("잘못된 메시지 형식:", payload);
-                return;
+              if (response.data) {
+                console.log("최신 메시지 목록:", response.data);
+                setMessages(response.data);
               }
-
-              setMessages((prev) => {
-                console.log("이전 메시지:", prev);
-                const newMessages = [...prev, payload];
-                console.log("새로운 메시지 목록:", newMessages);
-                return newMessages;
-              });
             } catch (error) {
-              console.error("메시지 파싱 오류:", error);
-              console.error("원본 메시지:", msg.body);
+              console.error("메시지 목록 조회 중 오류:", error);
             }
           });
-
-          // 구독 정보 수동 설정
-          subscription.destination = subscribePath;
 
           console.log("구독 완료:", {
             id: subscription.id,
             destination: subscription.destination,
-            unsubscribe: !!subscription.unsubscribe,
-          });
-
-          // 구독 상태 확인
-          console.log("현재 구독 목록:", Object.keys(stompClient.subscriptions || {}));
-          console.log("구독 상세 정보:", stompClient.subscriptions);
-
-          // 구독 후 연결 상태 확인
-          console.log("구독 후 STOMP 클라이언트 상태:", {
-            connected: stompClient.connected,
-            ws: stompClient.ws ? "연결됨" : "연결 안됨",
-            subscriptions: Object.keys(stompClient.subscriptions || {}),
           });
         } catch (error) {
           console.error("구독 중 오류 발생:", error);
@@ -234,10 +273,6 @@ export default function Chat({
       },
       (error) => {
         console.error("WebSocket 연결 오류:", error);
-        console.log("재연결 시도 예정...");
-        setTimeout(() => {
-          console.log("WebSocket 재연결 시도...");
-        }, 5000);
       }
     );
 
@@ -251,72 +286,11 @@ export default function Chat({
     };
   }, [chatRoomId, token]);
 
-  // 메시지 전송
-  const sendMessage = () => {
-    if (!stompClientRef.current || !inputMessage.trim() || !chatRoomId) {
-      console.log("메시지 전송 조건 미충족:", {
-        stompClient: !!stompClientRef.current,
-        message: inputMessage.trim(),
-        chatRoomId,
-      });
-      return;
-    }
-
-    const message = {
-      chatRoomId: Number(chatRoomId),
-      receiverId: isFromList ? selectedUser : petInfo?.email,
-      content: inputMessage.trim(),
-    };
-
-    console.log("전송할 메시지:", message);
-    console.log("STOMP 클라이언트 상태:", {
-      connected: stompClientRef.current.connected,
-      ws: stompClientRef.current.ws ? "연결됨" : "연결 안됨",
-    });
-
-    try {
-      console.log("메시지 전송 시작...");
-      // 먼저 로컬에 메시지 추가
-      const newMessage = {
-        chatRoomId: Number(chatRoomId),
-        receiverId: isFromList ? selectedUser : petInfo?.email,
-        content: inputMessage.trim(),
-        createdAt: new Date().toISOString()
-      };
-      console.log("새로 추가할 메시지:", newMessage);
-      console.log("메시지 발신자 확인:", { 
-        messageReceiver: newMessage.receiverId, 
-        currentUser: user.email,
-        isSentByMe: true
-      });
-      
-      setMessages(prev => {
-        const updatedMessages = [...prev, newMessage];
-        console.log("업데이트된 메시지 목록:", updatedMessages);
-        return updatedMessages;
-      });
-
-      // 그 다음 서버로 전송
-      stompClientRef.current.send(
-        "/pub/chat/private",
-        {},
-        JSON.stringify(message)
-      );
-      
-      console.log("메시지 전송 완료");
-      setInputMessage("");
-    } catch (error) {
-      console.error("메시지 전송 중 오류:", error);
-    }
-  };
-
-  // Enter 키로 메시지 전송
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
+  // 초기 메시지 로드
+  useEffect(() => {
+    if (!chatRoomId) return;
+    fetchMessages();
+  }, [chatRoomId]);
 
   return (
     <div className="chat-container">
@@ -324,27 +298,31 @@ export default function Chat({
         {isFromList ? (
           <>
             <button className="back-button" onClick={onBack}>
-              ←
+              {t.back}
             </button>
             <h3>
               {chatRoomInfo
-                ? `${chatRoomInfo.member1Username}님과 ${chatRoomInfo.member2Username}님의 대화`
-                : `${selectedUser}님과의 대화`}
+                ? `${chatRoomInfo.member1Username}${t.conversationBetween}${chatRoomInfo.member2Username}${t.conversationWith}`
+                : `${selectedUser}${t.conversationWith}`}
             </h3>
           </>
         ) : (
-          <h3>게시물 작성자와의 대화</h3>
+          <h3>{t.conversationWithAuthor}</h3>
         )}
       </div>
       <div className="chat-messages">
         {messages.map((msg, index) => {
-          const isSentByMe = msg.receiverId === (isFromList ? selectedUser : petInfo?.email);
+          const isSentByMe = msg.senderEmail === user?.email;
           return (
             <div
-              key={index}
+              key={msg.id || index}
               className={`message ${isSentByMe ? "sent" : "received"}`}
             >
+              <div className="message-header">{msg.senderUsername}</div>
               <div className="message-content">{msg.content}</div>
+              <div className="message-time">
+                {new Date(msg.createdAt).toLocaleTimeString()}
+              </div>
             </div>
           );
         })}
@@ -355,9 +333,12 @@ export default function Chat({
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="메시지를 입력하세요..."
+          placeholder={t.inputPlaceholder}
+          disabled={isSending}
         />
-        <button onClick={sendMessage}>전송</button>
+        <button onClick={sendMessage} disabled={isSending}>
+          {isSending ? t.sending : t.send}
+        </button>
       </div>
     </div>
   );
