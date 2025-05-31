@@ -29,7 +29,7 @@ const ChatFile = () => {
   };
 
   const normalizeString = (str) => {
-    return str.toLowerCase().replace(/\s+/g, ' ').trim();
+    return str.toLowerCase().replace(/\s+/g, " ").trim();
   };
 
   const getQuestionText = (questionType) => {
@@ -62,7 +62,10 @@ const ChatFile = () => {
       <LeftSidebar />
       <div className="chat-file">
         <div className="chat-file-header">
-          <h2>{request.applicantEmail}{t.application}</h2>
+          <h2>
+            {request.applicantEmail}
+            {t.application}
+          </h2>
           <button onClick={() => navigate(-1)} className="back-button">
             {t.back}
           </button>
@@ -70,7 +73,10 @@ const ChatFile = () => {
         <div className="requests-container">
           <div className="request-card">
             <div className="request-header">
-              <h3>{t.applicationNumber}{request.requestId}</h3>
+              <h3>
+                {t.applicationNumber}
+                {request.requestId}
+              </h3>
               <span className="submission-date">{formatDate(request.submittedAt)}</span>
             </div>
 
@@ -81,7 +87,7 @@ const ChatFile = () => {
                   {request.homeImages.map((image, index) => (
                     <img
                       key={index}
-                      src={image}
+                      src={`${process.env.VITE_API_BASE_URL}${image}`}
                       alt={`${t.homeImage} ${index + 1}`}
                       className="home-image"
                     />
