@@ -52,10 +52,17 @@
 }
 
 .message-header {
-  text-align: right;
   font-size: 0.8rem;
   color: #666;
   margin-bottom: 0.2rem;
+}
+
+.message.sent .message-header {
+  text-align: right;
+}
+
+.message.received .message-header {
+  text-align: left;
 }
 
 .message-content {
@@ -78,10 +85,17 @@
 }
 
 .message-time {
-  text-align: right;
   font-size: 0.7rem;
   color: #666;
   margin-top: 0.2rem;
+}
+
+.message.sent .message-time {
+  text-align: right;
+}
+
+.message.received .message-time {
+  text-align: left;
 }
 
 .chat-input {
