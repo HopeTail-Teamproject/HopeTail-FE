@@ -57,6 +57,34 @@ const ChatFile = () => {
     return questionType;
   };
 
+  const getImageUrl = (image) => {
+    if (image.startsWith("http")) return image;
+    const token = localStorage.getItem("token");
+    return `${process.env.VITE_API_BASE_URL}${image}`;
+  };
+
+  const handleImageError = async (e, image) => {
+    e.target.onerror = null;
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.VITE_API_BASE_URL}${image}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        e.target.src = URL.createObjectURL(blob);
+      } else {
+        e.target.style.display = "none";
+      }
+    } catch (error) {
+      console.error("이미지 로드 실패:", error);
+      e.target.style.display = "none";
+    }
+  };
+
   return (
     <div className="chat-file-container">
       <LeftSidebar />
@@ -87,9 +115,10 @@ const ChatFile = () => {
                   {request.homeImages.map((image, index) => (
                     <img
                       key={index}
-                      src={`${process.env.VITE_API_BASE_URL}${image}`}
+                      src={getImageUrl(image)}
                       alt={`${t.homeImage} ${index + 1}`}
                       className="home-image"
+                      onError={(e) => handleImageError(e, image)}
                     />
                   ))}
                 </div>
