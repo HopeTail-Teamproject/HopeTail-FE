@@ -5,7 +5,7 @@ import { getPetDetail } from "../../lib/adoptDetail";
 import { useLanguage } from "../../context/language/LanguageContext";
 import strings from "../../lib/i18n/rehomePage3";
 
-const API_BASE = "https://api.hopetail.com";
+const BASE_URL = process.env.VITE_API_BASE_URL || "";
 
 const RehomePage3 = () => {
   const { id } = useParams();

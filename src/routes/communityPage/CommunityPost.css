@@ -30,7 +30,7 @@
   width: 100% !important;
   height: 64px;
   padding: 0 12px;
-  border: 2px solid #7B61FF !important;
+  border: 2px solid #7b61ff !important;
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 1.125rem;
@@ -43,7 +43,7 @@
 }
 .post-image-box {
   flex: 1;
-  height: 200px;
+  height: 400px;
   background: #ccc;
   border-radius: 4px;
   overflow: hidden;
@@ -59,7 +59,7 @@
   width: 100%;
   height: 300px;
   padding: 12px;
-  border: 1px solid #7B61FF;
+  border: 1px solid #7b61ff;
   border-radius: 4px;
   resize: none;
   font-size: 1rem;
@@ -221,6 +221,18 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+}
+
+.post-container {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.post-container:last-child {
+  margin-bottom: 0;
 }
 
 @media (max-width: 1024px) {
