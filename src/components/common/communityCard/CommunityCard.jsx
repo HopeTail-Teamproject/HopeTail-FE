@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./CommunityCard.css";
-import {
-  FaThumbsUp,
-  FaRegThumbsUp,
-  FaBookmark,
-  FaRegBookmark,
-} from "react-icons/fa";
+import { FaThumbsUp, FaRegThumbsUp, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 const CommunityCard = ({
   post,
@@ -25,11 +20,11 @@ const CommunityCard = ({
     thumbnailUrl,
   } = post;
 
-  const firstSentence =
-    typeof content === "string" ? content.split("\n")[0] : "";
+  const firstSentence = typeof content === "string" ? content.split("\n")[0] : "";
 
   const [liked, setLiked] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const likedPosts = JSON.parse(localStorage.getItem("likedPosts") || "[]");
@@ -60,17 +55,24 @@ const CommunityCard = ({
     if (onBookmarkClick) onBookmarkClick(id);
   };
 
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    setImageError(true);
+    e.target.src = "/HopeTail-FE/images/default_img.png";
+  };
+
   return (
     <div className="community-card" onClick={onClick}>
       <div className="card-image-container">
         <img
-          src={thumbnailUrl || "/HopeTail-FE/images/default_img.png"}
+          src={
+            !imageError && thumbnailUrl
+              ? thumbnailUrl
+              : "/HopeTail-FE/images/default_img.png"
+          }
           alt="thumbnail"
           className="card-image"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/HopeTail-FE/images/default_img.png";
-          }}
+          onError={handleImageError}
         />
         <div className="bookmark-icon" onClick={handleBookmarkClick}>
           {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
@@ -106,7 +108,7 @@ const CommunityCard = ({
           />
           <span className="user-name">{username}</span>
         </div>
-        <div className="post-date">{createdAt.slice(0, 10)}</div>
+        <div className="post-date">{createdAt}</div>
       </div>
     </div>
   );
