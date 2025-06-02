@@ -85,6 +85,16 @@ const ChatFile = () => {
     }
   };
 
+  const formatAnswer = (answer) => {
+    if (answer === "Yes") {
+      return language === "kr" ? "예" : "Yes";
+    }
+    if (answer === "No") {
+      return language === "kr" ? "아니오" : "No";
+    }
+    return answer;
+  };
+
   return (
     <div className="chat-file-container">
       <LeftSidebar />
@@ -133,7 +143,7 @@ const ChatFile = () => {
                   return (
                     <div key={index} className="answer-item">
                       <h5>{getQuestionText(answer.questionType)}</h5>
-                      <p>{answer.answer}</p>
+                      <p>{formatAnswer(answer.answer)}</p>
                     </div>
                   );
                 })}
