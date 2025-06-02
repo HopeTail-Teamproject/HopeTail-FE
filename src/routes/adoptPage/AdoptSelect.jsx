@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
 import LeftSidebar from "../../components/common/leftSidebar/LeftSidebar";
 import { getAllPets, likePet } from "../../lib/adoptDetail";
@@ -11,28 +12,34 @@ const API_BASE = process.env.VITE_API_BASE_URL || "";
 
 const AdoptSelect = () => {
   const { language } = useLanguage();
-
-  const getValidLanguageKey = (lang) => {
-    const map = { kr: "ko", ko: "ko", en: "en" };
-    return map[lang] || "en";
-  };
-
-  const langKey = getValidLanguageKey(language);
-  const text = adoptSelectText[langKey];
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const [pets, setPets] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16;
 
-  const token = localStorage.getItem("token");
+  const getValidLanguageKey = (lang) => {
+    const map = { kr: "ko", ko: "ko", en: "en" };
+    return map[lang] || "en";
+  };
+  const langKey = getValidLanguageKey(language);
+  const text = adoptSelectText[langKey];
 
+  // 로그인 안 되어있으면 로그인 페이지로 이동
+  useEffect(() => {
+    if (!token) {
+      alert(text.alertLoginRequired);
+      navigate("/login");
+    }
+  }, [token, navigate, text.alertLoginRequired]);
+
+  // 펫 정보 불러오기
   useEffect(() => {
     const fetchPets = async () => {
       try {
         const res = await getAllPets(token);
-        console.log("🔥 전체 응답 데이터:", res);
-
         const mapped = await Promise.all(
           (res || []).map(async (p) => {
             let imageUrl = "/HopeTail-FE/images/default_img.png";
@@ -49,7 +56,7 @@ const AdoptSelect = () => {
                   const blob = await imgRes.blob();
                   imageUrl = URL.createObjectURL(blob);
                 }
-              } catch (err) {
+              } catch {
                 console.warn("📛 이미지 불러오기 실패:", url);
               }
             }
@@ -74,7 +81,7 @@ const AdoptSelect = () => {
         setPets(mapped);
         setFavorites(getFavorites());
       } catch (err) {
-        console.error("Failed to fetch pets:", err);
+        console.error("펫 정보 가져오기 실패:", err);
       }
     };
 
@@ -82,15 +89,16 @@ const AdoptSelect = () => {
   }, []);
 
   const totalPages = Math.ceil(pets.length / itemsPerPage);
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  };
-
   const paginatedPets = pets.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   const handleFavorite = async (pet) => {
     try {
@@ -103,7 +111,7 @@ const AdoptSelect = () => {
       toggleFavorite(pet.id);
       setFavorites(getFavorites());
     } catch (err) {
-      console.error("하트 실패:", err);
+      console.error("하트 클릭 실패:", err);
     }
   };
 

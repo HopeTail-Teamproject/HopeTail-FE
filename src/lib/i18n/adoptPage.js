@@ -1,10 +1,10 @@
 const adoptPageText = {
   kr: {
     loading: "불러오는 중...",
-    pageTitle: "입양 상세정보",
+    pageTitle: "입양하기",
     age: "나이",
-    years: "살",          // ✅ 추가
-    months: "개월",        // ✅ 추가
+    years: "살",        
+    months: "개월",        
     species: "종",
     location: "지역",
     vaccinated: "예방접종",

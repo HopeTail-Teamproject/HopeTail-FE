@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/language/LanguageContext";
 import rehomePageText from "../../lib/i18n/rehomePage";
@@ -15,12 +15,20 @@ const RehomePage = () => {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
   const [address, setAddress] = useState("");
-  const [ageYear, setAgeYear] = useState(0);
-  const [ageMonth, setAgeMonth] = useState(0);
+  const [ageYear, setAgeYear] = useState("");
+  const [ageMonth, setAgeMonth] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
 
   const fileInputRef = useRef();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) {
+      alert(text.alertLoginRequired || "Login required.");
+      navigate("/login");
+    }
+  }, [token, navigate, text.alertLoginRequired]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -36,7 +44,6 @@ const RehomePage = () => {
 
   const handleSubmit = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    const token = localStorage.getItem("token");
 
     if (images.length < 1) {
       alert(text.alertNoImage);
@@ -47,8 +54,8 @@ const RehomePage = () => {
       const formData = new FormData();
       const dto = {
         name,
-        age: ageYear,
-        ageMonth,
+        age: parseInt(ageYear) || 0,
+        ageMonth: parseInt(ageMonth) || 0,
         species,
         address,
         description: description || "소개글 없음.",
@@ -66,7 +73,7 @@ const RehomePage = () => {
       });
 
       alert(text.alertSuccess);
-      navigate("/rehome/list");
+      navigate("/adopt"); 
     } catch (err) {
       console.error("등록 오류:", err.response?.data || err);
       alert(text.alertError);
@@ -149,18 +156,24 @@ const RehomePage = () => {
 
               <div className="form-row">
                 <label>{text.ageLabel}</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={ageYear}
-                  onChange={(e) => setAgeYear(Number(e.target.value))}
-                /> {text.years}
-                <input
-                  type="number"
-                  min="0"
-                  value={ageMonth}
-                  onChange={(e) => setAgeMonth(Number(e.target.value))}
-                /> {text.months}
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <input
+                    type="number"
+                    min="0"
+                    value={ageYear}
+                    onChange={(e) => setAgeYear(e.target.value)}
+                    style={{ width: "80px" }}
+                  />
+                  <span>{text.years}</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={ageMonth}
+                    onChange={(e) => setAgeMonth(e.target.value)}
+                    style={{ width: "80px" }}
+                  />
+                  <span>{text.months}</span>
+                </div>
               </div>
             </div>
 
