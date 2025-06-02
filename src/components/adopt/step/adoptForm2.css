@@ -7,3 +7,29 @@
   display: flex;
   flex-direction: column;
 }
+
+/* 노트북 사이즈 (1366px ~ 1920px) */
+@media screen and (max-width: 1920px) {
+  .adopt-form2 {
+    margin-left: 0;
+  }
+
+  .adopt-form2 .form2-main {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}
+
+/* 작은 노트북 사이즈 (1366px 이하) */
+@media screen and (max-width: 1366px) {
+  .adopt-form2 {
+    margin-left: 0;
+  }
+
+  .adopt-form2 .form2-main {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}

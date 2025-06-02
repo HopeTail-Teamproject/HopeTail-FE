@@ -26,10 +26,10 @@ function AdoptForm1({ onImageSubmit }) {
 
       // 최소 2장 이상 선택되었을 때 업로드
       if (selectedFilesCount >= 2) {
-        // 선택된 이미지 URL들만 필터링
-        const imageUrls = newPreviews.filter((url) => url !== null);
+        // 선택된 파일 객체들만 필터링
+        const selectedFiles = newFiles.filter((file) => file !== null);
         if (onImageSubmit) {
-          onImageSubmit(imageUrls);
+          onImageSubmit(selectedFiles);
         }
       }
     }

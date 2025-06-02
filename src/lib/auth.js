@@ -47,7 +47,7 @@ export const signupPage = {
     kr: {
         pageName: "계정",
         title: "회원가입",
-        usernameLabel: "아이디",
+        usernameLabel: "이름",
         emailLabel: "이메일",
         passwordLabel: "비밀번호",
         phoneLabel: "전화번호",

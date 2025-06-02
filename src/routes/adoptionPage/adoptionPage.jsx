@@ -11,38 +11,51 @@ function AdoptionPage() {
     form22Answers: [],
     form3Answers: [],
   });
+  const [language, setLanguage] = useState("kr");
 
   useEffect(() => {
     const startAdoption = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`/api/adoption/start?petId=${id}`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `${process.env.VITE_API_BASE_URL}/api/adoption/start?petId=${id}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error("입양 신청을 시작할 수 없습니다.");
+          if (response.status === 500) {
+            throw new Error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          }
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.data?.errMsg || "입양 신청을 시작할 수 없습니다.");
         }
 
-        const adoptionId = await response.text();
+        const data = await response.json().catch(() => ({}));
+        console.log("서버 응답:", data);
+        const adoptionId = typeof data === "number" ? data : data.data;
+        if (!adoptionId) {
+          throw new Error("서버 응답이 올바르지 않습니다.");
+        }
         setAdoptionId(adoptionId);
       } catch (error) {
         console.error("입양 신청 시작 중 오류 발생:", error);
-        // 에러 처리 로직 추가 필요
+        alert(error.message);
       }
     };
 
     startAdoption();
   }, [id]);
 
-  const handleImageUpload = (imageUrls) => {
+  const handleImageUpload = (imageFiles) => {
     setFormData((prev) => ({
       ...prev,
-      images: imageUrls,
+      images: imageFiles,
     }));
   };
 
@@ -54,24 +67,39 @@ function AdoptionPage() {
   };
 
   const handleFinalSubmit = async () => {
-    if (!adoptionId) return;
+    if (!adoptionId) {
+      alert(language === "kr" ? "입양 신청 ID가 없습니다." : "No adoption ID found.");
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert(language === "kr" ? "로그인이 필요합니다." : "Please log in.");
+        return;
+      }
 
       // 이미지 업로드
       if (formData.images.length > 0) {
-        const imageResponse = await fetch(`/api/adoption/${adoptionId}/images`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData.images),
+        const formDataToSend = new FormData();
+        formData.images.forEach((image, index) => {
+          formDataToSend.append("images", image);
         });
 
+        const imageResponse = await fetch(
+          `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/images`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formDataToSend,
+          }
+        );
+
         if (!imageResponse.ok) {
-          throw new Error("이미지 업로드에 실패했습니다.");
+          const errorData = await imageResponse.json().catch(() => ({}));
+          throw new Error(errorData.data?.errMsg || "이미지 업로드에 실패했습니다.");
         }
       }
 
@@ -83,39 +111,54 @@ function AdoptionPage() {
       ];
 
       // 답변 저장
-      const answersResponse = await fetch(`/api/adoption/${adoptionId}/answers`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allAnswers),
-      });
+      const answersResponse = await fetch(
+        `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/answers`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(allAnswers),
+        }
+      );
 
       if (!answersResponse.ok) {
-        throw new Error("답변 저장에 실패했습니다.");
+        const errorData = await answersResponse.json().catch(() => ({}));
+        throw new Error(errorData.data?.errMsg || "답변 저장에 실패했습니다.");
       }
 
       // 최종 제출
-      const submitResponse = await fetch(`/api/adoption/${adoptionId}/submit`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const submitResponse = await fetch(
+        `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/submit`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ petId: id }),
+        }
+      );
 
       if (!submitResponse.ok) {
-        throw new Error("입양 신청 제출에 실패했습니다.");
+        const errorData = await submitResponse.json().catch(() => ({}));
+        throw new Error(errorData.data?.errMsg || "입양 신청 제출에 실패했습니다.");
       }
 
-      window.location.href = "/";
+      alert(
+        language === "kr"
+          ? "입양 신청이 완료되었습니다."
+          : "Adoption application completed."
+      );
+      window.location.href = "/HopeTail-FE/";
     } catch (error) {
       console.error("입양 신청 제출 중 오류 발생:", error);
       alert(
-        language === "kr"
-          ? "입양 신청 제출 중 오류가 발생했습니다."
-          : "An error occurred while submitting the adoption request."
+        error.message ||
+          (language === "kr"
+            ? "입양 신청 중 오류가 발생했습니다."
+            : "An error occurred during adoption application.")
       );
     }
   };
@@ -146,21 +189,24 @@ export async function action({ request }) {
   }
 
   try {
-    const response = await fetch(`/api/adoption/${adoptionId}/submit`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.VITE_API_BASE_URL}/api/adoption/${adoptionId}/submit`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("입양 신청 제출에 실패했습니다.");
     }
 
-    return redirect("/");
+    return redirect("/HopeTail-FE/");
   } catch (error) {
     console.error("입양 신청 제출 중 오류 발생:", error);
-    return redirect("/");
+    return redirect("/HopeTail-FE/");
   }
 }

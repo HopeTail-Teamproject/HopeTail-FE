@@ -19,7 +19,7 @@ export async function action({ request }) {
   const rememberMe = formData.get("rememberMe") === "on";
 
   try {
-    const response = await fetch("/api/account/auth", {
+    const response = await fetch(`${process.env.VITE_API_BASE_URL}/api/account/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export async function action({ request }) {
     } else {
       return {
         success: false,
-        error: data.message || "로그인에 실패했습니다.",
+        error: data.data?.errMsg || "로그인에 실패했습니다.",
       };
     }
   } catch (error) {

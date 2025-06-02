@@ -75,7 +75,11 @@ function AdoptForm3({ onAnswersSubmit }) {
           <textarea
             id="OTHER_ANIMAL_DETAIL"
             name="OTHER_ANIMAL_DETAIL"
-            placeholder="text"
+            placeholder={
+              language === "kr"
+                ? "없으면 없다고 적어주세요"
+                : "If there is no other animal, please write 'none'"
+            }
             required
             value={answers.OTHER_ANIMAL_DETAIL}
             onChange={handleAnswerChange}
@@ -140,7 +144,11 @@ function AdoptForm3({ onAnswersSubmit }) {
           <textarea
             id="EXPERIENCE"
             name="EXPERIENCE"
-            placeholder="text"
+            placeholder={
+              language === "kr"
+                ? "없으면 없다고 적어주세요"
+                : "If there is no other animal, please write 'none'"
+            }
             required
             value={answers.EXPERIENCE}
             onChange={handleAnswerChange}
