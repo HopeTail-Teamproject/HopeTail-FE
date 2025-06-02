@@ -43,7 +43,7 @@
 }
 .post-image-box {
   flex: 1;
-  height: 200px;
+  height: 400px;
   background: #ccc;
   border-radius: 4px;
   overflow: hidden;
