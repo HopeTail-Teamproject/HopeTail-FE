@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CommunityCard from "../../components/common/communityCard/CommunityCard";
 import { useLanguage } from "../../context/language/LanguageContext";
+import bookmarkPageText from "../../lib/i18n/bookmarkPage";
 import "./BookmarkPage.css";
 
 const BookmarkPage = () => {
   const { language } = useLanguage();
+  const text = bookmarkPageText[language] || bookmarkPageText["en"];
+
   const [allPosts, setAllPosts] = useState([]);
   const [bookmarkIds, setBookmarkIds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,45 +15,61 @@ const BookmarkPage = () => {
 
   useEffect(() => {
     const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    setBookmarkIds(storedBookmarks);
 
-    const mockData = [
+    const dummy = [
       {
         id: 1,
-        title: "강아지 산책 꿀팁",
-        content: "산책은 언제, 어떻게 해야 좋을까요?",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "밍키맘",
-        createdAt: "2025/03/26",
-        likeCount: 20,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
+        title: "Adopting Tips!",
+        content: "Adopting a pet is a beautiful journey.",
+        likeCount: 5,
+        createdAt: "2025-05-23",
+        email: "warmday@tail.com",
+        category: "REVIEW",
       },
       {
         id: 2,
-        title: "고양이 장난감 추천",
-        content: "우리 고양이가 제일 좋아한 장난감은?",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "냥덕후",
-        createdAt: "2025/03/26",
-        likeCount: 35,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
+        title: "My Dog's First Day",
+        content: "It was chaotic but amazing!",
+        likeCount: 8,
+        createdAt: "2025-05-22",
+        email: "doglover@puppy.com",
+        category: "DIARY",
       },
       {
         id: 3,
-        title: "입양 전 체크리스트",
-        content: "입양 전 꼭 확인해야 할 체크리스트를 소개합니다.",
-        imageUrl: "/HopeTail-FE/images/image.png",
-        username: "보호소직원",
-        createdAt: "2025/03/26",
+        title: "Healing Through Adoption",
+        content: "Saving them saved me.",
         likeCount: 12,
-        category: "Tips",
-        profileImage: "/HopeTail-FE/images/profile_circle.png"
-      }
-    ];
+        createdAt: "2025-05-21",
+        email: "hope@tail.com",
+        category: "REVIEW",
+      },
+      {
+        id: 4,
+        title: "Training Journey",
+        content: "How I trained my rescue dog in 30 days.",
+        likeCount: 6,
+        createdAt: "2025-05-20",
+        email: "trainer@dogs.com",
+        category: "DIARY",
+      },
+      {
+        id: 5,
+        title: "First Vet Visit",
+        content: "Our puppy was so brave!",
+        likeCount: 4,
+        createdAt: "2025-05-19",
+        email: "vet@care.com",
+        category: "REVIEW",
+      },
+    ].map(post => ({
+      ...post,
+      username: post.email.split("@")[0],
+    }));
 
-    setBookmarkIds(storedBookmarks);
-    setAllPosts(mockData);
+    const filtered = dummy.filter((post) => storedBookmarks.includes(post.id));
+    setAllPosts(filtered);
   }, []);
 
   const handleBookmarkToggle = (postId) => {
@@ -63,6 +82,10 @@ const BookmarkPage = () => {
 
     localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
     setBookmarkIds(updatedBookmarks);
+
+    setAllPosts((prev) =>
+      prev.filter((post) => updatedBookmarks.includes(post.id))
+    );
   };
 
   const totalPages = Math.ceil(allPosts.length / itemsPerPage);
@@ -74,9 +97,8 @@ const BookmarkPage = () => {
   return (
     <div className="bookmark-page">
       <div className="bookmark-content">
-        <h2 className="bookmark-title">
-          {language === "en" ? "Bookmark" : "북마크"}
-        </h2>
+        <h2 className="bookmark-title">{text.title}</h2>
+        <div className="bookmark-title-underline" />
 
         <div className="bookmark-box">
           <div className="bookmark-card-list">
@@ -97,7 +119,7 @@ const BookmarkPage = () => {
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Before
+                {text.before}
               </button>
 
               <div className="dot-indicators">
@@ -114,7 +136,7 @@ const BookmarkPage = () => {
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {text.next}
               </button>
             </div>
           )}

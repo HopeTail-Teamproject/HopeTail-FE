@@ -16,7 +16,7 @@ function Navbar() {
       </div>
       <div className="nav-main">
         <Link to="/adopt">{language === "kr" ? "입양하기" : "Adopt"}</Link>
-        <Link to="/rehome">{language === "kr" ? "재입양하기" : "Rehome"}</Link>
+        <Link to="/rehome">{language === "kr" ? "등록하기" : "Rehome"}</Link>
         <Link to="/community">{language === "kr" ? "게시판" : "Community"}</Link>
         <Link to="/care-guide">{language === "kr" ? "케어 가이드" : "Care Guide"}</Link>
         <Link to="/about">{language === "kr" ? "소개" : "About"}</Link>

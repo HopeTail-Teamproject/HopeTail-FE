@@ -1,0 +1,56 @@
+const strings = {
+  en: {
+    username: "Username",
+    email: "Email",
+    password: "Password",
+    phone: "Phone number",
+    address: "Address",
+    about: "Write about you",
+    change: "Change",
+    alertSuccess: "Profile updated successfully.",
+    alertFail: "Error occurred while updating profile.",
+    placeholder: {
+      username: "Enter your username",
+      email: "Enter your email",
+      password: "Enter new password",
+      phone: "Enter your phone number",
+      address: "Enter your address",
+    },
+    buttons: {
+      Chat: "Chat",
+      Bookmark: "Bookmark",
+      Favorites: "Favorites",
+      Files: "Files",
+      Rehome: "Rehome",
+      Donate: "Donate",
+    },
+  },
+  kr: {
+    username: "이름",
+    email: "이메일",
+    password: "비밀번호",
+    phone: "전화번호",
+    address: "주소",
+    about: "당신에 대해 적어주세요",
+    change: "변경",
+    alertSuccess: "회원 정보가 성공적으로 변경되었습니다.",
+    alertFail: "회원 정보 변경 중 오류가 발생했습니다.",
+    placeholder: {
+      username: "이름을 입력하세요",
+      email: "이메일을 입력하세요",
+      password: "새 비밀번호를 입력하세요",
+      phone: "전화번호를 입력하세요",
+      address: "주소를 입력하세요",
+    },
+    buttons: {
+      Chat: "채팅",
+      Bookmark: "북마크",
+      Favorites: "관심 목록",
+      Files: "첨부파일",
+      Rehome: "유기견 등록",
+      Donate: "후원하기",
+    },
+  },
+};
+
+export default strings;

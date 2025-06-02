@@ -1,6 +1,6 @@
 .left-sidebar {
   position: sticky;
-  top: 120px; 
+  top: 120px;
   height: calc(100vh - 120px);
   width: 228px;
   background-color: #d9d9d9;
@@ -24,28 +24,31 @@
 .sidebar-info {
   font-size: 13px;
   color: #000;
-  text-align: left;         
-  line-height: 1.8;        
+  text-align: left;
+  line-height: 1.8;
   margin-bottom: 24px;
   width: 180px;
   display: flex;
   flex-direction: column;
-  gap: 12px;               
+  gap: 12px;
 }
 
 .sidebar-info p {
   display: flex;
   align-items: center;
-  gap: 8px;                 
+  gap: 8px;
   margin: 0;
 }
-
 
 .sidebar-icons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px 24px;
   margin-bottom: 20px;
+
+  /* ✅ 아이콘 정렬을 가운데로 */
+  justify-items: center;
+  align-items: center;
 }
 
 .sidebar-icons img {
@@ -56,6 +59,15 @@
 }
 
 .sidebar-icons img:hover {
+  transform: scale(1.08);
+}
+
+/* ✅ Bookmark 버튼만 크기 조절 */
+.sidebar-icons img[alt="Bookmark"] {
+  width: 42px;
+  height: 42px;
+}
+.sidebar-icons img[alt="Bookmark"]:hover {
   transform: scale(1.08);
 }
 
@@ -72,9 +84,9 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start;  
+  align-items: flex-start;
   margin-top: 24px;
-  width: 80%;              
+  width: 80%;
 }
 
 .sidebar-actions p {
@@ -85,10 +97,24 @@ hr {
   margin: 0;
 }
 
-.bookmark-icon {
-  width: 50px !important;
-  height: 48px !important;
-  display: inline-block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+@media (max-width: 1024px) {
+  .left-sidebar {
+    width: 180px;
+  }
+
+  .sidebar-info {
+    font-size: 12px;
+    width: 160px;
+  }
+
+  .sidebar-icons img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* ✅ 반응형 북마크 버튼 크기 조정 */
+  .sidebar-icons img[alt="Bookmark"] {
+    width: 36px;
+    height: 36px;
+  }
 }

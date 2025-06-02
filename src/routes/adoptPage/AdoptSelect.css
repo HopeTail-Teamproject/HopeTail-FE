@@ -45,7 +45,7 @@
 
 .adopt-card-box {
   width: 100%;
-  max-width: 1350px;
+  max-width: 1500px;
   box-sizing: border-box;
   padding: 2rem;
   margin-top: 1rem;
@@ -97,4 +97,45 @@
 .page-btn.circle:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+@media (max-width: 1440px) {
+  .adopt-card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .adopt-card-box {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .adopt-select-body {
+    flex-direction: column;
+  }
+
+  .left-sidebar {
+    width: 100%;
+    min-height: auto;
+    margin-top: 0;
+  }
+
+  .adopt-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .adopt-select-container {
+    padding: 1rem;
+  }
+
+  .adopt-title {
+    font-size: 2.2rem;
+  }
+
+  .adopt-card-box {
+    border-width: 2px;
+    padding: 1rem;
+  }
 }

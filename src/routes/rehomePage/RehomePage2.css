@@ -1,51 +1,129 @@
+/* === 공통 레이아웃 === */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Pretendard", sans-serif;
+}
+
 .rehome2-wrapper {
-  padding: 40px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 100%;
+  font-family: "Pretendard", sans-serif;
+  align-items: center;
+}
+
+/* === 콘텐츠 영역 === */
+.rehome2-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  width: 100%;
+  max-width: 1600px;
+  box-sizing: border-box;
+}
+
+/* === 타이틀 === */
+.rehome2-title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.rehome2-underline {
+  height: 1px;
+  background-color: #999;
+  width: 300px;
+  margin: 0 auto 100px auto;
+}
+
+/* === 카드 그리드 === */
+.card-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 100px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* === 페이지네이션 === */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.page-btn.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #a855f7;
+  color: #6b21a8;
+  background-color: #f3e8ff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.page-btn.circle:hover:not(:disabled) {
+  background-color: #e9d5ff;
+}
+
+.page-btn.circle.active {
+  background-color: #c084fc;
+  color: white;
+  font-weight: bold;
+}
+
+.page-btn.circle:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* === 유기견 없을 때 메시지 === */
+.no-dogs-message {
+  font-size: 1.2rem;
+  margin-top: 12px;
   text-align: center;
 }
 
-.rehome2-title {
-  font-size: 2.4rem;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #000;
-  display: inline-block;
-  padding-bottom: 5px;
+/* === 반응형 === */
+@media (max-width: 1024px) {
+  .card-grid {
+    gap: 24px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rehome2-title {
+    font-size: 24px;
+  }
+
+  .page-btn.circle {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .rehome2-content {
+    padding: 40px 16px;
+  }
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  justify-content: center;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto 50px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.page-btn {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: 1px solid #caaefc;
-  background-color: white;
-  color: #6c36ec;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-.page-btn:hover {
-  background-color: #f1e7ff;
-  transform: scale(1.1);
-}
-
-.page-btn.active {
-  background-color: #a88bfd;
-  color: white;
+@media (max-width: 600px) {
+  .page-btn.circle {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
 }

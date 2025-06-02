@@ -1,7 +1,22 @@
+/* === 공통 레이아웃 === */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #ffffff;
+  font-family: "Pretendard", sans-serif;
+}
+
 .favorites-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex-grow: 1;
+  min-height: 100%;
+  font-family: "Pretendard", sans-serif;
+  align-items: center;
 }
 
 .favorites-content {
@@ -10,24 +25,35 @@
   flex-direction: column;
   align-items: center;
   padding: 50px 20px;
+  width: 100%;
+  max-width: 1600px;
+  box-sizing: border-box;
 }
 
 .favorites-title {
-  font-size: 28px;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #ccc;
+  font-size: 3rem;
+  font-weight: bold;
   text-align: center;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.favorites-underline {
+  height: 1px;
+  background-color: #999;
+  width: 300px;
+  margin: 0 auto 100px auto;
 }
 
 .favorites-card-list {
   display: flex;
-  gap: 40px;
+  gap: 100px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 100px;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .favorites-pagination {
@@ -102,4 +128,32 @@
 .page-btn.circle:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+/* === 반응형 === */
+@media (max-width: 1024px) {
+  .favorites-card-list {
+    gap: 24px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .favorites-title {
+    font-size: 24px;
+  }
+
+  .favorites-nav-button {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+
+  .page-circle {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+
+  .favorites-content {
+    padding: 40px 16px;
+  }
 }

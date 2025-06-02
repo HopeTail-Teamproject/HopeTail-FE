@@ -9,14 +9,20 @@ const FilesCard = ({ pet }) => {
     navigate(`/files/${pet.id}`);
   };
 
+  const imageUrl =
+    pet.image || pet.photoUrl || "/HopeTail-FE/images/default_img.png";
+
   return (
     <div className="files-card">
       <div className="card-left">
         <img
-          src={pet.image || "/HopeTail-FE/images/default_img.png"}
+          src={imageUrl}
           alt="pet"
           className="card-image"
-          onError={(e) => (e.target.src = "/HopeTail-FE/images/default_img.png")}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/HopeTail-FE/images/default_img.png";
+          }}
         />
       </div>
       <div className="card-right">

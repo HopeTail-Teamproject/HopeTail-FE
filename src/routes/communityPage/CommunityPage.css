@@ -71,7 +71,7 @@
 .notice-label {
   font-weight: bold;
   color: red;
-  font-size: 24px
+  font-size: 24px;
 }
 
 .notice-text {
@@ -143,6 +143,9 @@
   gap: 120px;
   margin-top: 32px;
   justify-items: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pagination {
@@ -178,4 +181,88 @@
 .page-btn.circle:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+@media (max-width: 1440px) {
+  .community-main {
+    padding: 30px;
+  }
+
+  .card-grid {
+    gap: 60px;
+  }
+
+  .notice-text,
+  .guideline-link {
+    font-size: 20px;
+  }
+
+  .toolbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .community-body {
+    flex-direction: column;
+  }
+
+  .left-sidebar {
+    display: none;
+  }
+
+  .community-main {
+    padding: 20px;
+  }
+
+  .community-title {
+    font-size: 2rem;
+  }
+
+  .community-title-underline {
+    width: 200px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 40px;
+  }
+
+  .new-post-button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .category-select {
+    width: 100%;
+  }
+
+  .notice-row {
+    flex-direction: column;
+    font-size: 18px;
+    gap: 4px;
+  }
+
+  .notice-label {
+    font-size: 20px;
+  }
+
+  .notice-text,
+  .guideline-link {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .page-btn.circle {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
 }

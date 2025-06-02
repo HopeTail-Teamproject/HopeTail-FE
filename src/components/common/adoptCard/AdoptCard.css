@@ -1,5 +1,6 @@
 .adopt-card {
-  width: 250px;
+  width: 260px; 
+  box-sizing: border-box;
   background: rgba(229, 203, 225, 0.44); 
   border: 3px solid #000000; 
   border-radius: 8px;
@@ -97,16 +98,31 @@
   font-family: 'Pretendard', sans-serif;
 }
 
-.gender-button {
-  padding: 6px 10px;
-  background-color: #EDE9FE;
-  color: #5E29A6;
-  border-width: 3px;
-  border-style: solid;
-  border-color: #D7C9FF;
-  border-radius: 10px;
-  font-weight: 500;
-  font-size: 13px;
-  font-family: 'Pretendard', sans-serif;
-  text-align: center;
+@media (max-width: 1024px) {
+  .adopt-card {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px;
+  }
+
+  .pet-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .heart-icon {
+    font-size: 20px;
+  }
+
+  .more-button,
+  .info-button,
+  .gender-button {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  .row {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
