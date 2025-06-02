@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './CommunityNewpost.css';
 import { useLanguage } from '../../context/language/LanguageContext';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { uploadImageToServer } from '../../lib/imageUpload';
+import communityNewpostText from '../../lib/i18n/communityNewpost';
 
 const CommunityNewpost = () => {
   const { language } = useLanguage();
+  const text = communityNewpostText[language] || communityNewpostText["en"];
   const navigate = useNavigate();
 
   const [category, setCategory] = useState('REVIEW');
@@ -32,30 +32,25 @@ const CommunityNewpost = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!title.trim() || !content.trim()) {
-      alert('Please fill in both the title and content.');
+      alert(text.alertIncomplete);
       return;
     }
 
-    try {
-      const uploadedUrls = await Promise.all(
-        images.filter(Boolean).map((img) => uploadImageToServer(img))
-      );
+    const dummyUrls = images
+      .filter(Boolean)
+      .map(() => '/HopeTail-FE/images/default_img.png');
 
-      const response = await axios.post('/api/posts', {
-        title,
-        content,
-        category,
-        photoUrls: uploadedUrls,
-      });
+    console.log("제출된 데이터:", {
+      title,
+      content,
+      category,
+      photoUrls: dummyUrls,
+    });
 
-      alert('Post created successfully!');
-      navigate('/community');
-    } catch (error) {
-      console.error('Error creating post:', error);
-      alert('Failed to create post.');
-    }
+    alert(text.alertSuccess);
+    navigate('/community');
   };
 
   return (
@@ -63,7 +58,8 @@ const CommunityNewpost = () => {
       <img className="side-ad" src="/HopeTail-FE/images/AD.png" alt="AD" />
       <div className="newpost-content">
         <div className="center-container">
-          <h2 className="newpost-title">New Post</h2>
+          <h2 className="newpost-title">{text.pageTitle}</h2>
+          <div className="newpost-title-underline" />
           <div className="image-upload-section">
             {previewUrls.map((url, index) => (
               <label key={index} className="image-box">
@@ -76,39 +72,45 @@ const CommunityNewpost = () => {
                 {url ? (
                   <img src={url} alt="preview" />
                 ) : (
-                  <img src="/HopeTail-FE/images/image.png" alt="placeholder" />
+                  <div className="placeholder">
+                    {index < 2 ? (
+                      <span className="placeholder-text">{text.imagePlaceholder}</span>
+                    ) : (
+                      <span className="plus-icon">＋</span>
+                    )}
+                  </div>
                 )}
               </label>
             ))}
           </div>
           <div className="input-row">
             <div className="input-category">
-              <label>Category</label>
+              <label>{text.categoryLabel}</label>
               <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="REVIEW">Review</option>
-                <option value="DIARY">Diary</option>
+                <option value="REVIEW">{text.categoryReview}</option>
+                <option value="DIARY">{text.categoryDiary}</option>
               </select>
             </div>
             <div className="input-title">
-              <label>Title</label>
+              <label>{text.titleLabel}</label>
               <input
                 type="text"
-                placeholder="Write the title of your post"
+                placeholder={text.titlePlaceholder}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
           </div>
           <div className="input-content">
-            <label>Content</label>
+            <label>{text.contentLabel}</label>
             <textarea
-              placeholder="Write your post content"
+              placeholder={text.contentPlaceholder}
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
           <button className="post-btn" onClick={handleSubmit}>
-            Post
+            {text.postButton}
           </button>
         </div>
       </div>

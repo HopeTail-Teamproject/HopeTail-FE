@@ -1,3 +1,12 @@
+/* === 공통 레이아웃 === */
+body, html, #root {
+  height: 100%;
+}
+
+footer {
+  margin-top: auto;
+}
+
 .adopt-page-content {
   flex-grow: 1;
   padding: 40px 60px;
@@ -8,6 +17,7 @@
   font-family: "Pretendard", sans-serif;
 }
 
+/* === 헤더 === */
 .adopt-header {
   display: flex;
   flex-direction: column;
@@ -30,10 +40,11 @@
   margin: 0 auto 2rem auto;
 }
 
+/* === 본문 레이아웃 === */
 .adopt-body-wrapper {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 150px;
+  gap: 200px;
   max-width: 1400px;
   width: 100%;
   margin-top: 80px;
@@ -41,31 +52,13 @@
   justify-content: center;
 }
 
+/* === 이미지 === */
 .image-group {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   gap: 20px;
   grid-column: 1;
-}
-
-.thumbnail-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.thumbnail-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  object-fit: cover;
-  background-color: #ccc;
-  transition: transform 0.2s ease;
-}
-
-.thumbnail-img:hover {
-  transform: scale(1.05);
 }
 
 .main-img {
@@ -76,6 +69,7 @@
   background-color: #666;
 }
 
+/* === 정보 텍스트 영역 === */
 .text-column {
   display: flex;
   flex-direction: column;
@@ -86,7 +80,11 @@
   grid-column: 2;
 }
 
-.row-inline {
+.text-column p {
+  white-space: nowrap;
+}
+
+.name-row {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -96,12 +94,13 @@
   background: none;
   border: 1px solid #999;
   border-radius: 10px;
-  padding: 8px 12px;
-  transform: scale(1.5);
-  font-size: 22px;
+  padding: 4px 6px;
+  transform: scale(1.1);
+  font-size: 18px;
   cursor: pointer;
 }
 
+/* === 채팅 버튼 === */
 .chat-row {
   display: flex;
   align-items: center;
@@ -129,17 +128,18 @@
   cursor: pointer;
 }
 
+/* === 설명 + Choose 버튼 === */
 .description-column {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   width: 400px;
-  margin-top: -20px;          
+  margin-top: -20px;
 }
 
 .description-column h3 {
-  color: #2c2cce;
+  color: #7b61ff;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -149,7 +149,7 @@
   width: 100%;
   height: 500px;
   font-size: 18px;
-  border: 2px solid #814ffb;
+  border: 2px solid #7b61ff;
   border-radius: 6px;
   padding: 14px;
   font-family: inherit;
@@ -157,9 +157,15 @@
   box-sizing: border-box;
 }
 
+.choose-button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+}
+
 .choose-button {
-  align-self: flex-end;
-  background-color: #814ffb;
+  background-color: #7b61ff;
   color: white;
   border: none;
   padding: 14px 30px;
@@ -167,14 +173,145 @@
   font-size: 18px;
   border-radius: 8px;
   width: 130px;
-  margin-top: 16px;
   cursor: pointer;
 }
 
-body, html, #root {
-  height: 100%;
+/* === rehomer 버튼 (공통 스타일 활용) === */
+.double-buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
 }
 
-footer {
-  margin-top: auto;
+.double-buttons .choose-button {
+  width: 130px;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #7b61ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* === 파일 이미지 버튼 === */
+.files-image-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+.files-img {
+  width: 64px;
+  height: auto;
+}
+
+.files-label {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* === 반응형 === */
+@media (max-width: 1440px) {
+  .adopt-body-wrapper {
+    gap: 80px;
+  }
+
+  .main-img {
+    width: 400px;
+    height: 400px;
+  }
+
+  .text-column {
+    font-size: 20px;
+    width: 260px;
+  }
+
+  .description-column {
+    width: 350px;
+  }
+
+  .description-column textarea {
+    height: 400px;
+  }
+
+  .choose-button,
+  .double-buttons .choose-button {
+    width: 120px;
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+
+  .chat-text {
+    font-size: 22px;
+  }
+
+  .files-img {
+    width: 52px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .adopt-body-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .image-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .thumbnail-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .text-column,
+  .description-column {
+    width: 90%;
+    font-size: 18px;
+    align-items: center;
+  }
+
+  .chat-profile-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chat-icon {
+    font-size: 36px;
+  }
+
+  .chat-text {
+    font-size: 20px;
+  }
+
+  .choose-button,
+  .double-buttons .choose-button {
+    align-self: center;
+    margin-top: 20px;
+  }
+
+  .description-column textarea {
+    height: 300px;
+    font-size: 16px;
+  }
+
+  .files-img {
+    width: 48px;
+  }
 }

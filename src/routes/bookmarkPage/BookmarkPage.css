@@ -1,7 +1,19 @@
+/* === 공통 레이아웃 === */
+body, html, #root {
+  height: 100%;
+}
+
+footer {
+  margin-top: auto;
+}
+
 .bookmark-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 100%;
+  font-family: "Pretendard", sans-serif;
 }
 
 .bookmark-content {
@@ -9,69 +21,95 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px;
-  padding-bottom: 100px;
+  padding: 60px 20px 100px;
+  width: 100%;
+  max-width: 1600px;
+  box-sizing: border-box;
 }
 
 .bookmark-title {
-  font-size: 32px;
+  font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #000;
   text-align: center;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.bookmark-title-underline {
+  height: 1px;
+  background-color: #999;
+  width: 300px;
+  margin: 0 auto 2rem auto;
 }
 
 .bookmark-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid #a084e8;
+  border: 3px solid #7B61FF;
   padding: 40px 30px;
   border-radius: 12px;
   width: 100%;
-  max-width: 1300px;
   box-sizing: border-box;
 }
 
 .bookmark-card-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: 150px;
   justify-content: center;
   margin-bottom: 40px;
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1400px;
 }
 
 .bookmark-pagination-wrapper {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 24px;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 40px;
   margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.bookmark-pagination-wrapper .bookmark-nav-button:first-child {
+  justify-self: start;
+}
+
+.bookmark-pagination-wrapper .bookmark-nav-button:last-child {
+  justify-self: end;
 }
 
 .bookmark-nav-button {
-  padding: 12px 36px;
-  border: 2px solid #a084e8;
-  background: white;
-  color: #a084e8;
-  border-radius: 10px;
-  font-weight: 600;
+  width: 140px;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  background-color: #7B61FF;
+  color: white;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .bookmark-nav-button:hover {
-  background-color: #f3efff;
+  background-color: #7B61FF;
+}
+
+.bookmark-nav-button:disabled {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
 }
 
 .dot-indicators {
   display: flex;
   gap: 12px;
   justify-content: center;
+  align-items: center;
 }
 
 .dot {
@@ -83,5 +121,64 @@
 }
 
 .dot.active {
-  background-color: #a084e8;
+  background-color: #7B61FF;
+}
+
+/* === 반응형 === */
+@media (max-width: 1440px) {
+  .bookmark-box {
+    padding: 32px 24px;
+  }
+
+  .bookmark-card-list {
+    gap: 32px;
+  }
+
+  .bookmark-nav-button {
+    padding: 10px 30px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .bookmark-content {
+    padding: 40px 16px;
+  }
+
+  .bookmark-box {
+    padding: 24px 16px;
+    border-width: 1.5px;
+  }
+
+  .bookmark-title {
+    font-size: 24px;
+  }
+
+  .bookmark-title-underline {
+    margin-bottom: 1.5rem;
+  }
+
+  .bookmark-card-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .bookmark-pagination-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bookmark-nav-button {
+    width: 100%;
+    max-width: 200px;
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
 }

@@ -2,37 +2,67 @@ import React, { useEffect, useState } from "react";
 import AdoptCard from "../../components/common/adoptCard/AdoptCard";
 import { useLanguage } from "../../context/language/LanguageContext";
 import { getAllPets, likePet } from "../../lib/adoptDetail";
+import {
+  getFavorites,
+  isFavorite,
+  toggleFavorite,
+} from "../../lib/favorites";
+import favoritesPageText from "../../lib/i18n/favoritesPage";
 import "./FavoritesPage.css";
+
+const API_BASE = "https://api.hopetail.com";
 
 const FavoritesPage = () => {
   const { language } = useLanguage();
-  const [pets, setPets] = useState([]);
-  const [favoritedIds, setFavoritedIds] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 16;
+  const text = favoritesPageText[language] || favoritesPageText["en"];
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user?.token;
+  const [pets, setPets] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await getAllPets();
-        const stored = JSON.parse(localStorage.getItem("favorites")) || [];
+        const res = await getAllPets(token);
+        const favorites = getFavorites();
 
-        const mapped = res.map((p) => ({
-          id: p.id,
-          name: p.name,
-          age: `${p.age}살`,
-          species: p.species,
-          location: p.address,
-          gender: p.gender || "unknown",
-          image: p.photoUrl || "/images/image.png",
-        }));
+        const mapped = await Promise.all(
+          res.map(async (p) => {
+            let imageUrl = "/HopeTail-FE/images/default_img.png";
 
-        const filtered = mapped.filter((pet) => stored.includes(pet.id));
+            if (p.photoUrl) {
+              const url = p.photoUrl.startsWith("http")
+                ? p.photoUrl
+                : `${API_BASE}${p.photoUrl}`;
 
-        setFavoritedIds(stored);
+              try {
+                const imgRes = await fetch(url, {
+                  headers: token ? { Authorization: `Bearer ${token}` } : {},
+                });
+                if (imgRes.ok) {
+                  const blob = await imgRes.blob();
+                  imageUrl = URL.createObjectURL(blob);
+                }
+              } catch (err) {
+                console.warn("📛 이미지 불러오기 실패:", url);
+              }
+            }
+
+            return {
+              id: p.id,
+              name: p.name,
+              age: `${p.age}살`,
+              species: p.species,
+              location: p.address,
+              gender: p.gender || "unknown",
+              image: imageUrl,
+            };
+          })
+        );
+
+        const filtered = mapped.filter((pet) => favorites.includes(pet.id));
         setPets(filtered);
       } catch (err) {
         console.error("즐겨찾기 불러오기 실패:", err);
@@ -50,14 +80,8 @@ const FavoritesPage = () => {
 
     try {
       await likePet(pet.id, token);
-
-      const updated = favoritedIds.includes(pet.id)
-        ? favoritedIds.filter((id) => id !== pet.id)
-        : [...favoritedIds, pet.id];
-
-      localStorage.setItem("favorites", JSON.stringify(updated));
-      setFavoritedIds(updated);
-      setPets((prev) => prev.filter((p) => updated.includes(p.id)));
+      toggleFavorite(pet.id);
+      setPets((prev) => prev.filter((p) => isFavorite(p.id)));
     } catch (err) {
       console.error("하트 실패:", err);
     }
@@ -78,11 +102,12 @@ const FavoritesPage = () => {
 
   return (
     <div className="favorites-page">
-      <h2 className="favorites-title">Favorites</h2>
+      <h2 className="favorites-title">{text.title}</h2>
+      <div className="favorites-underline" />
 
       {paginatedFavorites.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "40px", fontSize: "18px" }}>
-          아직 관심 동물이 없습니다.
+          {text.empty}
         </p>
       ) : (
         <div className="favorites-card-list">
@@ -90,7 +115,7 @@ const FavoritesPage = () => {
             <AdoptCard
               key={pet.id}
               pet={pet}
-              isFavorite={favoritedIds.includes(pet.id)}
+              isFavorite={true}
               onHeartClick={() => handleLikeToggle(pet)}
             />
           ))}
@@ -116,7 +141,9 @@ const FavoritesPage = () => {
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index + 1}
-            className={`page-btn circle ${currentPage === index + 1 ? "active" : ""}`}
+            className={`page-btn circle ${
+              currentPage === index + 1 ? "active" : ""
+            }`}
             onClick={() => handlePageChange(index + 1)}
           >
             {index + 1}

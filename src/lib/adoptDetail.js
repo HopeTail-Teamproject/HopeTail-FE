@@ -18,6 +18,9 @@ export const getAllPets = async (token) => {
   const res = await axios.get(`/api/petposts`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  console.log("🧪 전체 응답:", res);        // 이거 추가
+  console.log("🧪 res.data:", res.data);   // 이거도 추가
+
   return res.data;
 };
-

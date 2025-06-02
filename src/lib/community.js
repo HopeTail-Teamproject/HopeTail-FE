@@ -7,7 +7,7 @@ const getAuthHeaders = () => {
 };
 
 export const fetchAllPosts = async () => {
-  const response = await fetch("/api/posts", {
+  const response = await fetch(`/api/posts`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("전체 게시글 조회 실패");

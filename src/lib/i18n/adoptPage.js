@@ -1,0 +1,38 @@
+const adoptPageText = {
+  kr: {
+    loading: "불러오는 중...",
+    pageTitle: "입양 상세정보",
+    age: "나이",
+    species: "종",
+    location: "지역",
+    vaccinated: "예방접종",
+    houseTrained: "배변훈련",
+    neutered: "중성화",
+    chat: "채팅하기",
+    files: "파일",
+    change: "수정",
+    done: "완료",
+    information: "소개",
+    noInformation: "소개가 없습니다.",
+    choose: "입양하기",
+  },
+  en: {
+    loading: "Loading...",
+    pageTitle: "Adoption Details",
+    age: "Age",
+    species: "Species",
+    location: "Location",
+    vaccinated: "Vaccinated",
+    houseTrained: "House Trained",
+    neutered: "Neutered",
+    chat: "Chat",
+    files: "Files",
+    change: "Change",
+    done: "Done",
+    information: "Information",
+    noInformation: "No description available.",
+    choose: "Adopt",
+  },
+};
+
+export default adoptPageText;

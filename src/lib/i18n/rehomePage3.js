@@ -1,0 +1,38 @@
+const strings = {
+  en: {
+    rehome: "Rehome",
+    age: "Age",
+    species: "Species",
+    location: "Location",
+    vaccinated: "Vaccinated",
+    houseTrained: "House-Trained",
+    neutered: "Neutered",
+    info: "Information",
+    noInfo: "No additional info.",
+    done: "Done",
+    files: "Files",
+    confirm: "Are you sure you want to mark this pet as adopted?",
+    success: "✅ Successfully marked as adopted.",
+    failure: "❌ Failed to mark as adopted.\n",
+    invalid: "Invalid request.",
+  },
+  kr: {
+    rehome: "등록하기",
+    age: "나이",
+    species: "품종",
+    location: "위치",
+    vaccinated: "예방접종 완료",
+    houseTrained: "배변 훈련",
+    neutered: "중성화 여부",
+    info: "상세 정보",
+    noInfo: "추가 정보 없음.",
+    done: "분양 완료",
+    files: "첨부파일",
+    confirm: "정말로 이 유기견을 분양 완료하시겠습니까?",
+    success: "✅ 분양 완료 처리되었습니다.",
+    failure: "❌ 분양 완료 처리에 실패했습니다.\n",
+    invalid: "요청 정보가 유효하지 않습니다.",
+  },
+};
+
+export default strings;

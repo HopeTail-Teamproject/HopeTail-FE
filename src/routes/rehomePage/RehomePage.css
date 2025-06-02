@@ -1,40 +1,61 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Pretendard", sans-serif;
+}
+
 .page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  justify-content: flex-start;
 }
 
 .rehome-wrapper {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
-  padding: 60px 0 100px;
+  padding: 30px 20px 0;
+  min-height: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .rehome-title {
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #222;
-  padding-bottom: 5px;
   text-align: center;
+  margin: 0.3rem 0 0.5rem;
+  width: 100%;
+}
+
+.rehome-underline {
+  height: 1px;
+  background-color: #999;
+  width: 200px;
+  margin: 0 auto 30px;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
-  width: 95%;
+  gap: 30px;
+  width: 100%;
   max-width: 1600px;
+  padding: 30px 20px 0;
+  box-sizing: border-box;
 }
 
 .image-grid {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 100px;
+  gap: 170px;
   margin-bottom: 30px;
   width: 100%;
 }
@@ -121,6 +142,10 @@ input[type="number"] {
   font-size: 1.05rem;
 }
 
+.wide-input {
+  width: 180px !important;
+}
+
 input[type="radio"],
 input[type="checkbox"] {
   transform: scale(1.5);
@@ -129,59 +154,94 @@ input[type="checkbox"] {
 
 textarea {
   width: 100%;
-  height: 220px;
-  border: 1.5px solid #7B61FF;
+  height: 280px;
   padding: 20px;
   font-size: 1.15rem;
-  resize: none;
+  border: 1.5px solid #7b61ff;
   border-radius: 6px;
+  resize: none;
 }
 
 .send-button {
   width: 160px;
   height: 54px;
-  background-color: #7B61FF;
+  background-color: #7b61ff;
   color: white;
   border: none;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 24px;
   align-self: flex-end;
   font-size: 1.05rem;
+  margin-top: 20px;
   transition: background 0.3s;
 }
 
 .send-button:hover {
-  background-color: #7B61FF;
+  background-color: #7b61ff;
 }
 
 .check-row {
   display: flex;
   gap: 40px;
   font-size: 1.2rem;
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
 .delete-button {
   position: absolute;
   top: 6px;
   right: 6px;
+  width: 28px;
+  height: 28px;
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
   font-size: 18px;
-  cursor: pointer;
-  z-index: 2;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .delete-button:hover {
   background-color: red;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .form-main-row {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .form-left,
+  .form-right {
+    width: 100%;
+  }
+
+  .image-grid {
+    gap: 60px;
+  }
+
+  .form-image-box {
+    width: 200px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+  }
+
+  .send-button {
+    align-self: center;
+  }
 }

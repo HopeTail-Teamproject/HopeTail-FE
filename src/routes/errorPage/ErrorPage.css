@@ -37,3 +37,21 @@ body {
   width: 300px;
   height: auto;
 }
+
+@media (max-width: 1024px) {
+  .error-main h1 {
+    font-size: 2.2rem;
+  }
+
+  .error-dog {
+    position: static;
+    width: 200px;
+    margin-top: 40px;
+  }
+
+  .error-page-wrapper {
+    flex-direction: column;
+    padding: 40px 20px;
+    text-align: center;
+  }
+}

@@ -12,6 +12,8 @@
   max-width: 1200px;
   padding: 0 60px;
   gap: 200px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .left-box {
@@ -21,7 +23,6 @@
   gap: 30px;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
 }
 
 .profile-box {
@@ -77,6 +78,8 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 50px;
+  width: 100%;
+  max-width: 600px;
 }
 
 .about-section {
@@ -107,6 +110,7 @@
   width: 100%;
   max-width: 600px;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .action-btn {
@@ -126,4 +130,24 @@
 
 .action-btn:hover span {
   color: #6a4cfa;
+}
+
+@media (max-width: 1024px) {
+  .userpage-wrapper {
+    padding: 60px 20px;
+  }
+
+  .userpage-container {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 60px;
+  }
+
+  .about-box {
+    height: 300px;
+  }
+
+  .action-buttons {
+    gap: 30px;
+  }
 }

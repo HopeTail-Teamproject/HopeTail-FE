@@ -20,13 +20,28 @@ const LeftSidebar = () => {
   });
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.warn("토큰 없음: 인증된 사용자 아님");
+      return;
+    }
+
     getUserInfo()
       .then((data) => {
+        console.log("🎯 응답받은 유저 데이터:", data);
+        
+        if (!data) {
+          console.warn("유저 데이터 없음");
+          return;
+        }
+
         setUserInfo({
-          username: data.username || "Hope Tail",
-          email: data.email || "hopetail1234@gmail.com",
-          address: data.address || "47, Hanyangdaehak 1-gil,\nSangnok-gu, Ansan-si, Gyeonggi-do",
-          profileImage: data.profileImage || "/HopeTail-FE/images/user.png",
+          username: data.username ?? "Hope Tail",
+          email: data.email ?? "hopetail1234@gmail.com",
+          address:
+            data.address ??
+            "47, Hanyangdaehak 1-gil,\nSangnok-gu, Ansan-si, Gyeonggi-do",
+          profileImage: data.profileImage ?? "/HopeTail-FE/images/user.png",
         });
       })
       .catch((err) => {
