@@ -21,7 +21,7 @@ function Footer() {
         <span className="logo">HopeTail</span>
         <span className="phone">
           <FontAwesomeIcon icon={faMobileScreenButton} />
-          010-1234-1234
+          010-9265-3517
         </span>
         <span className="email">
           <FontAwesomeIcon icon={faEnvelope} />
@@ -29,7 +29,7 @@ function Footer() {
         </span>
         <span className="instagram">
           <FontAwesomeIcon icon={faInstagram} />
-          Hope._.tail
+          hope._.tail
         </span>
         <span className="location">
           <FontAwesomeIcon icon={faLocationDot} />

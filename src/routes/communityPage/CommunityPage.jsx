@@ -77,6 +77,11 @@ const CommunityPage = () => {
           </div>
 
           <div className="community-content-box">
+            {/* ✅ Mock 데이터 안내 문구 */}
+            <p className="mock-notice" style={{ color: "#888", fontSize: "14px", marginBottom: "12px" }}>
+              {text.mockNotice}
+            </p>
+
             <div className="notice-row">
               <span className="notice-label">Notice</span>
               <span className="notice-text">

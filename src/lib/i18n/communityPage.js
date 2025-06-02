@@ -8,6 +8,7 @@ const communityPageText = {
     categoryReview: "후기",
     categoryDiary: "일기",
     newPost: "글쓰기",
+    mockNotice: "* 현재는 예시 게시글이 보여지고 있습니다.",
   },
   en: {
     title: "Community",
@@ -18,6 +19,7 @@ const communityPageText = {
     categoryReview: "Review",
     categoryDiary: "Diary",
     newPost: "New Post",
+    mockNotice: "* Sample posts are currently being displayed.",
   },
 };
 
