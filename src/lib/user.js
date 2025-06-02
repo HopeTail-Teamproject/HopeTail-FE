@@ -1,11 +1,13 @@
 import axios from "axios";
 
+const BASE_URL = process.env.VITE_API_BASE_URL || "";
+
 // 유저 정보 가져오기
 export const getUserInfo = async () => {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await axios.get(`/api/account/userinfo`, {
+    const res = await axios.get(`${BASE_URL}/api/account/userinfo`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -34,7 +36,7 @@ export const updateUserInfo = async (updatedInfo) => {
     infoToSend.password = password;
   }
 
-  const res = await axios.patch(`/api/account/userinfo`, infoToSend, {
+  const res = await axios.patch(`${BASE_URL}/api/account/userinfo`, infoToSend, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

@@ -5,25 +5,21 @@ import rehomePageText from "../../lib/i18n/rehomePage";
 import axios from "axios";
 import "./RehomePage.css";
 
+const BASE_URL = process.env.VITE_API_BASE_URL || "";
+
 const RehomePage = () => {
   const { language } = useLanguage();
   const text = rehomePageText[language] || rehomePageText["en"];
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
+  const [species, setSpecies] = useState("");
+  const [address, setAddress] = useState("");
   const [ageYear, setAgeYear] = useState(0);
   const [ageMonth, setAgeMonth] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [height, setHeight] = useState(0);
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
 
-  const [vaccinated, setVaccinated] = useState(true);
-  const [houseTrained, setHouseTrained] = useState(true);
-  const [neutered, setNeutered] = useState(true);
-
-  const species = "Golden Retriever";
-  const address = "서울특별시 강남구 테헤란로 123";
   const fileInputRef = useRef();
 
   const handleImageChange = (e) => {
@@ -54,20 +50,15 @@ const RehomePage = () => {
         age: ageYear,
         ageMonth,
         species,
-        weight,
-        height,
         address,
         description: description || "소개글 없음.",
-        vaccinated,
-        houseTrained,
-        neutered,
         email: user?.email,
       };
 
       images.forEach((img) => formData.append("image", img));
       formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
 
-      await axios.post("/api/petposts", formData, {
+      await axios.post(`${BASE_URL}/api/petposts`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -135,6 +126,28 @@ const RehomePage = () => {
               </div>
 
               <div className="form-row">
+                <label>{text.speciesLabel}</label>
+                <input
+                  type="text"
+                  className="wide-input"
+                  value={species}
+                  onChange={(e) => setSpecies(e.target.value)}
+                  placeholder={text.speciesPlaceholder}
+                />
+              </div>
+
+              <div className="form-row">
+                <label>{text.addressLabel}</label>
+                <input
+                  type="text"
+                  className="wide-input"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder={text.addressPlaceholder}
+                />
+              </div>
+
+              <div className="form-row">
                 <label>{text.ageLabel}</label>
                 <input
                   type="number"
@@ -149,53 +162,6 @@ const RehomePage = () => {
                   onChange={(e) => setAgeMonth(Number(e.target.value))}
                 /> {text.months}
               </div>
-
-              <div className="form-row">
-                <label>{text.weightLabel}</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={weight}
-                  onChange={(e) => setWeight(Number(e.target.value))}
-                /> {text.weightUnit}
-              </div>
-
-              <div className="form-row">
-                <label>{text.heightLabel}</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={height}
-                  onChange={(e) => setHeight(Number(e.target.value))}
-                /> {text.heightUnit}
-              </div>
-
-              <div className="form-row checkbox-row">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={vaccinated}
-                    onChange={() => setVaccinated(!vaccinated)}
-                  />
-                  {text.vaccinated}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={houseTrained}
-                    onChange={() => setHouseTrained(!houseTrained)}
-                  />
-                  {text.houseTrained}
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={neutered}
-                    onChange={() => setNeutered(!neutered)}
-                  />
-                  {text.neutered}
-                </label>
-              </div>
             </div>
 
             <div className="form-right">
@@ -204,7 +170,9 @@ const RehomePage = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <button className="send-button" onClick={handleSubmit}>{text.submitButton}</button>
+              <button className="send-button" onClick={handleSubmit}>
+                {text.submitButton}
+              </button>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useLanguage } from "../../context/language/LanguageContext";
 import strings from "../../lib/i18n/rehomePage2";
 import "./RehomePage2.css";
 
-const API_BASE = "https://api.hopetail.com";
+const BASE_URL = process.env.VITE_API_BASE_URL || "";
 
 const RehomePage2 = () => {
   const { language } = useLanguage();
@@ -25,7 +25,7 @@ const RehomePage2 = () => {
 
     const fetchPets = async () => {
       try {
-        const res = await fetch("/api/petposts", {
+        const res = await fetch(`${BASE_URL}/api/petposts`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("유기견 목록 불러오기 실패");
@@ -38,7 +38,7 @@ const RehomePage2 = () => {
             if (p.photoUrl) {
               const url = p.photoUrl.startsWith("http")
                 ? p.photoUrl
-                : `${API_BASE}${p.photoUrl}`;
+                : `${BASE_URL}${p.photoUrl}`;
               try {
                 const imgRes = await fetch(url, {
                   headers: token ? { Authorization: `Bearer ${token}` } : {},

@@ -3,20 +3,20 @@ import FilesCard from "../../components/common/filesCard/FilesCard";
 import { useLanguage } from "../../context/language/LanguageContext";
 import "./FilesPage.css";
 
+const BASE_URL = process.env.VITE_API_BASE_URL || "";
+
 const FilesPage = () => {
   const { language } = useLanguage();
   const [pets, setPets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const BASE_URL = process.env.VITE_API_BASE_URL || "";
-
   useEffect(() => {
     const fetchPets = async () => {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch(`${process.env.VITE_API_BASE_URL}/api/petposts`, {
+        const res = await fetch(`${BASE_URL}/api/petposts`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

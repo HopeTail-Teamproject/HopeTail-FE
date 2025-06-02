@@ -7,7 +7,7 @@ import adoptSelectText from "../../lib/i18n/adoptSelect";
 import { isFavorite, toggleFavorite, getFavorites } from "../../lib/favorites";
 import "./AdoptSelect.css";
 
-const API_BASE = "https://api.hopetail.com";
+const API_BASE = process.env.VITE_API_BASE_URL || "";
 
 const AdoptSelect = () => {
   const { language } = useLanguage();

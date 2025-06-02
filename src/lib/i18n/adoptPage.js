@@ -3,6 +3,8 @@ const adoptPageText = {
     loading: "불러오는 중...",
     pageTitle: "입양 상세정보",
     age: "나이",
+    years: "살",          // ✅ 추가
+    months: "개월",        // ✅ 추가
     species: "종",
     location: "지역",
     vaccinated: "예방접종",
@@ -20,6 +22,8 @@ const adoptPageText = {
     loading: "Loading...",
     pageTitle: "Adoption Details",
     age: "Age",
+    years: "years",      
+    months: "months",     
     species: "Species",
     location: "Location",
     vaccinated: "Vaccinated",
@@ -35,4 +39,4 @@ const adoptPageText = {
   },
 };
 
-export default adoptPageText;
+export default adoptPageText; 

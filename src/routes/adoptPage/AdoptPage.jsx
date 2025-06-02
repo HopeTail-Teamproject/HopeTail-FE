@@ -7,12 +7,13 @@ import { getPetDetail, likePet } from "../../lib/adoptDetail";
 import adoptPageText from "../../lib/i18n/adoptPage";
 import { isFavorite, toggleFavorite } from "../../lib/favorites";
 
-const API_BASE = "https://api.hopetail.com";
+const API_BASE = process.env.VITE_API_BASE_URL || "";
 
 const AdoptPage = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const { id } = useParams();
+  const text = adoptPageText[language] || adoptPageText["en"];
 
   const [liked, setLiked] = useState(false);
   const [pet, setPet] = useState(null);
@@ -22,39 +23,32 @@ const AdoptPage = () => {
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
-
   const isRehomer = user?.role === "rehomer";
   const profileImage = user?.profileImage || "/HopeTail-FE/images/userprofile.png";
-  const text = adoptPageText[language] || adoptPageText["en"];
 
   useEffect(() => {
     const fetchPet = async () => {
       try {
         const data = await getPetDetail(id, token);
-        const images = [
-          data.photoUrl
-            ? data.photoUrl.startsWith("http")
-              ? data.photoUrl
-              : API_BASE + data.photoUrl
-            : "/HopeTail-FE/images/default_img.png",
-        ];
+        const image =
+          data.photoUrl?.startsWith("http")
+            ? data.photoUrl
+            : data.photoUrl
+            ? API_BASE + data.photoUrl
+            : "/HopeTail-FE/images/default_img.png";
 
-        const petData = {
+        setPet({
           id: data.id,
           name: data.name,
-          age: `${data.age} years and 3 months`,
+          age: `${data.age} ${text.years} ${data.ageMonth || 0} ${text.months}`,
           species: data.species,
           location: data.address,
-          vaccinated: data.vaccinated ? "Yes" : "No",
-          houseTrained: data.houseTrained ? "Yes" : "No",
-          neutered: data.neutered ? "Yes" : "No",
-          information: data.description || "",
-          images,
-        };
+          information: data.description || text.noInformation,
+          image,
+        });
 
-        setPet(petData);
-        setMainImage(petData.images[0]);
-        setLiked(isFavorite(petData.id));
+        setMainImage(image);
+        setLiked(isFavorite(data.id));
       } catch (err) {
         console.error("❌ Failed to fetch pet detail:", err);
         setPet(null);
@@ -62,11 +56,11 @@ const AdoptPage = () => {
     };
 
     fetchPet();
-  }, [id, token]);
+  }, [id, token, text]);
 
   useEffect(() => {
     const fetchAndSetImage = async (src) => {
-      if (!src || src === "" || src.includes("image.png")) {
+      if (!src || src.includes("image.png")) {
         setMainImageUrl("/HopeTail-FE/images/default_img.png");
         return;
       }
@@ -75,17 +69,12 @@ const AdoptPage = () => {
         const res = await fetch(src, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
-        if (!res.ok) {
-          console.warn("❌ 대표 이미지 fetch 실패:", res.status);
-          setMainImageUrl("/HopeTail-FE/images/default_img.png");
-          return;
-        }
         const blob = await res.blob();
         const objectUrl = URL.createObjectURL(blob);
         objectUrlRef.current = objectUrl;
         setMainImageUrl(objectUrl);
       } catch (err) {
-        console.error("대표 이미지 로드 실패:", err);
+        console.error("❌ Failed to load image:", err);
         setMainImageUrl("/HopeTail-FE/images/default_img.png");
       }
     };
@@ -138,9 +127,6 @@ const AdoptPage = () => {
           <p>{text.age}: {pet.age}</p>
           <p>{text.species}: {pet.species}</p>
           <p>{text.location}: {pet.location}</p>
-          <p>{text.vaccinated}: {pet.vaccinated}</p>
-          <p>{text.houseTrained}: {pet.houseTrained}</p>
-          <p>{text.neutered}: {pet.neutered}</p>
 
           <div className="chat-row">
             <img src={profileImage} alt="profile" className="chat-profile-img" />
@@ -161,7 +147,7 @@ const AdoptPage = () => {
 
         <div className="description-column">
           <h3>{text.information}</h3>
-          <textarea readOnly value={pet.information || text.noInformation} />
+          <textarea readOnly value={pet.information} />
           <div className="choose-button-container">
             <button className="choose-button" onClick={handleChooseClick}>
               {text.choose}
