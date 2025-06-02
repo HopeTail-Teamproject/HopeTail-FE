@@ -38,6 +38,8 @@
   align-items: center;
   gap: 8px;
   margin: 0;
+  word-break: break-word;    
+  overflow-wrap: break-word;  
 }
 
 .sidebar-icons {
@@ -46,7 +48,6 @@
   gap: 20px 24px;
   margin-bottom: 20px;
 
-  /* ✅ 아이콘 정렬을 가운데로 */
   justify-items: center;
   align-items: center;
 }
@@ -62,12 +63,19 @@
   transform: scale(1.08);
 }
 
-/* ✅ Bookmark 버튼만 크기 조절 */
 .sidebar-icons img[alt="Bookmark"] {
   width: 42px;
   height: 42px;
 }
 .sidebar-icons img[alt="Bookmark"]:hover {
+  transform: scale(1.08);
+}
+
+.sidebar-icons img[alt="Favorites"] {
+  width: 28px;
+  height: 28px;
+}
+.sidebar-icons img[alt="Favorites"]:hover {
   transform: scale(1.08);
 }
 
@@ -112,9 +120,13 @@ hr {
     height: 28px;
   }
 
-  /* ✅ 반응형 북마크 버튼 크기 조정 */
   .sidebar-icons img[alt="Bookmark"] {
     width: 36px;
     height: 36px;
+  }
+
+  .sidebar-icons img[alt="Favorites"] {
+    width: 24px;
+    height: 24px;
   }
 }

@@ -4,8 +4,8 @@ const favoritesPageText = {
     empty: "No favorite animals yet.",
   },
   kr: {
-    title: "관심 동물",
-    empty: "아직 관심 동물이 없습니다.",
+    title: "곧 만나게 될 아이들",
+    empty: "아직 마음에 둔 아이가 없어요.",
   },
 };
 
