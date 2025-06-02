@@ -21,6 +21,7 @@ const CommunityCard = ({
   } = post;
 
   const firstSentence = typeof content === "string" ? content.split("\n")[0] : "";
+  const formattedDate = createdAt.split("T")[0].replace(/-/g, "/");
 
   const [liked, setLiked] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
@@ -108,7 +109,7 @@ const CommunityCard = ({
           />
           <span className="user-name">{username}</span>
         </div>
-        <div className="post-date">{createdAt}</div>
+        <div className="post-date">{formattedDate}</div>
       </div>
     </div>
   );
