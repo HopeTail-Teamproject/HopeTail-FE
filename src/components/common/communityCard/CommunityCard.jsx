@@ -20,7 +20,12 @@ const CommunityCard = ({
     thumbnailUrl,
   } = post;
 
-  const firstSentence = typeof content === "string" ? content.split("\n")[0] : "";
+  const truncateContent = (text, maxLength = 100) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + "...";
+  };
+
+  const firstSentence = typeof content === "string" ? truncateContent(content) : "";
   const formattedDate = createdAt.split("T")[0].replace(/-/g, "/");
 
   const [liked, setLiked] = useState(false);
