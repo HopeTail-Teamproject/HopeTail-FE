@@ -29,7 +29,7 @@ const LeftSidebar = () => {
     getUserInfo()
       .then((data) => {
         console.log("🎯 응답받은 유저 데이터:", data);
-        
+
         if (!data) {
           console.warn("유저 데이터 없음");
           return;
@@ -81,34 +81,16 @@ const LeftSidebar = () => {
           onClick={() => navigate("/user")}
         />
         <img
-          src="/HopeTail-FE/images/chat.png"
-          alt="Chat"
-          title="Chat"
-          onClick={() => navigate("/chat")}
-        />
-        <img
-          src="/HopeTail-FE/images/rehome.png"
-          alt="Rehome"
-          title="Adopt/Rehome"
-          onClick={() => navigate("/rehome/list")}
-        />
-        <img
           src="/HopeTail-FE/images/bookmark.png"
           alt="Bookmark"
           title="Bookmarks"
           onClick={() => navigate("/user/bookmark")}
         />
         <img
-          src="/HopeTail-FE/images/files.png"
-          alt="Files"
-          title="Posts"
-          onClick={() => navigate("/user/files")}
-        />
-        <img
-          src="/HopeTail-FE/images/donate.png"
-          alt="Donate"
-          title="Donate"
-          onClick={() => navigate("/about")}
+          src="/HopeTail-FE/images/favorites.png"
+          alt="Favorites"
+          title="Favorites"
+          onClick={() => navigate("/user/favorites")}
         />
       </div>
 

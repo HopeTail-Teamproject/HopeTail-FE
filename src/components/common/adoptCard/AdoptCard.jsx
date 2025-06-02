@@ -113,9 +113,7 @@ const AdoptCard = ({ pet, moreLink }) => {
         </div>
         <div className="row">
           <button className="info-button">{pet.species}</button>
-          <button className="info-button">
-            {pet.address || pet.location || "Unknown"}
-          </button>
+          <button className="info-button">{pet.location || "주소 없음"}</button>
         </div>
       </div>
     </div>

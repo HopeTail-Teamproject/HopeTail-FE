@@ -48,7 +48,7 @@ html, body {
 /* === 카드 그리드 === */
 .card-grid {
   display: flex;
-  gap: 100px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 100px;

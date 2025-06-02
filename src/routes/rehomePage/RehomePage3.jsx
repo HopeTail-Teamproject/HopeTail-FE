@@ -34,12 +34,9 @@ const RehomePage3 = () => {
         const petData = {
           id: data.id,
           name: data.name,
-          age: `${data.age} years and ${data.ageMonth || 0} months`,
+          age: `${data.age} ${TEXT.years} ${data.ageMonth || 0} ${TEXT.months}`,
           species: data.species,
           location: data.address,
-          vaccinated: data.vaccinated ? "Yes" : "No",
-          houseTrained: data.houseTrained ? "Yes" : "No",
-          neutered: data.neutered ? "Yes" : "No",
           information: data.description || "",
           image,
           createdByEmail: data.userEmail || "",
@@ -54,7 +51,7 @@ const RehomePage3 = () => {
     };
 
     fetchPet();
-  }, [id, token]);
+  }, [id, token, TEXT.years, TEXT.months]);
 
   useEffect(() => {
     const fetchAndSetImage = async (src) => {
@@ -139,9 +136,6 @@ const RehomePage3 = () => {
           <p>{TEXT.age}: {pet.age}</p>
           <p>{TEXT.species}: {pet.species}</p>
           <p>{TEXT.location}: {pet.location}</p>
-          <p>{TEXT.vaccinated}: {pet.vaccinated}</p>
-          <p>{TEXT.houseTrained}: {pet.houseTrained}</p>
-          <p>{TEXT.neutered}: {pet.neutered}</p>
 
           <div className="files-image-button" onClick={handleFilesClick}>
             <img src="/HopeTail-FE/images/files.png" alt="files" className="files-img" />
